@@ -1,0 +1,338 @@
+[
+  {
+    "path": "/retailer/commission",
+    "methods": "POST",
+    "maxCapacity": "28",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/commission/*",
+    "methods": "GET",
+    "maxCapacity": "28",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/inbounds",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds",
+    "methods": "POST",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds/delivery-windows",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds/fbb-transporters",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds/productlabels",
+    "methods": "POST",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds/*",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds/*/packinglist",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inbounds/*/shippinglabel",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/inventory",
+    "methods": "GET",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/invoices",
+    "methods": "GET",
+    "maxCapacity": "9",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/invoices/*",
+    "methods": "GET",
+    "maxCapacity": "9",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/invoices/*/specification",
+    "methods": "GET",
+    "maxCapacity": "9",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/offers/*",
+    "methods": "PUT",
+    "maxCapacity": "100",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/offers/*/price",
+    "methods": "PUT",
+    "maxCapacity": "100",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/offers/*/stock",
+    "methods": "PUT",
+    "maxCapacity": "100",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/offers/*",
+    "methods": "DELETE",
+    "maxCapacity": "100",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/offers/export/*",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "HOURS"
+  },
+  {
+    "path": "/retailer/offers/unpublished/*",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "HOURS"
+  },
+  {
+    "path": "/retailer/offers/*",
+    "methods": "GET",
+    "maxCapacity": "28",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/orders",
+    "methods": "GET",
+    "maxCapacity": "25",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/orders/*",
+    "methods": "GET",
+    "maxCapacity": "25",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/orders/*/cancellation",
+    "methods": "PUT",
+    "maxCapacity": "25",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/process-status?*",
+    "methods": "GET",
+    "maxCapacity": "2",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/process-status/*",
+    "methods": "GET",
+    "maxCapacity": "100",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/process-status",
+    "methods": "POST",
+    "maxCapacity": "2",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/reductions",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "HOURS"
+  },
+  {
+    "path": "/retailer/reductions/latest",
+    "methods": "GET",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "HOURS"
+  },
+  {
+    "path": "/retailer/shipments",
+    "methods": "GET",
+    "maxCapacity": "7",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/shipments/*",
+    "methods": "GET",
+    "maxCapacity": "14",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/purchasable-shippinglabels/*",
+    "methods": "GET",
+    "maxCapacity": "15",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/transports/*",
+    "methods": "GET",
+    "maxCapacity": "4",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/transports/*/shipping-label",
+    "methods": "GET",
+    "maxCapacity": "15",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/returns",
+    "methods": "GET",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/returns/*",
+    "methods": "PUT",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/returns",
+    "methods": "POST",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/returns/*",
+    "methods": "GET",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/offers/export",
+    "methods": "POST",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "HOURS"
+  },
+  {
+    "path": "/retailer/offers/unpublished",
+    "methods": "POST",
+    "maxCapacity": "5",
+    "timeToLive": "1",
+    "timeUnit": "HOURS"
+  },
+  {
+    "path": "/retailer/orders/*/shipment",
+    "methods": "PUT",
+    "maxCapacity": "25",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/transports/*",
+    "methods": "PUT",
+    "maxCapacity": "10",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/offers",
+    "methods": "POST",
+    "maxCapacity": "42",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/insights/performance/indicator*",
+    "methods": "GET",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/content/validation-report/*",
+    "methods": "GET",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/content/product",
+    "methods": "POST",
+    "maxCapacity": "20",
+    "timeToLive": "1",
+    "timeUnit": "MINUTES"
+  },
+  {
+    "path": "/retailer/insights/offer",
+    "methods": "GET",
+    "maxCapacity": "25",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  },
+  {
+    "path": "/retailer/insights/sales-forecast",
+    "methods": "GET",
+    "maxCapacity": "25",
+    "timeToLive": "1",
+    "timeUnit": "SECONDS"
+  }
+]
