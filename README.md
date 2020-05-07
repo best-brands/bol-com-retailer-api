@@ -19,4 +19,4 @@ foreach ($client->getReturns()->getReturns() as $reducedReturnItem) {
     $returnItem = $client->getReturnsByRmaId($reducedReturnItem->getRmaId());
     print($returnItem->getCustomerDetails()->getFirstName());
 }
-```php
+```
