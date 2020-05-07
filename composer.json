@@ -1,0 +1,33 @@
+{
+  "name": "harm-smits/bol-com-retailer-api",
+  "type": "library",
+  "description": "A PHP Client for the BOL.com API",
+  "keywords": [
+    "api",
+    "php",
+    "bol.com",
+    "bol"
+  ],
+  "homepage": "http://github.com/harm-smits/bol-com-retailer-api",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Harm Smits",
+      "email": "harmsmitsdev@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "guzzlehttp/guzzle": "^6.5.3",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.1",
+    "nette/php-generator": "^3.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "HarmSmits\\BolComClient\\": "src/"
+    }
+  }
+}
