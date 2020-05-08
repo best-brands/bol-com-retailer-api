@@ -48,7 +48,7 @@ use HarmSmits\BolComClient\Models\UpdateOfferStockRequest;
 
 /**
  * Class Client
- * @method BulkCommissionResponse|Problem postCommission(?BulkCommissionRequest $body = null)
+ * @method BulkCommissionResponse|Problem getCommissions(?BulkCommissionRequest $body = null)
  * @method Commission|Problem getCommission(string $ean, ?string $condition = null, ?int $price = null)
  * @method Inbounds|Problem getInboundShipments(?string $reference = null,?string $bsku = null,?string $creationStart = null,?string $creationEnd = null,?string $state = null,?int $page = null)
  * @method ProcessStatus|Problem createInboundShipment(?InboundRequest $body = null)

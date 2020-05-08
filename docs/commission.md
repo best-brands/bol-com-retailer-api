@@ -1,9 +1,9 @@
 # Commission
 
-## postCommission
+## getCommissions
 
 ```php
-$bulkCommissionResponse = $client->postCommission((new \HarmSmits\BolComClient\Models\BulkCommissionRequest())
+$bulkCommissionResponse = $client->getCommissions((new \HarmSmits\BolComClient\Models\BulkCommissionRequest())
     ->setCommissionQueries([
         (new \HarmSmits\BolComClient\Models\BulkCommissionQuery())->setEan("123456789"),
         (new \HarmSmits\BolComClient\Models\BulkCommissionQuery())->setEan("987654321"),

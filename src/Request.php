@@ -28,7 +28,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postCommission(?BulkCommissionRequest $body = null): array
+    public function getCommissions(?BulkCommissionRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/commission";
