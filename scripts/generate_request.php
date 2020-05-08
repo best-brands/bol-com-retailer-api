@@ -23,14 +23,18 @@ class GenerateMap
     /** @var string[] */
     protected array $includes;
 
+    /** @var string[] */
+    protected array $methodMap;
+
     /**
      * Load the json specification
      *
      * @param $path
      */
-    public function __construct(string $path)
+    public function __construct(string $path, string $methodMap)
     {
         $this->spec = json_decode(file_get_contents($path), true);
+        $this->methodMap = json_decode(file_get_contents($methodMap), true);
         $this->protocol = array_pop($this->spec["schemes"]);
         $this->host = $this->spec["host"];
     }
@@ -65,7 +69,9 @@ class GenerateMap
         }, $parts);
 
         $part = $this->dashesToCamelCase(implode("-", $parts));
-        return ($makeNonPlural ? rtrim($part, "s") : $part);
+        $name = $makeNonPlural ? rtrim($part, "s") : $part;
+
+        return (isset($this->methodMap[$name]) ? $this->methodMap[$name] : $name);
     }
 
     /**
@@ -364,7 +370,11 @@ class GenerateMap
 
 require(dirname(__DIR__) . "/vendor/autoload.php");
 
-$class = new GenerateMap(dirname(__DIR__) . "/resources/v3.json");
+$class = new GenerateMap(
+    dirname(__DIR__) . "/resources/v3.json",
+    dirname(__DIR__) . "/resources/methods.json"
+);
+
 $text = $class->generate();
 
 file_put_contents(dirname(__DIR__) . "/src/Request.php", <<<PHP
