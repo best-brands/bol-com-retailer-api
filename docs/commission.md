@@ -2,6 +2,9 @@
 
 ## getCommissions
 
+Gets all commissions and possible reductions by EAN, condition and optionally price. No more than 100 EAN`s can be sent
+in a single request.
+
 ```php
 $bulkCommissionResponse = $client->getCommissions((new \HarmSmits\BolComClient\Models\BulkCommissionRequest())
     ->setCommissionQueries([
@@ -14,6 +17,9 @@ $bulkCommissionResponse = $client->getCommissions((new \HarmSmits\BolComClient\M
 ```
 
 ## getCommission
+
+Commissions can be filtered by condition, which defaults to NEW. If price is provided, the exact commission amount will
+also be calculated.
 
 ```php
 $commission = $client->getCommission("123456789");
