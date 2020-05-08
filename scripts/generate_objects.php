@@ -103,7 +103,7 @@ class GenerateObjects
      * @return string
      */
     private function getType(array $schema, $strict = true): ?string {
-        if (isset($schema["format"]) && $schema["format"] === "date-time" && false) {
+        if (isset($schema["format"]) && $schema["format"] === "date-time") {
             return "DateTime";
         } else if ($strict && isset($schema["type"])) {
             return $this->javaTypeFixer($schema["type"]);
@@ -114,7 +114,6 @@ class GenerateObjects
             return null;
         }
     }
-
 
     /**
      * Parse a property
@@ -214,11 +213,11 @@ class GenerateObjects
     private function setSetterFunction(\Nette\PhpGenerator\ClassType &$class, $name, array $schema) {
         $method = $class->addMethod("set" . ucfirst($name));
 
+        $type = $this->getType($schema);
         $parameter = $method->addParameter($name);
-        $parameter->setType($this->getType($schema));
+        $parameter->setType($type);
 
         $body = "";
-        $type = $this->getType($schema);
 
         if ($this->isReference($schema) && $type === Type::ARRAY) {
             $classname = sprintf("%s\\%s::class", $this->namespace, $this->getType($schema, false));
