@@ -18,12 +18,12 @@
   ],
   "require": {
     "php": ">=7.4",
-    "guzzlehttp/guzzle": "^6.5.3",
-    "ext-json": "*"
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^6.5.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.1",
-    "nette/php-generator": "^3.3"
+    "nette/php-generator": "^3.3",
+    "phpunit/phpunit": "^9.1"
   },
   "autoload": {
     "psr-4": {

@@ -6,17 +6,26 @@ A simple bol.com PHP API
 
 ```php
 $client = new \HarmSmits\BolComClient\Client(
-    "...",
-    "..."
+    "clientId",
+    "clientSecret"
 );
 ```
 
-Everything is object mapped, with setters and getters, so accessing e.g. returns and printing the
-first name of the first 50 people can be done as follows:
+## Supported requests
 
-```php
-foreach ($client->getReturns()->getReturns() as $reducedReturnItem) {
-    $returnItem = $client->getReturnsByRmaId($reducedReturnItem->getRmaId());
-    print($returnItem->getCustomerDetails()->getFirstName());
-}
-```
+All requests are supported. Every method was named by means of converting the API endpoint for sound naming. This could
+be changed later, but for now the methods will be like the api endpoint names for sake of usability.
+
+- [Commission](./docs/commission.md)
+- [Inbounds](./docs/inbounds.md)
+- [Insights](./docs/insights.md)
+- [Inventory](./docs/inventory.md)
+- [Invoices](./docs/invoices.md)
+- [Offers](./docs/offers.md)
+- [Orders](./docs/orders.md)
+- [Process Status](./docs/process_status.md)
+- [Reductions](./docs/reductions.md)
+- [Returns](./docs/returns.md)
+- [Shipments](./docs/shipments.md)
+- [Shipping Labels](./docs/shipping_labels.md)
+- [Transports](./docs/transports.md)
