@@ -42,8 +42,8 @@ abstract class AObject implements ObjectInterface
      */
     protected function _checkIfPureArray(array $array, string $type): void {
         array_walk($array, function ($item) use ($type) {
-            if (!get_class($item) !== $type) {
-                // throw new InvalidArgumentException(sprintf("Unexpected class %s", get_class($item)));
+            if (!is_a($item, $type)) {
+                throw new InvalidArgumentException(sprintf("Unexpected class %s", get_class($item)));
             }
         });
     }
