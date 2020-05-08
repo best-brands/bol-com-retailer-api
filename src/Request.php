@@ -91,7 +91,7 @@ class Request
      *
      * @return array
      */
-    public function getCommissionByEan(string $ean, ?string $condition = null, ?int $price = null): array
+    public function getCommission(string $ean, ?string $condition = null, ?int $price = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/commission/{ean}";
@@ -155,7 +155,7 @@ class Request
      *
      * @return array
      */
-    public function getInbounds(
+    public function getInboundShipments(
         ?string $reference = null,
         ?string $bsku = null,
         ?string $creationStart = null,
@@ -233,7 +233,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postInbounds(?InboundRequest $body = null): array
+    public function createInboundShipment(?InboundRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds";
@@ -280,7 +280,7 @@ class Request
      *
      * @return array
      */
-    public function getInboundsDeliveryWindows(?string $deliveryDate = null, ?int $itemsToSend = null): array
+    public function getDeliveryWindows(?string $deliveryDate = null, ?int $itemsToSend = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds/delivery-windows";
@@ -323,7 +323,7 @@ class Request
      *
      * @return array
      */
-    public function getInboundsFbbTransporters(): array
+    public function getFbbTransporters(): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds/fbb-transporters";
@@ -357,7 +357,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postInboundsProductlabels(?ProductLabelsRequest $body = null): array
+    public function getProductLabel(?ProductLabelsRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds/productlabels";
@@ -401,7 +401,7 @@ class Request
      *
      * @return array
      */
-    public function getInboundsByInboundId(int $inboundId): array
+    public function getInboundShipment(int $inboundId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds/{inbound-id}";
@@ -469,7 +469,7 @@ class Request
      *
      * @return array
      */
-    public function getInboundsByInboundIdPackinglist(int $inboundId): array
+    public function getPackingList(int $inboundId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds/{inbound-id}/packinglist";
@@ -512,7 +512,7 @@ class Request
      *
      * @return array
      */
-    public function getInboundsByInboundIdShippinglabel(int $inboundId): array
+    public function getShippingLabel(int $inboundId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inbounds/{inbound-id}/shippinglabel";
@@ -560,7 +560,7 @@ class Request
      *
      * @return array
      */
-    public function getInsightsPerformanceIndicator(array $name, string $year, string $week): array
+    public function getPerformanceIndicators(array $name, string $year, string $week): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/insights/performance/indicator";
@@ -623,7 +623,7 @@ class Request
      *
      * @return array
      */
-    public function getInventory(?int $page = null, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null): array
+    public function getInventories(?int $page = null, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/inventory";
@@ -716,7 +716,7 @@ class Request
      *
      * @return array
      */
-    public function getInvoicesByInvoiceId(int $invoiceId): array
+    public function getInvoice(int $invoiceId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/invoices/{invoice-id}";
@@ -753,7 +753,7 @@ class Request
      *
      * @return array
      */
-    public function getInvoicesByInvoiceIdSpecification(int $invoiceId, ?int $page = null): array
+    public function getInvoiceSpecification(int $invoiceId, ?int $page = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/invoices/{invoice-id}/specification";
@@ -792,7 +792,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postOffers(?CreateOfferRequest $body = null): array
+    public function createOffer(?CreateOfferRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers";
@@ -838,7 +838,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postOffersExport(?CreateOfferExportRequest $body = null): array
+    public function requestOfferExportFile(?CreateOfferExportRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/export";
@@ -882,7 +882,7 @@ class Request
      *
      * @return array
      */
-    public function getOffersExportByOfferExportId(string $offerExportId): array
+    public function getOfferExportFile(string $offerExportId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/export/{offer-export-id}";
@@ -926,7 +926,7 @@ class Request
      *
      * @return array
      */
-    public function getOffersByOfferId(string $offerId): array
+    public function getOffer(string $offerId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/{offer-id}";
@@ -1013,7 +1013,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOffersByOfferId(string $offerId, ?UpdateOfferRequest $body = null): array
+    public function updateOffer(string $offerId, ?UpdateOfferRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/{offer-id}";
@@ -1058,7 +1058,7 @@ class Request
      *
      * @return array
      */
-    public function deleteOffersByOfferId(string $offerId): array
+    public function deleteOffer(string $offerId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/{offer-id}";
@@ -1104,7 +1104,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOffersByOfferIdPrice(string $offerId, ?UpdateOfferPriceRequest $body = null): array
+    public function updateOfferPrice(string $offerId, ?UpdateOfferPriceRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/{offer-id}/price";
@@ -1152,7 +1152,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOffersByOfferIdStock(string $offerId, ?UpdateOfferStockRequest $body = null): array
+    public function updateOfferStock(string $offerId, ?UpdateOfferStockRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/offers/{offer-id}/stock";
@@ -1239,7 +1239,7 @@ class Request
      *
      * @return array
      */
-    public function getOrdersByOrderId(string $orderId): array
+    public function getOrder(string $orderId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/orders/{order-id}";
@@ -1306,7 +1306,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOrdersByOrderItemIdCancellation(string $orderItemId, ?Cancellation $body = null): array
+    public function cancelOrder(string $orderItemId, ?Cancellation $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/orders/{order-item-id}/cancellation";
@@ -1358,7 +1358,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOrdersByOrderItemIdShipment(string $orderItemId, ?ShipmentRequest $body = null): array
+    public function shipOrder(string $orderItemId, ?ShipmentRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/orders/{order-item-id}/shipment";
@@ -1410,7 +1410,7 @@ class Request
      *
      * @return array
      */
-    public function getProcessStatus(string $entityId, string $eventType, ?int $page = null): array
+    public function getProcessStatuses(string $entityId, string $eventType, ?int $page = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/process-status";
@@ -1465,7 +1465,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postProcessStatus(?BulkProcessStatusRequest $body = null): array
+    public function queryProcessStatuses(?BulkProcessStatusRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/process-status";
@@ -1519,7 +1519,7 @@ class Request
      *
      * @return array
      */
-    public function getProcessStatusByProcessStatusId(int $processStatusId): array
+    public function getProcessStatus(int $processStatusId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/process-status/{process-status-id}";
@@ -1563,7 +1563,7 @@ class Request
      *
      * @return array
      */
-    public function getPurchasableShippinglabelsByOrderItemId(string $orderItemId): array
+    public function getAvailableShippingLabels(string $orderItemId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/purchasable-shippinglabels/{order-item-id}";
@@ -1704,7 +1704,7 @@ class Request
      *
      * @return array
      */
-    public function getReturnsByRmaId(int $rmaId): array
+    public function getReturn(int $rmaId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/returns/{rma-id}";
@@ -1755,7 +1755,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putReturnsByRmaId(int $rmaId, ?ReturnRequest $body = null): array
+    public function updateReturn(int $rmaId, ?ReturnRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/returns/{rma-id}";
@@ -1861,7 +1861,7 @@ class Request
      *
      * @return array
      */
-    public function getShipmentsByShipmentId(int $shipmentId): array
+    public function getShipment(int $shipmentId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/shipments/{shipment-id}";
@@ -1924,7 +1924,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putTransportsByTransportId(int $transportId, ?ChangeTransportRequest $body = null): array
+    public function updateShipment(int $transportId, ?ChangeTransportRequest $body = null): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/transports/{transport-id}";
@@ -1967,7 +1967,7 @@ class Request
      *
      * @return array
      */
-    public function getTransportsByTransportIdShippingLabel(int $transportId): array
+    public function getShipmentLabel(int $transportId): array
     {
         $data = [];
         $url = "https://api.bol.com/retailer/transports/{transport-id}/shipping-label";

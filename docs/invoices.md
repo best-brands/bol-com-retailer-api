@@ -5,14 +5,14 @@
 ```php
 $pdfs = $client->getInvoices("2018-03-31", "2019-03-31");
 ```
-## getInvoicesByInvoiceId
+## getInvoice
 
 ```php
-$pdf = $client->getInvoicesByInvoiceId(1000000);
+$pdf = $client->getInvoice(1000000);
 ```
 
-## getInvoicesByInvoiceIdSpecification
+## getInvoiceSpecification
 
 ```php
-$data = $client->getInvoicesByInvoiceIdSpecification(1000000);
+$data = $client->getInvoiceSpecification(1000000);
 ```

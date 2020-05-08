@@ -6,8 +6,8 @@
 $shipmentResponse = $client->getShipments();
 ```
 
-## getShipmentsByShipmentId
+## getShipment
 
 ```php
-$shipment = $client->getShipmentsByShipmentId(100000);
+$shipment = $client->getShipment(100000);
 ```

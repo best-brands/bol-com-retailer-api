@@ -1,7 +1,7 @@
 # Insights
 
-## getInsightsPerformanceIndicator
+## getPerformanceIndicators
 
 ```php
-$performanceIndicators = $client->getInsightsPerformanceIndicator(["CANCELLATIONS"], "2020", "20");
+$performanceIndicators = $client->getPerformanceIndicators(["CANCELLATIONS"], "2020", "20");
 ```

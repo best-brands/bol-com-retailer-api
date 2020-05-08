@@ -1,15 +1,15 @@
 # Inbounds
 
-## getInbounds
+## getInboundShipments
 
 ```php
-$inbounds = $client->getInbounds(null, null, null, null, "ArrivedAtWH", 2);
+$inbounds = $client->getInboundShipments(null, null, null, null, "ArrivedAtWH", 2);
 ```
 
 ##  postInbound
 
 ```php
-$processStatus = $client->postInbounds((new \HarmSmits\BolComClient\Models\InboundRequest())
+$processStatus = $client->createInboundShipment((new \HarmSmits\BolComClient\Models\InboundRequest())
     ->setTimeSlot((new \HarmSmits\BolComClient\Models\TimeSlot())
         ->setStart("Starting date")
         ->setEnd("Ending date")
@@ -34,22 +34,22 @@ $processStatus = $client->postInbounds((new \HarmSmits\BolComClient\Models\Inbou
 );
 ```
 
-## getInboundsDeliveryWindows
+## getDeliveryWindows
 
 ```php
-$deliveryWindowsForInboundShipments = $client->getInboundsDeliveryWindows(null, 10);
+$deliveryWindowsForInboundShipments = $client->getDeliveryWindows(null, 10);
 ```
 
-## getInboundsFbbTransporters
+## getFbbTransporters
 
 ```php
-$transportersResponse = $client->getInboundsFbbTransporters();
+$transportersResponse = $client->getFbbTransporters();
 ```
 
-## postInboundsProductlabels
+## getProductLabel
 
 ```php
-$pfds = $client->postInboundsProductlabels((new \HarmSmits\BolComClient\Models\ProductLabelsRequest())
+$pfds = $client->getProductLabel((new \HarmSmits\BolComClient\Models\ProductLabelsRequest())
     ->setFormat("AVERY_J8159")
     ->setProductLabels([
         (new \HarmSmits\BolComClient\Models\ProductLabel())
@@ -62,20 +62,20 @@ $pfds = $client->postInboundsProductlabels((new \HarmSmits\BolComClient\Models\P
 );
 ```
 
-## getInboundsByInboundId
+## getInboundShipment
 
 ```php
-$inbound = $client->getInboundsByInboundId(123456789);
+$inbound = $client->getInboundShipment(123456789);
 ```
 
-## getInboundsByInboundIdPackinglist
+## getPackingList
 
 ```php
-$pdfs = $client->getInboundsByInboundIdPackinglist(123456789);
+$pdfs = $client->getPackingList(123456789);
 ```
 
-## getInboundsByInboundIdShippinglabel
+## getShippingLabel
 
 ```php
-$pdfs = $client->getInboundsByInboundIdShippinglabel(123456789);
+$pdfs = $client->getShippingLabel(123456789);
 ```

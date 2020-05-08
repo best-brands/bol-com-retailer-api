@@ -6,24 +6,24 @@
 $reducedOrders = $client->getOrders();
 ```
 
-## getOrdersByOrderID
+## getOrder
 
 ```php
-$order = $client->getOrdersByOrderId("100000");
+$order = $client->getOrder("100000");
 ```
 
-## putOrdersByOrderItemIdCancellation
+## cancelOrder
 
 ```php
-$processStatus = $client->putOrdersByOrderItemIdCancellation("100000", (new \HarmSmits\BolComClient\Models\Cancellation())
+$processStatus = $client->cancelOrder("100000", (new \HarmSmits\BolComClient\Models\Cancellation())
     ->setReasonCode(\HarmSmits\BolComClient\Models\Cancellation::REASON_CODE_OUT_OF_STOCK)
 );
 ```
 
-## putOrdersByOrderItemIdShipment
+## shipOrder
 
 ```php
-$processStatus = $client->putOrdersByOrderItemIdShipment("100000", (new \HarmSmits\BolComClient\Models\ShipmentRequest())
+$processStatus = $client->shipOrder("100000", (new \HarmSmits\BolComClient\Models\ShipmentRequest())
     ->setShipmentReference("Your reference")
     ->setShippingLabelCode("TNT")
     ->setTransport((new \HarmSmits\BolComClient\Models\TransportInstruction())

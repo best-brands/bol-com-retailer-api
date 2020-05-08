@@ -1,15 +1,15 @@
 # Process status
 
-## getProcessStatus
+## getProcessStatuses
 
 ```php
-$processStatusResponse = $client->getProcessStatus("100000", "CONFIRM_SHIPMENT");
+$processStatusResponse = $client->getProcessStatuses("100000", "CONFIRM_SHIPMENT");
 ```
 
-## postProcessStatus
+## queryProcessStatuses
 
 ```php
-$processStatusResponse = $client->postProcessStatus((new \HarmSmits\BolComClient\Models\BulkProcessStatusRequest())
+$processStatusResponse = $client->queryProcessStatuses((new \HarmSmits\BolComClient\Models\BulkProcessStatusRequest())
     ->setProcessStatusQueries([
         (new \HarmSmits\BolComClient\Models\ProcessStatusId())
             ->setid(1000000),
@@ -19,8 +19,8 @@ $processStatusResponse = $client->postProcessStatus((new \HarmSmits\BolComClient
 );
 ```
 
-## getProcessStatusByProcessStatusId
+## getProcessStatus
 
 ```php
-$processStatus = $client->getProcessStatusByProcessStatusId(1000000);
+$processStatus = $client->getProcessStatus(1000000);
 ```

@@ -1,7 +1,7 @@
 # Inventory
 
-## getInventory
+## getInventories
 
 ```php
-$inventoryResponse = $client->getInventory(1, ["0-10"]);
+$inventoryResponse = $client->getInventories(1, ["0-10"]);
 ```

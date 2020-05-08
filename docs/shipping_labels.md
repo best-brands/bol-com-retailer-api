@@ -1,7 +1,7 @@
 # Shipping labels
 
-## getPurchasableShippinglabelsByOrderItemId
+## getAvailableShippingLabels
 
 ```php
-$purchasableShippingLabelsResponse = $client->getPurchasableShippinglabelsByOrderItemId("10000000");
+$purchasableShippingLabelsResponse = $client->getAvailableShippingLabels("10000000");
 ```

@@ -1,9 +1,9 @@
 # Offers
 
-## postOffers
+## createOffer
 
 ```php
-$processStatus = $client->postOffers((new \HarmSmits\BolComClient\Models\CreateOfferRequest())
+$processStatus = $client->createOffer((new \HarmSmits\BolComClient\Models\CreateOfferRequest())
     ->setEan("123456789")
     ->setCondition((new \HarmSmits\BolComClient\Models\Condition())
         ->setName(\HarmSmits\BolComClient\Models\Condition::NAME_AS_NEW)
@@ -38,30 +38,30 @@ $processStatus = $client->postOffers((new \HarmSmits\BolComClient\Models\CreateO
 );
 ```
 
-## postOffersExport
+## requestOfferExportFile
 
 ```php
-$processStatus = $client->postOffersExport((new \HarmSmits\BolComClient\Models\CreateOfferExportRequest())
+$processStatus = $client->requestOfferExportFile((new \HarmSmits\BolComClient\Models\CreateOfferExportRequest())
     ->setFormat("CSV")
 );
 ```
 
-## getOffersExportByOfferExportId
+## getOfferExportFile
 
 ```php
-$raw_data = $client->getOffersExportByOfferExportId("12390-123123-1231-23");
+$raw_data = $client->getOfferExportFile("12390-123123-1231-23");
 ```
 
-## getOffersByOfferId
+## getOffer
 
 ```php
-$retailerOffer = $client->getOffersByOfferId("100000");
+$retailerOffer = $client->getOffer("100000");
 ```
 
-## putOffersByOfferId
+## updateOffer
 
 ```php
-$processStatus = $client->putOffersByOfferId("100000", (new \HarmSmits\BolComClient\Models\UpdateOfferRequest())
+$processStatus = $client->updateOffer("100000", (new \HarmSmits\BolComClient\Models\UpdateOfferRequest())
     ->setReferenceCode("My reference")
     ->setOnHoldByRetailer(false)
     ->setUnknownProductTitle("")
@@ -76,16 +76,16 @@ $processStatus = $client->putOffersByOfferId("100000", (new \HarmSmits\BolComCli
 );
 ```
 
-## deleteOffersByOfferID
+## deleteOffer
 
 ```php
-$processStatus = $client->deleteOffersByOfferId("100000");
+$processStatus = $client->deleteOffer("100000");
 ```
 
-## putOffersByOfferIdPrice
+## updateOfferPrice
 
 ```php
-$processStatus = $client->putOffersByOfferIdPrice("100000", (new \HarmSmits\BolComClient\Models\UpdateOfferPriceRequest())
+$processStatus = $client->updateOfferPrice("100000", (new \HarmSmits\BolComClient\Models\UpdateOfferPriceRequest())
     ->setPricing((new \HarmSmits\BolComClient\Models\Pricing())
         ->setBundlePrices([
             (new \HarmSmits\BolComClient\Models\BundlePrice())
@@ -96,10 +96,10 @@ $processStatus = $client->putOffersByOfferIdPrice("100000", (new \HarmSmits\BolC
 );
 ```
 
-## putOffersByOfferIdStock
+## updateOfferStock
 
 ```php
-$processStatus = $client->putOffersByOfferIdStock("100000", (new \HarmSmits\BolComClient\Models\UpdateOfferStockRequest())
+$processStatus = $client->updateOfferStock("100000", (new \HarmSmits\BolComClient\Models\UpdateOfferStockRequest())
     ->setAmount(999)
     ->setManagedByRetailer(true)
 );

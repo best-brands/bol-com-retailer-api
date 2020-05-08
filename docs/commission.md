@@ -13,8 +13,8 @@ $bulkCommissionResponse = $client->postCommission((new \HarmSmits\BolComClient\M
 );
 ```
 
-## getCommissionByEan
+## getCommission
 
 ```php
-$commission = $client->getCommissionByEan("123456789");
+$commission = $client->getCommission("123456789");
 ```

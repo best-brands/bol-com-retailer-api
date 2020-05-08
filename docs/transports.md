@@ -1,16 +1,16 @@
 # Transports
 
-## putTransportsByTransportId
+## updateShipment
 
 ```php
-$processStatus = $client->putTransportsByTransportId(10000, (new \HarmSmits\BolComClient\Models\ChangeTransportRequest())
+$processStatus = $client->updateShipment(10000, (new \HarmSmits\BolComClient\Models\ChangeTransportRequest())
     ->setTrackAndTrace("SDOFS897SADF")
     ->setTransporterCode("TNT")
 );
 ```
 
-## getTransportsByTransportIdShippingLabel
+## getShipmentLabel
 
 ```php
-$pdfs = $client->getTransportsByTransportIdShippingLabel(10000);
+$pdfs = $client->getShipmentLabel(10000);
 ```
