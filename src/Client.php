@@ -236,8 +236,7 @@ class Client
      */
     private function handleAsyncRequest($method, $url, $data, array $responseFormat): PromiseInterface
     {
-        $promise = $this->client->requestAsync($method, $url, $data);
-        return $promise
+        return $this->client->requestAsync($method, $url, $data)
             ->then(function (ResponseInterface $response) use (&$responseFormat) {
                 return $this->handleResponse($response, $responseFormat);
             });
