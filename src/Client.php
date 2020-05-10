@@ -47,7 +47,6 @@ use HarmSmits\BolComClient\Models\TransportersResponse;
 use HarmSmits\BolComClient\Models\UpdateOfferPriceRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferStockRequest;
-use http\Env\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
