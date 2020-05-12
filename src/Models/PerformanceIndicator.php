@@ -81,7 +81,7 @@ final class PerformanceIndicator extends \HarmSmits\BolComClient\Objects\AObject
 		return array(
 			'name' => $this->getName(),
 			'type' => $this->getType(),
-			'details' => $this->getDetails(),
+			'details' => $this->getDetails()->toArray(),
 		);
 	}
 }

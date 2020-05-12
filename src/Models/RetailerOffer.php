@@ -214,11 +214,11 @@ final class RetailerOffer extends \HarmSmits\BolComClient\Objects\AObject
 			'referenceCode' => $this->getReferenceCode(),
 			'onHoldByRetailer' => $this->getOnHoldByRetailer(),
 			'unknownProductTitle' => $this->getUnknownProductTitle(),
-			'pricing' => $this->getPricing(),
-			'stock' => $this->getStock(),
-			'fulfilment' => $this->getFulfilment(),
-			'store' => $this->getStore(),
-			'condition' => $this->getCondition(),
+			'pricing' => $this->getPricing()->toArray(),
+			'stock' => $this->getStock()->toArray(),
+			'fulfilment' => $this->getFulfilment()->toArray(),
+			'store' => $this->getStore()->toArray(),
+			'condition' => $this->getCondition()->toArray(),
 			'notPublishableReasons' => $this->_convertPureArray($this->getNotPublishableReasons()),
 		);
 	}

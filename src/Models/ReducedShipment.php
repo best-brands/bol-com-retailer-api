@@ -109,7 +109,7 @@ final class ReducedShipment extends \HarmSmits\BolComClient\Objects\AObject
 			'shipmentDate' => $this->getShipmentDate(),
 			'shipmentReference' => $this->getShipmentReference(),
 			'shipmentItems' => $this->_convertPureArray($this->getShipmentItems()),
-			'transport' => $this->getTransport(),
+			'transport' => $this->getTransport()->toArray(),
 		);
 	}
 }

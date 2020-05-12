@@ -107,8 +107,8 @@ final class InboundRequest extends \HarmSmits\BolComClient\Objects\AObject
 	{
 		return array(
 			'reference' => $this->getReference(),
-			'timeSlot' => $this->getTimeSlot(),
-			'fbbTransporter' => $this->getFbbTransporter(),
+			'timeSlot' => $this->getTimeSlot()->toArray(),
+			'fbbTransporter' => $this->getFbbTransporter()->toArray(),
 			'labellingService' => $this->getLabellingService(),
 			'products' => $this->_convertPureArray($this->getProducts()),
 		);

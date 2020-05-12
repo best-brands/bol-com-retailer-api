@@ -159,9 +159,9 @@ final class Shipment extends \HarmSmits\BolComClient\Objects\AObject
 			'shipmentDate' => $this->getShipmentDate(),
 			'shipmentReference' => $this->getShipmentReference(),
 			'shipmentItems' => $this->_convertPureArray($this->getShipmentItems()),
-			'transport' => $this->getTransport(),
-			'customerDetails' => $this->getCustomerDetails(),
-			'billingDetails' => $this->getBillingDetails(),
+			'transport' => $this->getTransport()->toArray(),
+			'customerDetails' => $this->getCustomerDetails()->toArray(),
+			'billingDetails' => $this->getBillingDetails()->toArray(),
 		);
 	}
 }

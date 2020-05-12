@@ -159,7 +159,7 @@ final class CreateOfferRequest extends \HarmSmits\BolComClient\Objects\AObject
 	{
 		return array(
 			'ean' => $this->getEan(),
-			'condition' => $this->getCondition(),
+			'condition' => $this->getCondition()->toArray(),
 			'referenceCode' => $this->getReferenceCode(),
 			'onHoldByRetailer' => $this->getOnHoldByRetailer(),
 			'unknownProductTitle' => $this->getUnknownProductTitle(),

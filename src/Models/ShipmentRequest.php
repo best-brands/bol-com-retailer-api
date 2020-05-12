@@ -72,7 +72,7 @@ final class ShipmentRequest extends \HarmSmits\BolComClient\Objects\AObject
 		return array(
 			'shipmentReference' => $this->getShipmentReference(),
 			'shippingLabelCode' => $this->getShippingLabelCode(),
-			'transport' => $this->getTransport(),
+			'transport' => $this->getTransport()->toArray(),
 		);
 	}
 }

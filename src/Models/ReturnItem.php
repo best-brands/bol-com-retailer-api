@@ -309,7 +309,7 @@ final class ReturnItem extends \HarmSmits\BolComClient\Objects\AObject
 			'registrationDateTime' => $this->getRegistrationDateTime(),
 			'returnReason' => $this->getReturnReason(),
 			'returnReasonComments' => $this->getReturnReasonComments(),
-			'customerDetails' => $this->getCustomerDetails(),
+			'customerDetails' => $this->getCustomerDetails()->toArray(),
 			'fulfilmentMethod' => $this->getFulfilmentMethod(),
 			'handled' => $this->getHandled(),
 			'trackAndTrace' => $this->getTrackAndTrace(),

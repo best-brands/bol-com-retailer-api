@@ -108,7 +108,7 @@ final class Order extends \HarmSmits\BolComClient\Objects\AObject
 			'orderId' => $this->getOrderId(),
 			'pickUpPoint' => $this->getPickUpPoint(),
 			'dateTimeOrderPlaced' => $this->getDateTimeOrderPlaced(),
-			'customerDetails' => $this->getCustomerDetails(),
+			'customerDetails' => $this->getCustomerDetails()->toArray(),
 			'orderItems' => $this->_convertPureArray($this->getOrderItems()),
 		);
 	}

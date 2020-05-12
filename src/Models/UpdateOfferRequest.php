@@ -96,7 +96,7 @@ final class UpdateOfferRequest extends \HarmSmits\BolComClient\Objects\AObject
 			'referenceCode' => $this->getReferenceCode(),
 			'onHoldByRetailer' => $this->getOnHoldByRetailer(),
 			'unknownProductTitle' => $this->getUnknownProductTitle(),
-			'fulfilment' => $this->getFulfilment(),
+			'fulfilment' => $this->getFulfilment()->toArray(),
 		);
 	}
 }

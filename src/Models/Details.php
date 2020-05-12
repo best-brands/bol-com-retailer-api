@@ -67,9 +67,9 @@ final class Details extends \HarmSmits\BolComClient\Objects\AObject
 	public function toArray(): array
 	{
 		return array(
-			'period' => $this->getPeriod(),
-			'score' => $this->getScore(),
-			'norm' => $this->getNorm(),
+			'period' => $this->getPeriod()->toArray(),
+			'score' => $this->getScore()->toArray(),
+			'norm' => $this->getNorm()->toArray(),
 		);
 	}
 }

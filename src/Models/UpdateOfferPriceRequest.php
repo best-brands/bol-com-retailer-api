@@ -31,7 +31,7 @@ final class UpdateOfferPriceRequest extends \HarmSmits\BolComClient\Objects\AObj
 	public function toArray(): array
 	{
 		return array(
-			'pricing' => $this->getPricing(),
+			'pricing' => $this->getPricing()->toArray(),
 		);
 	}
 }

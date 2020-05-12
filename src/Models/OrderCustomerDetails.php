@@ -46,8 +46,8 @@ final class OrderCustomerDetails extends \HarmSmits\BolComClient\Objects\AObject
 	public function toArray(): array
 	{
 		return array(
-			'shipmentDetails' => $this->getShipmentDetails(),
-			'billingDetails' => $this->getBillingDetails(),
+			'shipmentDetails' => $this->getShipmentDetails()->toArray(),
+			'billingDetails' => $this->getBillingDetails()->toArray(),
 		);
 	}
 }
