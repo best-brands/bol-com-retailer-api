@@ -29,6 +29,7 @@ use HarmSmits\BolComClient\Models\Inbound;
 use HarmSmits\BolComClient\Models\InboundRequest;
 use HarmSmits\BolComClient\Models\Inbounds;
 use HarmSmits\BolComClient\Models\InventoryResponse;
+use HarmSmits\BolComClient\Models\InvoicesResponse;
 use HarmSmits\BolComClient\Models\Order;
 use HarmSmits\BolComClient\Models\PerformanceIndicators;
 use HarmSmits\BolComClient\Models\Problem;
@@ -77,7 +78,7 @@ use Psr\Http\Message\ResponseInterface;
  * @method PromiseInterface getPerformanceIndicatorsAsync(array $name, string $year, string $week)
  * @method InventoryResponse|Problem getInventories(?int $page = null, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
  * @method PromiseInterface getInventoriesAsync(?int $page = null, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
- * @method array|Problem getInvoices(?string $periodStart = null, ?string $periodEnd = null)
+ * @method InvoicesResponse|Problem getInvoices(?string $periodStart = null, ?string $periodEnd = null)
  * @method PromiseInterface getInvoicesAsync(?string $periodStart = null, ?string $periodEnd = null)
  * @method array|Problem getInvoice(int $invoiceId)
  * @method PromiseInterface getInvoiceAsync(int $invoiceId)
