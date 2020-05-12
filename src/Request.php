@@ -705,6 +705,11 @@ class Request
                         array(
                             '$type' => 'OBJ_ARRAY',
                             '$ref' => 'HarmSmits\\BolComClient\\Models\\InvoiceListItem',
+                            'invoicePeriod' =>
+                                array(
+                                    '$type' => 'OBJ',
+                                    '$ref' => 'HarmSmits\\BolComClient\\Models\\InvoicePeriod'
+                                ),
                             'legalMonetaryTotal' =>
                                 array(
                                     '$type' => 'OBJ',

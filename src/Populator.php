@@ -25,20 +25,10 @@ class Populator
      */
     public function populate(array $spec, array $rawData)
     {
-        $object = $spec['$type'];
-        $class = $spec['$ref'];
-
-        foreach ($spec as $_spec => $value) {
-            if ($_spec == '$type' || $_spec == '$ref')
-                continue ;
-            if (array_key_exists($_spec, $rawData))
-                $rawData[$_spec] = $this->populate($spec[$_spec], $rawData[$_spec]);
-        }
-
-        if ($object == self::TYPE_ARRAY_OF_OBJECTS) {
-            return ($this->populateArrayOfObjects($spec, $rawData, $class));
+        if ($spec['$type'] == self::TYPE_ARRAY_OF_OBJECTS) {
+            return ($this->populateArrayOfObjects($spec, $rawData, $spec['$ref']));
         } else {
-            return ($this->populateObject($spec, $rawData, $class));
+            return ($this->populateObject($spec, $rawData, $spec['$ref']));
         }
     }
 
@@ -70,6 +60,8 @@ class Populator
         $instance = new $class;
         foreach ($rawData as $key => $value) {
             $method = "set" . ucfirst($key);
+            if (isset($spec[$key]))
+                $value = $this->populate($spec[$key], $rawData[$key]);
             if (method_exists($instance, $method))
                 $instance->{$method}($value);
         }

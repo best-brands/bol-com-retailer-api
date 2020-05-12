@@ -309,15 +309,13 @@ class Client
      */
     private function handleResponse(ResponseInterface &$response, array &$responseFormat) {
         if ($response->getStatusCode() === 400) {
+            $body = json_decode($response->getBody(), true);
             throw new ProblemException(
-                $this->populator->populate($responseFormat[$response->getStatusCode()],
-                    json_decode($response->getBody(), true))
+                $this->populator->populate($responseFormat[$response->getStatusCode()], $body)
             );
         } else if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
-            return $this->populator->populate(
-                $responseFormat[$response->getStatusCode()],
-                json_decode($response->getBody(), true)
-            );
+            $body = json_decode($response->getBody(), true);
+            return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
         } else {
             return $response->getBody();
         }
