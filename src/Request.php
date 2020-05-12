@@ -572,7 +572,7 @@ class Request
         $url = "https://api.bol.com/retailer/insights/performance/indicator";
         $method = "get";
         $data["query"] = [];
-        $data["query"]["name"] = $name;
+        $data["query"]["name"] = implode(",", $name);
         $data["query"]["year"] = $year;
         $data["query"]["week"] = $week;
         $data["headers"] = array(

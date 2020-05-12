@@ -12,6 +12,15 @@ use \DateTime;
 
 final class PerformanceIndicator extends \HarmSmits\BolComClient\Objects\AObject
 {
+    const NAME_CANCELLATIONS = "CANCELLATIONS";
+    const NAME_FULFILMENT = "FULFILMENT";
+    const NAME_PHONE_AVAILABILITY = "PHONE_AVAILABILITY";
+    const NAME_RESPONSE_TIME = "RESPONSE_TIME";
+    const NAME_CASE_ITEM_RATIO = "CASE_ITEM_RATIO";
+    const NAME_TRACK_AND_TRACE = "TRACK_AND_TRACE";
+    const NAME_RETURNS = "RETURNS";
+    const NAME_REVIEWS = "REVIEWS";
+
 	/**
 	 * Indicator name.
 	 * @var string

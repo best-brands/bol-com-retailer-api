@@ -8,6 +8,7 @@
 
 namespace HarmSmits\BolComClient;
 
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -173,32 +174,65 @@ class Client
     /** @var bool the bearer token lock so that we know when to disable it */
     protected bool $bearerTokenLock = false;
 
+    protected int $maxRateLimitTimeout;
+
     /**
      * Client constructor.
      *
-     * @param $clientId
-     * @param $clientSecret
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param int    $maxRateLimitTimeout
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidArgumentException
      */
-    public function __construct(string $clientId, string $clientSecret)
+    public function __construct(string $clientId, string $clientSecret, int $maxRateLimitTimeout = 60)
     {
         if (!$clientId || !$clientSecret)
             throw new InvalidArgumentException("Unable to obtain bearer token");
 
         $stack = HandlerStack::create();
-        $stack->push(Middleware::mapRequest(function (RequestInterface $request) {
-            if (!$this->bearerTokenLock)
-                return $request->withHeader('Authorization', 'Bearer ' . $this->getBearerToken());
-            return $request;
-        }));
+        $stack->push(Middleware::mapRequest($this->getRequestHandler()));
+        $stack->push(Middleware::retry($this->getRetryHandler()));
 
         $this->client = new \GuzzleHttp\Client(["handler" => $stack]);
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+        $this->maxRateLimitTimeout = $maxRateLimitTimeout;
 
         $this->request = new Request();
         $this->populator = new Populator();
+    }
+
+    /**
+     * Get the retry handler
+     *
+     * @return \Closure
+     */
+    private function getRetryHandler() {
+        return function ($retries, ?RequestInterface $request, ?ResponseInterface $response, ?RequestException $exception) {
+            if (!$response || $response->getStatusCode() > 500 || ($exception && $exception instanceof ConnectException))
+                return false;
+
+            if (($wait = $response->getHeaderLine("retry-after")) && intval($wait) <= $this->maxRateLimitTimeout) {
+                sleep (intval($wait));
+                return true;
+            }
+
+            return false;
+        };
+    }
+
+    /**
+     * Get the request handler
+     *
+     * @return \Closure
+     */
+    private function getRequestHandler() {
+        return function (RequestInterface $request) {
+            if (!$this->bearerTokenLock)
+                return $request->withHeader('Authorization', 'Bearer ' . $this->getBearerToken());
+            return $request;
+        };
     }
 
     /**
@@ -316,7 +350,7 @@ class Client
     {
         $this->bearerTokenLock = true;
 
-        if ($this->bearerToken === "" || time() - $this->bearerDiff + 5 >= $this->bearerTimestamp) {
+        if (empty($this->bearerToken) || time() - $this->bearerTtl + 5 >= $this->bearerTimestamp) {
             $data = $this->obtainBearerToken();
             $this->setBearerToken($data['access_token'], (int) $data['expires_in']);
         }
