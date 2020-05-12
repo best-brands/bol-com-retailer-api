@@ -697,6 +697,51 @@ class Request
             'Accept' => 'application/vnd.retailer.v3+json',
         );
         $response = array(
+            200 =>
+                array(
+                    '$type' => 'OBJ',
+                    '$ref' => 'HarmSmits\\BolComClient\\Models\\InvoicesResponse',
+                    'invoiceListItems' =>
+                        array(
+                            '$type' => 'OBJ_ARRAY',
+                            '$ref' => 'HarmSmits\\BolComClient\\Models\\InvoiceListItem',
+                            'legalMonetaryTotal' =>
+                                array(
+                                    '$type' => 'OBJ',
+                                    '$ref' => 'HarmSmits\\BolComClient\\Models\\InvoiceMonetary',
+                                    'lineExtensionAmount' =>
+                                        array(
+                                            '$type' => 'OBJ',
+                                            '$ref' => 'HarmSmits\\BolComClient\\Models\\MonetaryItem'
+                                        ),
+                                    'payableAmount' =>
+                                        array(
+                                            '$type' => 'OBJ',
+                                            '$ref' => 'HarmSmits\\BolComClient\\Models\\MonetaryItem'
+                                        ),
+                                    'taxExclusiveAmount' =>
+                                        array(
+                                            '$type' => 'OBJ',
+                                            '$ref' => 'HarmSmits\\BolComClient\\Models\\MonetaryItem'
+                                        ),
+                                    'taxInclusiveAmount' =>
+                                        array(
+                                            '$type' => 'OBJ',
+                                            '$ref' => 'HarmSmits\\BolComClient\\Models\\MonetaryItem'
+                                        ),
+                                ),
+                            'invoiceMediaTypes' =>
+                                array(
+                                    '$type' => 'OBJ',
+                                    '$ref' => 'HarmSmits\\BolComClient\\Models\\MediaTypes'
+                                ),
+                            'specificationMediaTypes' =>
+                                array(
+                                    '$type' => 'OBJ',
+                                    '$ref' => 'HarmSmits\\BolComClient\\Models\\MediaTypes'
+                                ),
+                        ),
+                ),
             400 =>
                 array(
                     '$type' => 'OBJ',
