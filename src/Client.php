@@ -51,6 +51,7 @@ use HarmSmits\BolComClient\Models\UpdateOfferRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferStockRequest;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use function GuzzleHttp\Promise\unwrap;
 
 /**
  * Class Client
@@ -202,6 +203,19 @@ class Client
 
         $this->request = new Request();
         $this->populator = new Populator();
+    }
+
+    /**
+     * Unwrap an array of async requests, very useful when stacking multiple
+     *
+     * @param array $promises
+     *
+     * @return array
+     * @throws \Throwable
+     */
+    public function unwrap(array $promises)
+    {
+        return unwrap($promises);
     }
 
     /**
