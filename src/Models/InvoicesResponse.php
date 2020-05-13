@@ -14,7 +14,6 @@ final class InvoicesResponse extends \HarmSmits\BolComClient\Objects\AObject
 {
     private ?string $period = null;
 
-
     /** @var InvoiceListItem[] */
     private array $invoiceListItems = [];
 
