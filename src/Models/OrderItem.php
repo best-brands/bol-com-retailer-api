@@ -44,9 +44,9 @@ final class OrderItem extends \HarmSmits\BolComClient\Objects\AObject
 
 	/**
 	 * The total price for this order item id (item price multiplied by the quantity).
-	 * @var int
+	 * @var float
 	 */
-	private ?int $offerPrice = null;
+	private ?float $offerPrice = null;
 
 	/**
 	 * Unique identifier for an offer.
@@ -56,9 +56,9 @@ final class OrderItem extends \HarmSmits\BolComClient\Objects\AObject
 
 	/**
 	 * Fee of the transaction.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $transactionFee = null;
+	private ?float $transactionFee = null;
 
 	/**
 	 * The ultimate delivery date at which this order must be delivered at the
@@ -172,13 +172,13 @@ final class OrderItem extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getOfferPrice(): ?int
+	public function getOfferPrice(): ?float
 	{
-		return $this->offerPrice;
+		return round($this->offerPrice, 2);
 	}
 
 
-	public function setOfferPrice(int $offerPrice)
+	public function setOfferPrice(float $offerPrice)
 	{
 		$this->offerPrice = $offerPrice;
 		return $this;
@@ -198,13 +198,13 @@ final class OrderItem extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getTransactionFee(): ?int
+	public function getTransactionFee(): ?float
 	{
-		return $this->transactionFee;
+		return round($this->transactionFee, 2);
 	}
 
 
-	public function setTransactionFee(int $transactionFee)
+	public function setTransactionFee(float $transactionFee)
 	{
 		$this->transactionFee = $transactionFee;
 		return $this;
