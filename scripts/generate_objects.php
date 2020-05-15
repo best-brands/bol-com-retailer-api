@@ -19,7 +19,7 @@ class GenerateObjects
     private array $types = [
         "boolean" => Type::BOOL,
         "string" => Type::STRING,
-        "number" => Type::INT,
+        "number" => Type::FLOAT,
         "integer" => Type::INT,
         "array" => Type::ARRAY
     ];
@@ -235,6 +235,12 @@ class GenerateObjects
             }
         }
 
+        if ($type === "float") {
+            if (isset($schema["minimum"]) || isset($schema["maximum"])) {
+                $body .= sprintf("\$this->_checkFloatBounds(%s, %s, %s);\n", "$$name", @$schema["minimum"], @$schema["maximum"]);
+            }
+        }
+
         if (isset($schema["enum"])) {
             $enums = array_map(function ($item) {
                 return sprintf("\t\"%s\"", $item);
@@ -256,10 +262,16 @@ class GenerateObjects
      * @param array                         $schema
      */
     private function setGetterFunction(\Nette\PhpGenerator\ClassType &$class, $name, array $schema) {
+        $type = $this->getType($schema);
         $method = $class->addmethod("get" . ucfirst($name));
         $method->setReturnNullable(true);
-        $method->setReturnType($this->getType($schema));
-        $method->setBody(sprintf('return $this->%s;', $name));
+        $method->setReturnType($type);
+
+        if ($type === Type::FLOAT) {
+            $method->setBody(sprintf('return round($this->%s, 2);', $name));
+        } else {
+            $method->setBody(sprintf('return $this->%s;', $name));
+        }
     }
 
     /**

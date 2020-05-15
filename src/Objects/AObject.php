@@ -63,6 +63,20 @@ abstract class AObject implements ObjectInterface
     }
 
     /**
+     * Check if a float is in the correct range
+     *
+     * @param float $check
+     * @param float $min
+     * @param float $max
+     *
+     * @throws \HarmSmits\BolComClient\Exception\InvalidArgumentException
+     */
+    protected function _checkFloatBounds(float $check, float $min, float $max) {
+        if ($check < $min || $check > $max)
+            throw new InvalidArgumentException("Float is not in correct range");
+    }
+
+    /**
      * Apply default value
      *
      * @param int|null $int

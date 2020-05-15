@@ -24,9 +24,9 @@ final class BundlePrice extends \HarmSmits\BolComClient\Objects\AObject
 	 * The price per single unit in case the customer orders at least the quantity
 	 * provided. When using more than 1 price, the respective prices must be in
 	 * decreasing order using 2 decimal precision and dot separated.
-	 * @var int
+	 * @var float
 	 */
-	private int $price;
+	private float $price;
 
 
 	public function getQuantity(): ?int
@@ -43,15 +43,15 @@ final class BundlePrice extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getPrice(): ?int
+	public function getPrice(): ?float
 	{
-		return $this->price;
+		return round($this->price, 2);
 	}
 
 
-	public function setPrice(int $price)
+	public function setPrice(float $price)
 	{
-		$this->_checkIntegerBounds($price, 1, 9999);
+		$this->_checkFloatBounds($price, 1, 9999);
 		$this->price = $price;
 		return $this;
 	}

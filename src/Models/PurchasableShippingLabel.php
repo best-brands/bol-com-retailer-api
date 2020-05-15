@@ -38,21 +38,21 @@ final class PurchasableShippingLabel extends \HarmSmits\BolComClient\Objects\AOb
 
 	/**
 	 * The price the item has been sold for.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $retailerPrice = null;
+	private ?float $retailerPrice = null;
 
 	/**
 	 * The price that is charged to the partner for the shipping label, including VAT.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $purchasePrice = null;
+	private ?float $purchasePrice = null;
 
 	/**
 	 * The discount of the item that has been sold.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $discount = null;
+	private ?float $discount = null;
 
 	/**
 	 * A unique code referring to the used shipping label for this shipment.
@@ -113,39 +113,39 @@ final class PurchasableShippingLabel extends \HarmSmits\BolComClient\Objects\AOb
 	}
 
 
-	public function getRetailerPrice(): ?int
+	public function getRetailerPrice(): ?float
 	{
-		return $this->retailerPrice;
+		return round($this->retailerPrice, 2);
 	}
 
 
-	public function setRetailerPrice(int $retailerPrice)
+	public function setRetailerPrice(float $retailerPrice)
 	{
 		$this->retailerPrice = $retailerPrice;
 		return $this;
 	}
 
 
-	public function getPurchasePrice(): ?int
+	public function getPurchasePrice(): ?float
 	{
-		return $this->purchasePrice;
+		return round($this->purchasePrice, 2);
 	}
 
 
-	public function setPurchasePrice(int $purchasePrice)
+	public function setPurchasePrice(float $purchasePrice)
 	{
 		$this->purchasePrice = $purchasePrice;
 		return $this;
 	}
 
 
-	public function getDiscount(): ?int
+	public function getDiscount(): ?float
 	{
-		return $this->discount;
+		return round($this->discount, 2);
 	}
 
 
-	public function setDiscount(int $discount)
+	public function setDiscount(float $discount)
 	{
 		$this->discount = $discount;
 		return $this;

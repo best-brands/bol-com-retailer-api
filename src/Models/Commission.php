@@ -26,34 +26,34 @@ final class Commission extends \HarmSmits\BolComClient\Objects\AObject
 
 	/**
 	 * The price for this product with two decimals precision. The price includes VAT.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $price = null;
+	private ?float $price = null;
 
 	/**
 	 * Fixed fee.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $fixedAmount = null;
+	private ?float $fixedAmount = null;
 
 	/**
 	 * A percentage of the offer price. The percentage can vary per product category.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $percentage = null;
+	private ?float $percentage = null;
 
 	/**
 	 * Total applicable fee calculated based on the offer price provided.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $totalCost = null;
+	private ?float $totalCost = null;
 
 	/**
 	 * Total applicable fee calculated based on the offer price if you do not meet the
 	 * maximum price criteria.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $totalCostWithoutReduction = null;
+	private ?float $totalCostWithoutReduction = null;
 
 	/** @var Reduction[] */
 	private array $reductions = [];
@@ -85,65 +85,65 @@ final class Commission extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getPrice(): ?int
+	public function getPrice(): ?float
 	{
-		return $this->price;
+		return round($this->price, 2);
 	}
 
 
-	public function setPrice(int $price)
+	public function setPrice(float $price)
 	{
 		$this->price = $price;
 		return $this;
 	}
 
 
-	public function getFixedAmount(): ?int
+	public function getFixedAmount(): ?float
 	{
-		return $this->fixedAmount;
+		return round($this->fixedAmount, 2);
 	}
 
 
-	public function setFixedAmount(int $fixedAmount)
+	public function setFixedAmount(float $fixedAmount)
 	{
 		$this->fixedAmount = $fixedAmount;
 		return $this;
 	}
 
 
-	public function getPercentage(): ?int
+	public function getPercentage(): ?float
 	{
-		return $this->percentage;
+		return round($this->percentage, 1);
 	}
 
 
-	public function setPercentage(int $percentage)
+	public function setPercentage(float $percentage)
 	{
 		$this->percentage = $percentage;
 		return $this;
 	}
 
 
-	public function getTotalCost(): ?int
+	public function getTotalCost(): ?float
 	{
-		return $this->totalCost;
+		return round($this->totalCost, 2);
 	}
 
 
-	public function setTotalCost(int $totalCost)
+	public function setTotalCost(float $totalCost)
 	{
 		$this->totalCost = $totalCost;
 		return $this;
 	}
 
 
-	public function getTotalCostWithoutReduction(): ?int
+	public function getTotalCostWithoutReduction(): ?float
 	{
-		return $this->totalCostWithoutReduction;
+		return round($this->totalCostWithoutReduction, 2);
 	}
 
 
-	public function setTotalCostWithoutReduction(int $totalCostWithoutReduction)
+	public function setTotalCostWithoutReduction(float $totalCostWithoutReduction)
 	{
 		$this->totalCostWithoutReduction = $totalCostWithoutReduction;
 		return $this;

@@ -34,15 +34,15 @@ final class Score extends \HarmSmits\BolComClient\Objects\AObject
 
 	/**
 	 * The score for this measurement (denominator divided by the numerator).
-	 * @var int
+	 * @var float
 	 */
-	private ?int $value = null;
+	private ?float $value = null;
 
 	/**
 	 * The difference between the score and the bol.com service norm.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $distanceToNorm = null;
+	private ?float $distanceToNorm = null;
 
 
 	public function getConforms(): ?bool
@@ -84,26 +84,26 @@ final class Score extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getValue(): ?int
+	public function getValue(): ?float
 	{
 		return $this->value;
 	}
 
 
-	public function setValue(int $value)
+	public function setValue(float $value)
 	{
 		$this->value = $value;
 		return $this;
 	}
 
 
-	public function getDistanceToNorm(): ?int
+	public function getDistanceToNorm(): ?float
 	{
 		return $this->distanceToNorm;
 	}
 
 
-	public function setDistanceToNorm(int $distanceToNorm)
+	public function setDistanceToNorm(float $distanceToNorm)
 	{
 		$this->distanceToNorm = $distanceToNorm;
 		return $this;

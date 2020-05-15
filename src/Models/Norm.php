@@ -20,9 +20,9 @@ final class Norm extends \HarmSmits\BolComClient\Objects\AObject
 
 	/**
 	 * Service norm for this indicator.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $value = null;
+	private ?float $value = null;
 
 
 	public function getCondition(): ?string
@@ -38,13 +38,13 @@ final class Norm extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getValue(): ?int
+	public function getValue(): ?float
 	{
-		return $this->value;
+		return round($this->value, 1);
 	}
 
 
-	public function setValue(int $value)
+	public function setValue(float $value)
 	{
 		$this->value = $value;
 		return $this;
