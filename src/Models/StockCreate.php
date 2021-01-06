@@ -1,23 +1,22 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class StockCreate extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|int getAmount()
+ * @method null|bool getManagedByRetailer()
+ * @method self setManagedByRetailer(bool $managedByRetailer)
+ */
+final class StockCreate extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * The amount of stock available for the specified product present in the retailers
 	 * warehouse. Note: this should not be the FBB stock! Defaults to 0.
 	 * @var int
 	 */
-	private int $amount;
+	protected int $amount;
 
 	/**
 	 * Configures whether the retailer manages the stock levels or that bol.com should
@@ -27,41 +26,13 @@ final class StockCreate extends \HarmSmits\BolComClient\Objects\AObject
 	 * are placed after the last offer update are taken into account.
 	 * @var bool
 	 */
-	private bool $managedByRetailer;
+	protected bool $managedByRetailer;
 
 
-	public function getAmount(): ?int
-	{
-		return $this->amount;
-	}
-
-
-	public function setAmount(int $amount)
+	public function setAmount(int $amount): self
 	{
 		$this->_checkIntegerBounds($amount, 0, 999);
 		$this->amount = $amount;
 		return $this;
-	}
-
-
-	public function getManagedByRetailer(): ?bool
-	{
-		return $this->managedByRetailer;
-	}
-
-
-	public function setManagedByRetailer(bool $managedByRetailer)
-	{
-		$this->managedByRetailer = $managedByRetailer;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'amount' => $this->getAmount(),
-			'managedByRetailer' => $this->getManagedByRetailer(),
-		);
 	}
 }

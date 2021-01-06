@@ -1,23 +1,25 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Stock extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|int getAmount()
+ * @method self setAmount(int $amount)
+ * @method null|int getCorrectedStock()
+ * @method self setCorrectedStock(int $correctedStock)
+ * @method null|bool getManagedByRetailer()
+ * @method self setManagedByRetailer(bool $managedByRetailer)
+ */
+final class Stock extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * The amount of stock available for the specified product present in the retailers
 	 * warehouse. Note: this should not be the FBB stock! Defaults to 0.
 	 * @var int
 	 */
-	private ?int $amount = null;
+	protected ?int $amount = null;
 
 	/**
 	 * The amount of items in stock minus handled order and minus open orders. As
@@ -25,7 +27,7 @@ final class Stock extends \HarmSmits\BolComClient\Objects\AObject
 	 * be for sale on the shop.
 	 * @var int
 	 */
-	private ?int $correctedStock = null;
+	protected ?int $correctedStock = null;
 
 	/**
 	 * Configures whether the retailer manages the stock levels or that bol.com should
@@ -35,54 +37,5 @@ final class Stock extends \HarmSmits\BolComClient\Objects\AObject
 	 * are placed after the last offer update are taken into account.
 	 * @var bool
 	 */
-	private ?bool $managedByRetailer = null;
-
-
-	public function getAmount(): ?int
-	{
-		return $this->amount;
-	}
-
-
-	public function setAmount(int $amount)
-	{
-		$this->amount = $amount;
-		return $this;
-	}
-
-
-	public function getCorrectedStock(): ?int
-	{
-		return $this->correctedStock;
-	}
-
-
-	public function setCorrectedStock(int $correctedStock)
-	{
-		$this->correctedStock = $correctedStock;
-		return $this;
-	}
-
-
-	public function getManagedByRetailer(): ?bool
-	{
-		return $this->managedByRetailer;
-	}
-
-
-	public function setManagedByRetailer(bool $managedByRetailer)
-	{
-		$this->managedByRetailer = $managedByRetailer;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'amount' => $this->getAmount(),
-			'correctedStock' => $this->getCorrectedStock(),
-			'managedByRetailer' => $this->getManagedByRetailer(),
-		);
-	}
+	protected ?bool $managedByRetailer = null;
 }

@@ -1,10 +1,4 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 use HarmSmits\BolComClient\Populator;
 use HarmSmits\BolComClient\Util;
@@ -27,6 +21,18 @@ class GenerateMap
     protected array $methodMap;
 
     /**
+     * A table to convert java types to php types
+     * @var string[]
+     */
+    private static array $types = [
+        "boolean" => "bool",
+        "string" => "string",
+        "number" => "int",
+        "integer" => "int",
+        "array" => "array"
+    ];
+
+    /**
      * Load the json specification
      *
      * @param $path
@@ -37,6 +43,11 @@ class GenerateMap
         $this->methodMap = json_decode(file_get_contents($methodMap), true);
         $this->protocol = array_pop($this->spec["schemes"]);
         $this->host = $this->spec["host"];
+    }
+
+    public function javaTypeFixer(string $type)
+    {
+        return (isset(self::$types[$type]) ? self::$types[$type] : $type);
     }
 
     /**
@@ -103,11 +114,11 @@ class GenerateMap
     private function getParameterType(array $spec)
     {
         if (isset($spec["type"])) {
-            return Util::javaTypeFixer($spec["type"]);
+            return $this->javaTypeFixer($spec["type"]);
         } else if (isset($spec["schema"])) {
             $object = $this->getObjectName($spec["schema"]["\$ref"]);
             $this->addInclude($object);
-            return Util::javaTypeFixer($this->getObjectName($object));
+            return $this->javaTypeFixer($this->getObjectName($object));
         } else {
             return null;
         }
@@ -371,7 +382,7 @@ class GenerateMap
 require(dirname(__DIR__) . "/vendor/autoload.php");
 
 $class = new GenerateMap(
-    dirname(__DIR__) . "/resources/v3.json",
+    dirname(__DIR__) . "/resources/v4.json",
     dirname(__DIR__) . "/resources/methods.json"
 );
 

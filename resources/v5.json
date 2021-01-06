@@ -1,0 +1,615 @@
+{
+  "swagger" : "2.0",
+  "host": "api.bol.com",
+  "schemes": ["https"], 
+  "info" : {
+    "description" : "The bol.com API for Retailers.",
+    "version" : "5.0",
+    "title" : "v5"
+  },
+  "tags" : [ {
+    "name" : "BETA"
+  }, {
+    "name" : "Insights"
+  }, {
+    "name" : "Orders"
+  } ],
+  "paths" : {
+    "/retailer/insights/search-terms" : {
+      "get" : {
+        "tags" : [ "Insights", "BETA" ],
+        "summary" : "BETA: Get search terms",
+        "description" : "Retrieves the search volume for a specified search term and period. The search volume allows you to see what bol.com customers are searching for. Based on the search volume per search term you can optimize your product content, or spot opportunities to extend your assortment, or analyzing trends for inventory management.",
+        "operationId" : "get-search-terms",
+        "produces" : [ "application/vnd.retailer.v5+json", "application/vnd.retailer.v5+xml" ],
+        "parameters" : [ {
+          "name" : "search-term",
+          "in" : "query",
+          "description" : "The search term for which you want to request the search volume.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "The time unit in which the offer insights are grouped.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "DAY", "WEEK", "MONTH" ]
+        }, {
+          "name" : "number-of-periods",
+          "in" : "query",
+          "description" : "The number of periods for which the offer insights are requested back in time.",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "related-search-terms",
+          "in" : "query",
+          "description" : "Indicates whether or not you want to retrieve the related search terms.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok: Successfully processed the request.",
+            "schema" : {
+              "$ref" : "#/definitions/SearchTerms"
+            }
+          },
+          "400" : {
+            "description" : "Bad request: The sent request does not meet the API specification. Please check the error message(s) for more information.",
+            "schema" : {
+              "$ref" : "#/definitions/Problem"
+            }
+          }
+        }
+      }
+    },
+    "/retailer/orders/{order-id}" : {
+      "get" : {
+        "tags" : [ "Orders", "BETA" ],
+        "summary" : "BETA: Get an open order by order id",
+        "description" : "Gets an open order by order id.",
+        "operationId" : "get-order",
+        "produces" : [ "application/vnd.retailer.v5+json", "application/vnd.retailer.v5+xml" ],
+        "parameters" : [ {
+          "name" : "order-id",
+          "in" : "path",
+          "description" : "The id of the open order to get.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok: Successfully processed the request.",
+            "schema" : {
+              "$ref" : "#/definitions/Order"
+            }
+          },
+          "404" : {
+            "description" : "Not found: The requested item could not be found.",
+            "schema" : {
+              "$ref" : "#/definitions/Problem"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AdditionalService" : {
+      "type" : "object",
+      "properties" : {
+        "serviceType" : {
+          "type" : "string",
+          "example" : "PLACEMENT_AND_INSTALLATION",
+          "description" : "An additional service type that the customer selected when purchasing this order item."
+        }
+      }
+    },
+    "BillingDetails" : {
+      "type" : "object",
+      "properties" : {
+        "salutation" : {
+          "type" : "string",
+          "example" : "MALE",
+          "description" : "The salutation of the customer.",
+          "enum" : [ "MALE", "FEMALE", "UNKNOWN" ]
+        },
+        "firstName" : {
+          "type" : "string",
+          "example" : "Billie",
+          "description" : "The first name of the customer."
+        },
+        "surname" : {
+          "type" : "string",
+          "example" : "Jansen",
+          "description" : "The surname of the customer."
+        },
+        "streetName" : {
+          "type" : "string",
+          "example" : "Dorpstraat",
+          "description" : "The street name."
+        },
+        "houseNumber" : {
+          "type" : "string",
+          "example" : "1",
+          "description" : "The house number."
+        },
+        "houseNumberExtension" : {
+          "type" : "string",
+          "example" : "B",
+          "description" : "The extension on the house number."
+        },
+        "extraAddressInformation" : {
+          "type" : "string",
+          "example" : "Apartment",
+          "description" : "Additional information related to the address that helps in delivering the package."
+        },
+        "zipCode" : {
+          "type" : "string",
+          "example" : "1111ZZ",
+          "description" : "The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders."
+        },
+        "city" : {
+          "type" : "string",
+          "example" : "Utrecht",
+          "description" : "The name of the city."
+        },
+        "countryCode" : {
+          "type" : "string",
+          "example" : "NL",
+          "description" : "The country code."
+        },
+        "email" : {
+          "type" : "string",
+          "example" : "billie@verkopen.bol.com",
+          "description" : "A scrambled email address that can be used to contact the customer."
+        },
+        "company" : {
+          "type" : "string",
+          "example" : "bol.com",
+          "description" : "The company name."
+        },
+        "vatNumber" : {
+          "type" : "string",
+          "example" : "NL999999999B99",
+          "description" : "The Value Added Tax (VAT) / BTW number for business sellers situated in the Netherlands."
+        },
+        "kvkNumber" : {
+          "type" : "string",
+          "example" : "99887766",
+          "description" : "The Kamer van Koophandel (kvk) number for organizations situated in the Netherlands or ondernemingsnummer for organizations situated in Belgium."
+        },
+        "orderReference" : {
+          "type" : "string",
+          "example" : "MijnReferentie",
+          "description" : "The order reference specified by the customer when ordering a product."
+        }
+      },
+      "description" : "The details of the customer that is responsible for the financial fulfillment of this order."
+    },
+    "Country" : {
+      "type" : "object",
+      "properties" : {
+        "countryCode" : {
+          "type" : "string",
+          "example" : "NL",
+          "description" : "Countries in which this offer is currently on sale in the webshop in ISO-3166-1 format."
+        },
+        "value" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : 100,
+          "description" : "The number of customer visits on the search page."
+        }
+      }
+    },
+    "Order" : {
+      "type" : "object",
+      "required" : [ "orderItems", "shipmentDetails" ],
+      "properties" : {
+        "orderId" : {
+          "type" : "string",
+          "example" : "A2K8290LP8",
+          "description" : "The order id."
+        },
+        "pickUpPoint" : {
+          "type" : "boolean",
+          "example" : true,
+          "description" : "Indicates whether this order is shipped to a Pick Up Point."
+        },
+        "orderPlacedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "example" : "2017-02-09T12:39:48+01:00",
+          "description" : "The date and time in ISO 8601 format when the order was placed."
+        },
+        "shipmentDetails" : {
+          "$ref" : "#/definitions/ShipmentDetails"
+        },
+        "billingDetails" : {
+          "$ref" : "#/definitions/BillingDetails"
+        },
+        "orderItems" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/OrderOrderItem"
+          }
+        }
+      },
+      "description" : "An order."
+    },
+    "OrderFulfilment" : {
+      "type" : "object",
+      "properties" : {
+        "method" : {
+          "type" : "string",
+          "example" : "FBR",
+          "description" : "Specifies whether this shipment has been fulfilled by the retailer (FBR) or fulfilled by bol.com (FBB). Defaults to FBR."
+        },
+        "distributionParty" : {
+          "type" : "string",
+          "example" : "RETAILER",
+          "description" : "The party that manages the distribution, either bol.com or the retailer itself.",
+          "enum" : [ "RETAILER", "BOL" ]
+        },
+        "latestDeliveryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "example" : "2017-02-10",
+          "description" : "The ultimate delivery date at which this order must be delivered at the customer's shipping address. This field is empty in case the exactDeliveryDate is filled."
+        },
+        "exactDeliveryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "example" : "2017-02-13",
+          "description" : "The exact delivery date at which this order must be delivered at the customer's shipping address. This field is only filled when the customer chose an exact date for delivery. This field is empty in case the latestDeliveryDate is filled."
+        },
+        "expiryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "example" : "2017-02-13",
+          "description" : "The date this order item will automatically expire and thereby cancelling this order item from the order."
+        }
+      }
+    },
+    "OrderOffer" : {
+      "type" : "object",
+      "properties" : {
+        "offerId" : {
+          "type" : "string",
+          "example" : "6ff736b5-cdd0-4150-8c67-78269ee986f5",
+          "description" : "Unique identifier for an offer."
+        },
+        "reference" : {
+          "type" : "string",
+          "example" : "BOLCOM00123",
+          "description" : "A user-defined reference tied to the offer upon creating the offer."
+        }
+      }
+    },
+    "OrderOrderItem" : {
+      "type" : "object",
+      "properties" : {
+        "orderItemId" : {
+          "type" : "string",
+          "example" : "2012345678",
+          "description" : "The id for the order item (1 order can have multiple order items)."
+        },
+        "cancellationRequest" : {
+          "type" : "boolean",
+          "example" : false,
+          "description" : "Indicates whether the order was cancelled on request of the customer before the retailer has shipped it."
+        },
+        "fulfilment" : {
+          "$ref" : "#/definitions/OrderFulfilment"
+        },
+        "offer" : {
+          "$ref" : "#/definitions/OrderOffer"
+        },
+        "product" : {
+          "$ref" : "#/definitions/OrderProduct"
+        },
+        "quantity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : 10,
+          "description" : "Amount of ordered products for this order item id."
+        },
+        "unitPrice" : {
+          "type" : "number",
+          "example" : 12.99,
+          "description" : "The selling price to the customer of a single unit including VAT."
+        },
+        "totalPrice" : {
+          "type" : "number",
+          "example" : 129.9,
+          "description" : "The total selling price for the order line including VAT."
+        },
+        "commission" : {
+          "type" : "number",
+          "example" : 5.18,
+          "description" : "The commission for all quantities of this order item."
+        },
+        "additionalServices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AdditionalService"
+          }
+        }
+      },
+      "description" : "Order item details from an order."
+    },
+    "OrderProduct" : {
+      "type" : "object",
+      "properties" : {
+        "ean" : {
+          "type" : "string",
+          "example" : "0000007740404",
+          "description" : "The EAN number associated with this product."
+        },
+        "title" : {
+          "type" : "string",
+          "example" : "Product Title",
+          "description" : "Title of the product as shown on the webshop."
+        }
+      }
+    },
+    "Period" : {
+      "type" : "object",
+      "properties" : {
+        "day" : {
+          "type" : "string",
+          "example" : "19",
+          "description" : "Day number in the ISO-8601 standard."
+        },
+        "week" : {
+          "type" : "string",
+          "example" : "41",
+          "description" : "Week number in the ISO-8601 standard."
+        },
+        "month" : {
+          "type" : "string",
+          "example" : "11",
+          "description" : "Month number in the ISO-8601 standard."
+        },
+        "year" : {
+          "type" : "string",
+          "example" : "2020",
+          "description" : "Year number in the ISO-8601 standard."
+        }
+      }
+    },
+    "Problem" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "format" : "uri",
+          "example" : "https://api.bol.com/problems",
+          "description" : "Type URI for this problem. Fixed value: https://api.bol.com/problems."
+        },
+        "title" : {
+          "type" : "string",
+          "example" : "Error validating request body. Consult the bol.com API documentation for more information.",
+          "description" : "Title describing the nature of the problem."
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : "40X",
+          "description" : "HTTP status returned from the endpoint causing the problem."
+        },
+        "detail" : {
+          "type" : "string",
+          "example" : "Bad request",
+          "description" : "Detailed error message describing in additional detail what caused the service to return this problem."
+        },
+        "host" : {
+          "type" : "string",
+          "example" : "Instance-001",
+          "description" : "Host identifier describing the server instance that reported the problem."
+        },
+        "instance" : {
+          "type" : "string",
+          "format" : "uri",
+          "example" : "https://api.bol.com//retailer/resource",
+          "description" : "Full URI path of the resource that reported the problem."
+        },
+        "violations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Violation"
+          }
+        }
+      },
+      "description" : "Describes a problem that occurred interacting with the API."
+    },
+    "RelatedSearchTerm" : {
+      "type" : "object",
+      "properties" : {
+        "total" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : 100,
+          "description" : "The number of customer visits on the search page."
+        },
+        "searchTerm" : {
+          "type" : "string",
+          "example" : "book",
+          "description" : "The search term for which you requested the search volume."
+        }
+      }
+    },
+    "SearchTerm" : {
+      "type" : "object",
+      "required" : [ "countries", "periods" ],
+      "properties" : {
+        "searchTerm" : {
+          "type" : "string",
+          "example" : "book",
+          "description" : "The search term for which you requested the search volume."
+        },
+        "type" : {
+          "type" : "string",
+          "example" : "count",
+          "description" : "Interpretation of the data that applies to this measurement."
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : 100,
+          "description" : "The number of customer visits on the search page."
+        },
+        "countries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Country"
+          }
+        },
+        "periods" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TotalPeriod"
+          }
+        },
+        "relatedSearchTerms" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/RelatedSearchTerm"
+          }
+        }
+      }
+    },
+    "SearchTerms" : {
+      "type" : "object",
+      "properties" : {
+        "searchTerms" : {
+          "$ref" : "#/definitions/SearchTerm"
+        }
+      }
+    },
+    "ShipmentDetails" : {
+      "type" : "object",
+      "properties" : {
+        "pickUpPointName" : {
+          "type" : "string",
+          "example" : "Albert Heijn: UTRECHT",
+          "description" : "The name of Pick Up Point location this order needs to be shipped to."
+        },
+        "salutation" : {
+          "type" : "string",
+          "example" : "MALE",
+          "description" : "The salutation of the customer.",
+          "enum" : [ "MALE", "FEMALE", "UNKNOWN" ]
+        },
+        "firstName" : {
+          "type" : "string",
+          "example" : "Billie",
+          "description" : "The first name of the customer."
+        },
+        "surname" : {
+          "type" : "string",
+          "example" : "Jansen",
+          "description" : "The surname of the customer."
+        },
+        "streetName" : {
+          "type" : "string",
+          "example" : "Dorpstraat",
+          "description" : "The street name."
+        },
+        "houseNumber" : {
+          "type" : "string",
+          "example" : "1",
+          "description" : "The house number."
+        },
+        "houseNumberExtension" : {
+          "type" : "string",
+          "example" : "B",
+          "description" : "The extension on the house number."
+        },
+        "extraAddressInformation" : {
+          "type" : "string",
+          "example" : "Apartment",
+          "description" : "Additional information related to the address that helps in delivering the package."
+        },
+        "zipCode" : {
+          "type" : "string",
+          "example" : "1111ZZ",
+          "description" : "The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders."
+        },
+        "city" : {
+          "type" : "string",
+          "example" : "Utrecht",
+          "description" : "The name of the city."
+        },
+        "countryCode" : {
+          "type" : "string",
+          "example" : "NL",
+          "description" : "The country code."
+        },
+        "email" : {
+          "type" : "string",
+          "example" : "billie@verkopen.bol.com",
+          "description" : "A scrambled email address that can be used to contact the customer."
+        },
+        "company" : {
+          "type" : "string",
+          "example" : "bol.com",
+          "description" : "The company name."
+        },
+        "deliveryPhoneNumber" : {
+          "type" : "string",
+          "example" : "012123456",
+          "description" : "The delivery phone number of the customer. Filled in case the order requires an appointment for delivering the goods."
+        },
+        "language" : {
+          "type" : "string",
+          "example" : "nl",
+          "description" : "The language of the customer in case of contact.",
+          "enum" : [ "nl", "nl-BE", "fr", "fr-BE" ]
+        }
+      },
+      "description" : "The address details where this order needs to be shipped to. This can be the customers' own address, a (company) business address or a Pick Up Point address."
+    },
+    "TotalPeriod" : {
+      "type" : "object",
+      "required" : [ "countries", "period" ],
+      "properties" : {
+        "period" : {
+          "$ref" : "#/definitions/Period"
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : 100,
+          "description" : "The number of customer visits on the search page."
+        },
+        "countries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Country"
+          }
+        }
+      }
+    },
+    "Violation" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "example" : "exampleValue",
+          "description" : "Describes the origin of the error, for instance a field or query parameter validation error."
+        },
+        "reason" : {
+          "type" : "string",
+          "example" : "Request contains invalid value(s): 'INVALID', allowed values: ALLOWED_VALUE1, ALLOWED_VALUE2.",
+          "description" : "Detailed description of the validation error that caused the problem."
+        }
+      },
+      "description" : "Describes a violation that occurred interacting with the API."
+    }
+  }
+}

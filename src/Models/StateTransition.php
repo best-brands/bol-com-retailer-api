@@ -1,72 +1,50 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class StateTransition extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getState()
+ * @method null|DateTime getStateDateTime()
+ */
+final class StateTransition extends \HarmSmits\BolComClient\Models\AModel
 {
-	const STATE_Draft = 'Draft';
-	const STATE_PreAnnounced = 'PreAnnounced';
-	const STATE_ArrivedAtWH = 'ArrivedAtWH';
-	const STATE_Cancelled = 'Cancelled';
+	const STATE_DRAFT = 'DRAFT';
+	const STATE_PREANNOUNCED = 'PREANNOUNCED';
+	const STATE_ARRIVEDATWH = 'ARRIVEDATWH';
+	const STATE_CANCELLED = 'CANCELLED';
 
 	/**
 	 * The state that was transitioned into.
 	 * @var string
 	 */
-	private string $state;
+	protected string $state;
 
 	/**
 	 * The transition date and time in ISO 8601 format.
-	 * @var string
+	 * @var DateTime
 	 */
-	private ?string $stateDate = null;
+	protected ?DateTime $stateDateTime = null;
 
 
-	public function getState(): ?string
-	{
-		return $this->state;
-	}
-
-
-	public function setState(string $state)
+	public function setState(string $state): self
 	{
 		$this->_checkEnumBounds($state, [
-			"Draft",
-			"PreAnnounced",
-			"ArrivedAtWH",
-			"Cancelled"
+			"DRAFT",
+			"PREANNOUNCED",
+			"ARRIVEDATWH",
+			"CANCELLED"
 		]);
 		$this->state = $state;
 		return $this;
 	}
 
 
-	public function getStateDate(): ?string
+	public function setStateDateTime($stateDateTime): self
 	{
-		return $this->stateDate;
-	}
-
-
-	public function setStateDate(string $stateDate)
-	{
-		$this->stateDate = $stateDate;
+		$stateDateTime = $this->_parseDate($stateDateTime);
+		$this->stateDateTime = $stateDateTime;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'state' => $this->getState(),
-			'stateDate' => $this->getStateDate(),
-		);
 	}
 }

@@ -1,141 +1,176 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient;
 
+use Closure;
+use DateTime;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\Utils;
 use HarmSmits\BolComClient\Exception\BearerTokenException;
 use HarmSmits\BolComClient\Exception\InvalidArgumentException;
 use HarmSmits\BolComClient\Exception\ProblemException;
+use HarmSmits\BolComClient\Models\BulkCommissionQuery;
 use HarmSmits\BolComClient\Models\BulkCommissionRequest;
 use HarmSmits\BolComClient\Models\BulkCommissionResponse;
 use HarmSmits\BolComClient\Models\BulkProcessStatusRequest;
-use HarmSmits\BolComClient\Models\Cancellation;
+use HarmSmits\BolComClient\Models\CanceledOrderRequest;
 use HarmSmits\BolComClient\Models\ChangeTransportRequest;
 use HarmSmits\BolComClient\Models\Commission;
 use HarmSmits\BolComClient\Models\CreateOfferExportRequest;
 use HarmSmits\BolComClient\Models\CreateOfferRequest;
-use HarmSmits\BolComClient\Models\DeliveryWindowsForInboundShipments;
+use HarmSmits\BolComClient\Models\CreateProductContentRequest;
+use HarmSmits\BolComClient\Models\CreateReturnRequest;
+use HarmSmits\BolComClient\Models\CreateSubscriptionRequest;
+use HarmSmits\BolComClient\Models\CreateUnpublishedOfferReportRequest;
+use HarmSmits\BolComClient\Models\DeliveryOptionsRequest;
+use HarmSmits\BolComClient\Models\DeliveryOptionsResponse;
+use HarmSmits\BolComClient\Models\DeliveryWindow;
 use HarmSmits\BolComClient\Models\Inbound;
 use HarmSmits\BolComClient\Models\InboundRequest;
 use HarmSmits\BolComClient\Models\Inbounds;
 use HarmSmits\BolComClient\Models\InventoryResponse;
-use HarmSmits\BolComClient\Models\InvoicesResponse;
+use HarmSmits\BolComClient\Models\KeySetResponse;
+use HarmSmits\BolComClient\Models\OfferInsights;
 use HarmSmits\BolComClient\Models\Order;
 use HarmSmits\BolComClient\Models\PerformanceIndicators;
 use HarmSmits\BolComClient\Models\Problem;
 use HarmSmits\BolComClient\Models\ProcessStatus;
 use HarmSmits\BolComClient\Models\ProcessStatusResponse;
 use HarmSmits\BolComClient\Models\ProductLabelsRequest;
-use HarmSmits\BolComClient\Models\PurchasableShippingLabelsResponse;
 use HarmSmits\BolComClient\Models\ReducedOrders;
 use HarmSmits\BolComClient\Models\RetailerOffer;
-use HarmSmits\BolComClient\Models\ReturnItem;
+use HarmSmits\BolComClient\Models\RetailPriceResponse;
+use HarmSmits\BolComClient\Models\Return_;
 use HarmSmits\BolComClient\Models\ReturnRequest;
 use HarmSmits\BolComClient\Models\ReturnsResponse;
+use HarmSmits\BolComClient\Models\SalesForecastResponse;
 use HarmSmits\BolComClient\Models\Shipment;
 use HarmSmits\BolComClient\Models\ShipmentRequest;
 use HarmSmits\BolComClient\Models\ShipmentResponse;
+use HarmSmits\BolComClient\Models\ShippingLabelRequest;
+use HarmSmits\BolComClient\Models\SubscriptionResponse;
+use HarmSmits\BolComClient\Models\SubscriptionsResponse;
 use HarmSmits\BolComClient\Models\TransportersResponse;
 use HarmSmits\BolComClient\Models\UpdateOfferPriceRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferStockRequest;
+use HarmSmits\BolComClient\Models\UpdateSubscriptionRequest;
+use HarmSmits\BolComClient\Models\ValidationReportResponse;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use function GuzzleHttp\Promise\unwrap;
+use Psr\Http\Message\StreamInterface;
+use Throwable;
 
 /**
  * Class Client
- * @method BulkCommissionResponse|Problem getCommissions(?BulkCommissionRequest $body = null)
- * @method PromiseInterface getCommissionsAsync(?BulkCommissionRequest $body = null)
- * @method Commission|Problem getCommission(string $ean, ?string $condition = null, ?int $price = null)
- * @method PromiseInterface getCommissionAsync(string $ean, ?string $condition = null, ?int $price = null)
- * @method Inbounds|Problem getInboundShipments(?string $reference = null,?string $bsku = null,?string $creationStart = null,?string $creationEnd = null,?string $state = null,?int $page = null)
- * @method PromiseInterface getInboundShipmentsAsync(?string $reference = null,?string $bsku = null,?string $creationStart = null,?string $creationEnd = null,?string $state = null,?int $page = null)
- * @method ProcessStatus|Problem createInboundShipment(?InboundRequest $body = null)
- * @method PromiseInterface createInboundShipmentAsync(?InboundRequest $body = null)
- * @method DeliveryWindowsForInboundShipments|Problem getDeliveryWindows(?string $deliveryDate = null, ?int $itemsToSend = null)
- * @method PromiseInterface getDeliveryWindowsAsync(?string $deliveryDate = null, ?int $itemsToSend = null)
- * @method TransportersResponse getFbbTransporters()
- * @method PromiseInterface getFbbTransportersAsync()
- * @method array|Problem getProductLabel(?ProductLabelsRequest $body = null)
- * @method PromiseInterface getProductLabelAsync(?ProductLabelsRequest $body = null)
- * @method Inbound|Problem getInboundShipment(int $inboundId)
+ * @method BulkCommissionResponse getCommissions(BulkCommissionRequest $body)
+ * @method PromiseInterface getCommissionsAsync(BulkCommissionRequest $body)
+ * @method Commission getCommission(string $ean, float $unitPrice, string $condition = BulkCommissionQuery::CONDITION_NEW)
+ * @method PromiseInterface getCommissionAsync(string $ean, float $unitPrice, string $condition = BulkCommissionQuery::CONDITION_NEW)
+ * @method ProcessStatus createProductContent(CreateProductContentRequest $body)
+ * @method PromiseInterface createProductContentAsync(CreateProductContentRequest $body)
+ * @method ValidationReportResponse getContentValidationReport(string $uploadId)
+ * @method PromiseInterface getContentValidationReportAsync(string $uploadId)
+ * @method Inbounds getInbounds(?string $reference = null, ?string $bsku = null, ?DateTime $creationStartDate = null, ?DateTime $creationEndDate = null, ?string $state = null, int $page = 1)
+ * @method PromiseInterface getInboundsAsync(?string $reference = null, ?string $bsku = null, ?DateTime $creationStartDate = null, ?DateTime $creationEndDate = null, ?string $state = null, int $page = 1)
+ * @method ProcessStatus createInboundShipment(InboundRequest $body)
+ * @method PromiseInterface createInboundShipmentAsync(InboundRequest $body)
+ * @method DeliveryWindow getDeliveryWindows(DateTime $deliveryDate, int $itemsToSend = 1)
+ * @method PromiseInterface getDeliveryWindowsAsync(DateTime $deliveryDate, int $itemsToSend = 1)
+ * @method TransportersResponse getInboundTransporters()
+ * @method PromiseInterface getInboundTransportersAsync()
+ * @method string getProductLabel(ProductLabelsRequest $body)
+ * @method PromiseInterface getProductLabelAsync(ProductLabelsRequest $body)
+ * @method Inbound getInboundShipment(int $inboundId)
  * @method PromiseInterface getInboundShipmentAsync(int $inboundId)
- * @method array|Problem getPackingList(int $inboundId)
+ * @method string getPackingList(int $inboundId)
  * @method PromiseInterface getPackingListAsync(int $inboundId)
- * @method array|Problem getShippingLabel(int $inboundId)
- * @method PromiseInterface getShippingLabelAsync(int $inboundId)
- * @method PerformanceIndicators getPerformanceIndicators(array $name, string $year, string $week)
- * @method PromiseInterface getPerformanceIndicatorsAsync(array $name, string $year, string $week)
- * @method InventoryResponse|Problem getInventories(?int $page = null, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
- * @method PromiseInterface getInventoriesAsync(?int $page = null, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
- * @method InvoicesResponse|Problem getInvoices(?string $periodStart = null, ?string $periodEnd = null)
- * @method PromiseInterface getInvoicesAsync(?string $periodStart = null, ?string $periodEnd = null)
- * @method array|Problem getInvoice(int $invoiceId)
- * @method PromiseInterface getInvoiceAsync(int $invoiceId)
- * @method array|Problem getInvoiceSpecification(int $invoiceId, ?int $page = null)
- * @method PromiseInterface getInvoiceSpecificationAsync(int $invoiceId, ?int $page = null)
- * @method ProcessStatus|Problem createOffer(?CreateOfferRequest $body = null)
- * @method PromiseInterface createOfferAsync(?CreateOfferRequest $body = null)
- * @method ProcessStatus|Problem requestOfferExportFile(?CreateOfferExportRequest $body = null)
- * @method PromiseInterface requestOfferExportFileAsync(?CreateOfferExportRequest $body = null)
- * @method null|Problem getOfferExportFile(string $offerExportId)
- * @method PromiseInterface getOfferExportFileAsync(string $offerExportId)
- * @method RetailerOffer|Problem getOffer(string $offerId)
+ * @method string getInboundShippingLabel(int $inboundId)
+ * @method PromiseInterface getInboundShippingLabelAsync(int $inboundId)
+ * @method OfferInsights getOfferInsights(string $offerId, string $period, int $numberOfPeriods, array $name)
+ * @method PromiseInterface getOfferInsightsAsync(string $offerId, string $period, int $numberOfPeriods, array $name)
+ * @method PerformanceIndicators getInsightsPerformanceIndicator(array $name, string $year, string $week)
+ * @method PromiseInterface getInsightsPerformanceIndicatorAsync(array $name, string $year, string $week)
+ * @method SalesForecastResponse getInsightsSalesForecast(string $offerId, int $weeksAhead)
+ * @method PromiseInterface getInsightsSalesForecastAsync(string $offerId, int $weeksAhead)
+ * @method InventoryResponse getInventory(int $page = 1, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
+ * @method PromiseInterface getInventoryAsync(int $page = 1, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
+ * @method ProcessStatus createOffer(CreateOfferRequest $body)
+ * @method PromiseInterface createOfferAsync(CreateOfferRequest $body)
+ * @method ProcessStatus requestOfferExportFile(CreateOfferExportRequest $body)
+ * @method PromiseInterface requestOfferExportFileAsync(CreateOfferExportRequest $body)
+ * @method string getOffersExport(string $reportId)
+ * @method PromiseInterface getOffersExportAsync(string $reportId)
+ * @method ProcessStatus createUnpublishedOfferReport(CreateUnpublishedOfferReportRequest $body)
+ * @method PromiseInterface createUnpublishedOfferReportAsync(CreateUnpublishedOfferReportRequest $body)
+ * @method string getUnpublishedOffer(string $reportId)
+ * @method PromiseInterface getUnpublishedOfferAsync(string $reportId)
+ * @method RetailerOffer getOffer(string $offerId)
  * @method PromiseInterface getOfferAsync(string $offerId)
- * @method ProcessStatus|Problem updateOffer(string $offerId, ?UpdateOfferRequest $body = null)
- * @method PromiseInterface updateOfferAsync(string $offerId, ?UpdateOfferRequest $body = null)
- * @method ProcessStatus|Problem deleteOffer(string $offerId)
+ * @method ProcessStatus updateOffer(string $offerId, UpdateOfferRequest $body)
+ * @method PromiseInterface updateOfferAsync(string $offerId, UpdateOfferRequest $body)
+ * @method ProcessStatus deleteOffer(string $offerId)
  * @method PromiseInterface deleteOfferAsync(string $offerId)
- * @method ProcessStatus|Problem updateOfferPrice(string $offerId, ?UpdateOfferPriceRequest $body = null)
- * @method PromiseInterface updateOfferPriceAsync(string $offerId, ?UpdateOfferPriceRequest $body = null)
- * @method ProcessStatus|Problem updateOfferStock(string $offerId, ?UpdateOfferStockRequest $body = null)
- * @method PromiseInterface updateOfferStockAsync(string $offerId, ?UpdateOfferStockRequest $body = null)
- * @method ReducedOrders getOrders(?int $page = null, ?string $fulfilmentMethod = null)
- * @method PromiseInterface getOrdersAsync(?int $page = null, ?string $fulfilmentMethod = null)
- * @method Order|Problem getOrder(string $orderId)
+ * @method ProcessStatus updateOfferPrice(string $offerId, UpdateOfferPriceRequest $body)
+ * @method PromiseInterface updateOfferPriceAsync(string $offerId, UpdateOfferPriceRequest $body)
+ * @method ProcessStatus updateOfferStock(string $offerId, UpdateOfferStockRequest $body)
+ * @method PromiseInterface updateOfferStockAsync(string $offerId, UpdateOfferStockRequest $body)
+ * @method ReducedOrders getOrders(int $page = 1, ?string $fulfilmentMethod = null)
+ * @method PromiseInterface getOrdersAsync(int $page = 1, ?string $fulfilmentMethod = null)
+ * @method ProcessStatus cancelOrder(CanceledOrderRequest $body)
+ * @method PromiseInterface cancelOrderAsync(CanceledOrderRequest $body)
+ * @method ProcessStatus shipOrder(ShipmentRequest $body)
+ * @method PromiseInterface shipOrderAsync(ShipmentRequest $body)
+ * @method Order getOrder(string $orderId)
  * @method PromiseInterface getOrderAsync(string $orderId)
- * @method ProcessStatus|Problem cancelOrder(string $orderItemId, ?Cancellation $body = null)
- * @method PromiseInterface cancelOrderAsync(string $orderItemId, ?Cancellation $body = null)
- * @method ProcessStatus|Problem shipOrder(string $orderItemId, ?ShipmentRequest $body = null)
- * @method PromiseInterface shipOrderAsync(string $orderItemId, ?ShipmentRequest $body = null)
- * @method ProcessStatusResponse|Problem getProcessStatuses(string $entityId, string $eventType, ?int $page = null)
- * @method PromiseInterface getProcessStatusesAsync(string $entityId, string $eventType, ?int $page = null)
- * @method ProcessStatusResponse|Problem queryProcessStatuses(?BulkProcessStatusRequest $body = null)
- * @method PromiseInterface queryProcessStatusesAsync(?BulkProcessStatusRequest $body = null)
- * @method ProcessStatus|Problem getProcessStatus(int $processStatusId)
+ * @method RetailPriceResponse getRetailPrice(string $ean)
+ * @method PromiseInterface getRetailPriceAsync(string $ean)
+ * @method ProcessStatusResponse getProcessStatuses(string $entityId, string $eventType, int $page = 1)
+ * @method PromiseInterface getProcessStatusesAsync(string $entityId, string $eventType, int $page = 1)
+ * @method ProcessStatusResponse queryProcessStatuses(BulkProcessStatusRequest $body)
+ * @method PromiseInterface queryProcessStatusesAsync(BulkProcessStatusRequest $body)
+ * @method ProcessStatus getProcessStatus(int $processStatusId)
  * @method PromiseInterface getProcessStatusAsync(int $processStatusId)
- * @method PurchasableShippingLabelsResponse|Problem getAvailableShippingLabels(string $orderItemId)
- * @method PromiseInterface getAvailableShippingLabelsAsync(string $orderItemId)
- * @method string getReductions()
- * @method PromiseInterface getReductionsAsync()
- * @method string getReductionsLatest()
- * @method PromiseInterface getReductionsLatestAsync()
- * @method ReturnsResponse|Problem getReturns(?int $page = null, ?bool $handled = null, ?string $fulfilmentMethod = null)
+ * @method ReturnsResponse getReturns(?int $page = null, ?bool $handled = null, ?string $fulfilmentMethod = null)
  * @method PromiseInterface getReturnsAsync(?int $page = null, ?bool $handled = null, ?string $fulfilmentMethod = null)
- * @method ReturnItem|Problem getReturn(int $rmaId)
- * @method PromiseInterface getReturnAsync(int $rmaId)
- * @method ProcessStatus|Problem updateReturn(int $rmaId, ?ReturnRequest $body = null)
- * @method PromiseInterface updateReturnAsync(int $rmaId, ?ReturnRequest $body = null)
- * @method ShipmentResponse|Problem getShipments(?int $page = null, ?string $fulfilmentMethod = null, ?string $orderId = null)
+ * @method ProcessStatus createReturn(CreateReturnRequest $body)
+ * @method PromiseInterface createReturnAsync(CreateReturnRequest $body)
+ * @method Return_ getReturn(int $returnId)
+ * @method PromiseInterface getReturnAsync(int $returnId)
+ * @method ProcessStatus updateReturn(int $rmaId, ReturnRequest $body)
+ * @method PromiseInterface updateReturnAsync(int $rmaId, ReturnRequest $body)
+ * @method ShipmentResponse getShipments(int $page = 1, ?string $fulfilmentMethod = null, ?string $orderId = null)
  * @method PromiseInterface getShipmentsAsync(?int $page = null, ?string $fulfilmentMethod = null, ?string $orderId = null)
- * @method Shipment|Problem getShipment(int $shipmentId)
+ * @method Shipment getShipment(int $shipmentId)
  * @method PromiseInterface getShipmentAsync(int $shipmentId)
- * @method ProcessStatus|Problem updateShipment(int $transportId, ?ChangeTransportRequest $body = null)
- * @method PromiseInterface updateShipmentAsync(int $transportId, ?ChangeTransportRequest $body = null)
- * @method array|Problem getShipmentLabel(int $transportId)
- * @method PromiseInterface getShipmentLabelAsync(int $transportId)
- *
+ * @method ShippingLabelRequest createShippingLabel(ShippingLabelRequest $body)
+ * @method PromiseInterface createShippingLabelAsync(ShippingLabelRequest $body)
+ * @method DeliveryOptionsResponse getDeliveryOptions(DeliveryOptionsRequest $body)
+ * @method PromiseInterface getDeliveryOptionsAsync(DeliveryOptionsRequest $body)
+ * @method string getShippingLabel(string $shippingLabelId)
+ * @method PromiseInterface getShippingLabelAsync(string $shippingLabelId)
+ * @method SubscriptionsResponse getSubscriptions()
+ * @method PromiseInterface getSubscriptionsAsync()
+ * @method ProcessStatus createSubscription(CreateSubscriptionRequest $body)
+ * @method PromiseInterface createSubscriptionAsync(CreateSubscriptionRequest $body)
+ * @method KeySetResponse getSubscriptionsSignatureKeys()
+ * @method PromiseInterface getSubscriptionsSignatureKeysAsync()
+ * @method ProcessStatus createSubscriptionTest()
+ * @method PromiseInterface createSubscriptionTestAsync()
+ * @method SubscriptionResponse getSubscription(int $subscriptionId)
+ * @method PromiseInterface getSubscriptionAsync(int $subscriptionId)
+ * @method ProcessStatus updateSubscription(int $subscriptionId, UpdateSubscriptionRequest $body)
+ * @method PromiseInterface updateSubscriptionAsync(int $subscriptionId, UpdateSubscriptionRequest $body)
+ * @method ProcessStatus deleteSubscription(int $subscriptionId)
+ * @method PromiseInterface deleteSubscriptionAsync(int $subscriptionId)
+ * @method ProcessStatus updateTransport(int $transportId, ChangeTransportRequest $body)
+ * @method PromiseInterface updateTransportAsync(int $transportId, ChangeTransportRequest $body)
  * @package HarmSmits\BolComClient
  */
 class Client
@@ -149,10 +184,10 @@ class Client
     /** @var \GuzzleHttp\Client */
     protected \GuzzleHttp\Client $client;
 
-    /** @var \HarmSmits\BolComClient\Request request dispatcher */
+    /** @var Request request dispatcher */
     protected Request $request;
 
-    /** @var \HarmSmits\BolComClient\Populator */
+    /** @var Populator */
     protected Populator $populator;
 
     /** @var string holds the current API client id */
@@ -185,12 +220,13 @@ class Client
      * @param string $clientSecret
      * @param int    $maxRateLimitTimeout
      *
-     * @throws \HarmSmits\BolComClient\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $clientId, string $clientSecret, int $maxRateLimitTimeout = 60)
     {
-        if (!$clientId || !$clientSecret)
+        if (!$clientId || !$clientSecret) {
             throw new InvalidArgumentException("Unable to obtain bearer token");
+        }
 
         $stack = HandlerStack::create();
         $stack->push(Middleware::mapRequest($this->getRequestHandler()));
@@ -211,25 +247,27 @@ class Client
      * @param array $promises
      *
      * @return array
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function unwrap(array $promises)
+    public function unwrap(array $promises): array
     {
-        return unwrap($promises);
+        return Utils::unwrap($promises);
     }
 
     /**
      * Get the retry handler
      *
-     * @return \Closure
+     * @return Closure
      */
-    private function getRetryHandler() {
-        return function ($retries, ?RequestInterface $request, ?ResponseInterface $response, ?RequestException $exception) {
+    private function getRetryHandler(): Closure
+    {
+        return function ($retries, ?RequestInterface $request, ?ResponseInterface $response,
+            ?RequestException $exception) {
             if (!$response || $response->getStatusCode() > 500 || ($exception && $exception instanceof ConnectException))
                 return false;
 
             if (($wait = $response->getHeaderLine("retry-after")) && intval($wait) <= $this->maxRateLimitTimeout) {
-                sleep (intval($wait));
+                sleep(intval($wait));
                 return true;
             }
 
@@ -240,9 +278,10 @@ class Client
     /**
      * Get the request handler
      *
-     * @return \Closure
+     * @return Closure
      */
-    private function getRequestHandler() {
+    private function getRequestHandler(): Closure
+    {
         return function (RequestInterface $request) {
             if (!$this->bearerTokenLock)
                 return $request->withHeader('Authorization', 'Bearer ' . $this->getBearerToken());
@@ -256,10 +295,11 @@ class Client
      * @param string $method
      * @param array  $args
      *
-     * @return array|string|\GuzzleHttp\Promise\Promise
-     * @throws \HarmSmits\BolComClient\Exception\ProblemException
+     * @return array|string|Promise
+     * @throws ProblemException|GuzzleException
      */
-    public function __call(string $method, array $args) {
+    public function __call(string $method, array $args)
+    {
         if (($async = substr($method, -5) === 'Async')) {
             $method = substr($method, 0, -5);
         }
@@ -281,7 +321,7 @@ class Client
      * @param $data
      * @param $responseFormat
      *
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return PromiseInterface
      */
     private function handleAsyncRequest($method, $url, $data, array $responseFormat): PromiseInterface
     {
@@ -299,10 +339,11 @@ class Client
      * @param       $data
      * @param array $responseFormat
      *
-     * @return array|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \HarmSmits\BolComClient\Exception\ProblemException
+     * @return array|mixed|StreamInterface
+     * @throws ProblemException|GuzzleException
      */
-    private function handleRequest($method, $url, $data, array $responseFormat) {
+    private function handleRequest($method, $url, $data, array $responseFormat)
+    {
         try {
             $result = $this->client->request($method, $url, $data);
         } catch (RequestException $exception) {
@@ -316,21 +357,23 @@ class Client
     /**
      * Handle the response accordingly
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param array                               $responseFormat
+     * @param ResponseInterface $response
+     * @param array             $responseFormat
      *
-     * @return array|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \HarmSmits\BolComClient\Exception\ProblemException
+     * @return array|mixed|StreamInterface
+     * @throws ProblemException
      */
-    private function handleResponse(ResponseInterface &$response, array &$responseFormat) {
-        if ($response->getStatusCode() === 400) {
+    private function handleResponse(ResponseInterface $response, array $responseFormat)
+    {
+        if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
             $body = json_decode($response->getBody(), true);
-            throw new ProblemException(
-                $this->populator->populate($responseFormat[$response->getStatusCode()], $body)
-            );
-        } else if ($responseFormat && isset($responseFormat[$response->getStatusCode()])) {
-            $body = json_decode($response->getBody(), true);
-            return $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
+            $result = $this->populator->populate($responseFormat[$response->getStatusCode()], $body);
+
+            if ($result instanceof Problem) {
+                throw new ProblemException($result);
+            }
+
+            return $result;
         } else {
             return $response->getBody();
         }
@@ -338,10 +381,12 @@ class Client
 
     /**
      * Set the current bearer token (for requests)
+     *
      * @param string $bearerToken
      * @param int    $ttl
      * @param int    $diff
-     * @throws \HarmSmits\BolComClient\Exception\InvalidArgumentException
+     *
+     * @throws InvalidArgumentException
      */
     private function setBearerToken(string $bearerToken, int $ttl, int $diff = 1)
     {
@@ -356,16 +401,15 @@ class Client
     /**
      * Get a bearer token
      *
-     * @throws \HarmSmits\BolComClient\Exception\BearerTokenException
-     * @throws \HarmSmits\BolComClient\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException|GuzzleException|BearerTokenException
      */
-    private function getBearerToken()
+    private function getBearerToken(): string
     {
         $this->bearerTokenLock = true;
 
         if (empty($this->bearerToken) || time() - $this->bearerTtl + 5 >= $this->bearerTimestamp) {
             $data = $this->obtainBearerToken();
-            $this->setBearerToken($data['access_token'], (int) $data['expires_in']);
+            $this->setBearerToken($data['access_token'], (int)$data['expires_in']);
         }
 
         $this->bearerTokenLock = false;
@@ -377,9 +421,10 @@ class Client
      * Obtain a bearer token
      *
      * @return mixed
-     * @throws \HarmSmits\BolComClient\Exception\BearerTokenException
+     * @throws BearerTokenException|GuzzleException
      */
-    private function obtainBearerToken() {
+    private function obtainBearerToken()
+    {
         $request = $this->client->request(
             "POST",
             self::API_AUTH_LIVE . "?grant_type=client_credentials",

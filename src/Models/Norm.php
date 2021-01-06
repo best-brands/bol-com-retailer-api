@@ -1,61 +1,38 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Norm extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getCondition()
+ * @method null|float getValue()
+ * @method self setValue(float $value)
+ */
+final class Norm extends \HarmSmits\BolComClient\Models\AModel
 {
+	const CONDITION__ = '>=';
+
 	/**
 	 * Condition norm for this indicator.
 	 * @var string
 	 */
-	private ?string $condition = null;
+	protected ?string $condition = null;
 
 	/**
 	 * Service norm for this indicator.
 	 * @var float
 	 */
-	private ?float $value = null;
+	protected ?float $value = null;
 
 
-	public function getCondition(): ?string
+	public function setCondition(string $condition): self
 	{
-		return $this->condition;
-	}
-
-
-	public function setCondition(string $condition)
-	{
+		$this->_checkEnumBounds($condition, [
+			"<=",
+			">="
+		]);
 		$this->condition = $condition;
 		return $this;
-	}
-
-
-	public function getValue(): ?float
-	{
-		return round($this->value, 1);
-	}
-
-
-	public function setValue(float $value)
-	{
-		$this->value = $value;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'condition' => $this->getCondition(),
-			'value' => $this->getValue(),
-		);
 	}
 }

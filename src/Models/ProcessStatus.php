@@ -1,16 +1,25 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class ProcessStatus extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|int getId()
+ * @method self setId(int $id)
+ * @method null|string getEntityId()
+ * @method self setEntityId(string $entityId)
+ * @method null|string getEventType()
+ * @method self setEventType(string $eventType)
+ * @method null|string getDescription()
+ * @method self setDescription(string $description)
+ * @method null|string getStatus()
+ * @method null|string getErrorMessage()
+ * @method self setErrorMessage(string $errorMessage)
+ * @method null|DateTime getCreateTimestamp()
+ * @method null|array getLinks()
+ */
+final class ProcessStatus extends \HarmSmits\BolComClient\Models\AModel
 {
 	const STATUS_PENDING = 'PENDING';
 	const STATUS_SUCCESS = 'SUCCESS';
@@ -21,111 +30,53 @@ final class ProcessStatus extends \HarmSmits\BolComClient\Objects\AObject
 	 * The process status id.
 	 * @var int
 	 */
-	private ?int $id = null;
+	protected ?int $id = null;
 
 	/**
 	 * The id of the object being processed. E.g. in case of a shipment process id, you
 	 * will receive the id of the order item being processed.
 	 * @var string
 	 */
-	private ?string $entityId = null;
+	protected ?string $entityId = null;
 
 	/**
 	 * Name of the requested action that is being processed.
 	 * @var string
 	 */
-	private ?string $eventType = null;
+	protected ?string $eventType = null;
 
 	/**
 	 * Describes the action that is being processed.
 	 * @var string
 	 */
-	private ?string $description = null;
+	protected ?string $description = null;
 
 	/**
 	 * Status of the action being processed.
 	 * @var string
 	 */
-	private ?string $status = null;
+	protected ?string $status = null;
 
 	/**
 	 * Shows error message if applicable.
 	 * @var string
 	 */
-	private ?string $errorMessage = null;
+	protected ?string $errorMessage = null;
 
 	/**
 	 * Time of creation of the response.
-	 * @var string
+	 * @var DateTime
 	 */
-	private ?string $createTimestamp = null;
+	protected ?DateTime $createTimestamp = null;
 
 	/**
 	 * Lists available actions applicable to this endpoint.
 	 * @var Link[]
 	 */
-	private array $links = [];
+	protected array $links = [];
 
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
-
-
-	public function setId(int $id)
-	{
-		$this->id = $id;
-		return $this;
-	}
-
-
-	public function getEntityId(): ?string
-	{
-		return $this->entityId;
-	}
-
-
-	public function setEntityId(string $entityId)
-	{
-		$this->entityId = $entityId;
-		return $this;
-	}
-
-
-	public function getEventType(): ?string
-	{
-		return $this->eventType;
-	}
-
-
-	public function setEventType(string $eventType)
-	{
-		$this->eventType = $eventType;
-		return $this;
-	}
-
-
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
-
-
-	public function setDescription(string $description)
-	{
-		$this->description = $description;
-		return $this;
-	}
-
-
-	public function getStatus(): ?string
-	{
-		return $this->status;
-	}
-
-
-	public function setStatus(string $status)
+	public function setStatus(string $status): self
 	{
 		$this->_checkEnumBounds($status, [
 			"PENDING",
@@ -138,57 +89,18 @@ final class ProcessStatus extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getErrorMessage(): ?string
+	public function setCreateTimestamp($createTimestamp): self
 	{
-		return $this->errorMessage;
-	}
-
-
-	public function setErrorMessage(string $errorMessage)
-	{
-		$this->errorMessage = $errorMessage;
-		return $this;
-	}
-
-
-	public function getCreateTimestamp(): ?string
-	{
-		return $this->createTimestamp;
-	}
-
-
-	public function setCreateTimestamp(string $createTimestamp)
-	{
+		$createTimestamp = $this->_parseDate($createTimestamp);
 		$this->createTimestamp = $createTimestamp;
 		return $this;
 	}
 
 
-	public function getLinks(): ?array
-	{
-		return $this->links;
-	}
-
-
-	public function setLinks(array $links)
+	public function setLinks(array $links): self
 	{
 		$this->_checkIfPureArray($links, \HarmSmits\BolComClient\Models\Link::class);
 		$this->links = $links;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'id' => $this->getId(),
-			'entityId' => $this->getEntityId(),
-			'eventType' => $this->getEventType(),
-			'description' => $this->getDescription(),
-			'status' => $this->getStatus(),
-			'errorMessage' => $this->getErrorMessage(),
-			'createTimestamp' => $this->getCreateTimestamp(),
-			'links' => $this->_convertPureArray($this->getLinks()),
-		);
 	}
 }

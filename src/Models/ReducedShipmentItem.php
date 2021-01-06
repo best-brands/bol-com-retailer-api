@@ -1,61 +1,26 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class ReducedShipmentItem extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getOrderItemId()
+ * @method self setOrderItemId(string $orderItemId)
+ * @method null|string getEan()
+ * @method self setEan(string $ean)
+ */
+final class ReducedShipmentItem extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * A unique identifier for the item of the order that was shipped in this shipment.
 	 * @var string
 	 */
-	private ?string $orderItemId = null;
+	protected ?string $orderItemId = null;
 
 	/**
-	 * A unique identifier for the order this shipment is related to.
+	 * The EAN number associated with this product.
 	 * @var string
 	 */
-	private ?string $orderId = null;
-
-
-	public function getOrderItemId(): ?string
-	{
-		return $this->orderItemId;
-	}
-
-
-	public function setOrderItemId(string $orderItemId)
-	{
-		$this->orderItemId = $orderItemId;
-		return $this;
-	}
-
-
-	public function getOrderId(): ?string
-	{
-		return $this->orderId;
-	}
-
-
-	public function setOrderId(string $orderId)
-	{
-		$this->orderId = $orderId;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'orderItemId' => $this->getOrderItemId(),
-			'orderId' => $this->getOrderId(),
-		);
-	}
+	protected ?string $ean = null;
 }

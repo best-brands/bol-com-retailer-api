@@ -1,61 +1,40 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class TimeSlot extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|DateTime getStartDateTime()
+ * @method null|DateTime getEndDateTime()
+ */
+final class TimeSlot extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * The timeslot start date and time in ISO 8601 format.
-	 * @var string
+	 * @var DateTime
 	 */
-	private string $start;
+	protected DateTime $startDateTime;
 
 	/**
 	 * The timeslot end date and time in ISO 8601 format.
-	 * @var string
+	 * @var DateTime
 	 */
-	private string $end;
+	protected DateTime $endDateTime;
 
 
-	public function getStart(): ?string
+	public function setStartDateTime($startDateTime): self
 	{
-		return $this->start;
-	}
-
-
-	public function setStart(string $start)
-	{
-		$this->start = $start;
+		$startDateTime = $this->_parseDate($startDateTime);
+		$this->startDateTime = $startDateTime;
 		return $this;
 	}
 
 
-	public function getEnd(): ?string
+	public function setEndDateTime($endDateTime): self
 	{
-		return $this->end;
-	}
-
-
-	public function setEnd(string $end)
-	{
-		$this->end = $end;
+		$endDateTime = $this->_parseDate($endDateTime);
+		$this->endDateTime = $endDateTime;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'start' => $this->getStart(),
-			'end' => $this->getEnd(),
-		);
 	}
 }

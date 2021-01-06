@@ -1,7 +1,7 @@
 {
   "name": "harm-smits/bol-com-retailer-api",
   "type": "library",
-  "description": "A PHP Client for the BOL.com API with async support and full object mapping",
+  "description": "A PHP Client for the BOL.com v4 API with async support and full object mapping",
   "keywords": [
     "api",
     "php",
@@ -9,7 +9,7 @@
     "bol"
   ],
   "homepage": "http://github.com/harm-smits/bol-com-retailer-api",
-  "license": "proprietary",
+  "license": "MIT",
   "authors": [
     {
       "name": "Harm Smits",
@@ -19,11 +19,11 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^6.5.3"
+    "guzzlehttp/guzzle": "^7.2.0"
   },
   "require-dev": {
-    "nette/php-generator": "^3.3",
-    "phpunit/phpunit": "^9.1"
+    "nette/php-generator": "^v3.5.1",
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "psr-4": {

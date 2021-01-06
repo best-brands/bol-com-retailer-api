@@ -1,167 +1,77 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Shipment extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|int getShipmentId()
+ * @method self setShipmentId(int $shipmentId)
+ * @method null|DateTime getShipmentDateTime()
+ * @method null|string getShipmentReference()
+ * @method self setShipmentReference(string $shipmentReference)
+ * @method null|bool getPickUpPoint()
+ * @method self setPickUpPoint(bool $pickUpPoint)
+ * @method null|ShipmentOrder getOrder()
+ * @method self setOrder(ShipmentOrder $order)
+ * @method null|ShipmentDetails getShipmentDetails()
+ * @method self setShipmentDetails(ShipmentDetails $shipmentDetails)
+ * @method null|BillingDetails getBillingDetails()
+ * @method self setBillingDetails(BillingDetails $billingDetails)
+ * @method null|array getShipmentItems()
+ * @method null|ShipmentTransport getTransport()
+ * @method self setTransport(ShipmentTransport $transport)
+ */
+final class Shipment extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * A unique identifier for this shipment.
 	 * @var int
 	 */
-	private ?int $shipmentId = null;
-
-	/**
-	 * Indicates whether this order is shipped to a Pick Up Point.
-	 * @var bool
-	 */
-	private ?bool $pickUpPoint = null;
+	protected ?int $shipmentId = null;
 
 	/**
 	 * The date and time in ISO 8601 format when the order item was shipped.
-	 * @var string
+	 * @var DateTime
 	 */
-	private ?string $shipmentDate = null;
+	protected ?DateTime $shipmentDateTime = null;
 
 	/**
 	 * Reference supplied by the user when this item was shipped.
 	 * @var string
 	 */
-	private ?string $shipmentReference = null;
+	protected ?string $shipmentReference = null;
+
+	/**
+	 * Indicates whether this order is shipped to a Pick Up Point.
+	 * @var bool
+	 */
+	protected ?bool $pickUpPoint = null;
+
+	protected ShipmentOrder $order;
+
+	protected ?ShipmentDetails $shipmentDetails = null;
+
+	protected ?BillingDetails $billingDetails = null;
 
 	/** @var ShipmentItem[] */
-	private array $shipmentItems = [];
+	protected array $shipmentItems = [];
 
-	private ?Transport $transport = null;
-
-	private ?CustomerDetails $customerDetails = null;
-
-	private ?CustomerDetails $billingDetails = null;
+	protected ?ShipmentTransport $transport = null;
 
 
-	public function getShipmentId(): ?int
+	public function setShipmentDateTime($shipmentDateTime): self
 	{
-		return $this->shipmentId;
-	}
-
-
-	public function setShipmentId(int $shipmentId)
-	{
-		$this->shipmentId = $shipmentId;
+		$shipmentDateTime = $this->_parseDate($shipmentDateTime);
+		$this->shipmentDateTime = $shipmentDateTime;
 		return $this;
 	}
 
 
-	public function getPickUpPoint(): ?bool
-	{
-		return $this->pickUpPoint;
-	}
-
-
-	public function setPickUpPoint(bool $pickUpPoint)
-	{
-		$this->pickUpPoint = $pickUpPoint;
-		return $this;
-	}
-
-
-	public function getShipmentDate(): ?string
-	{
-		return $this->shipmentDate;
-	}
-
-
-	public function setShipmentDate(string $shipmentDate)
-	{
-		$this->shipmentDate = $shipmentDate;
-		return $this;
-	}
-
-
-	public function getShipmentReference(): ?string
-	{
-		return $this->shipmentReference;
-	}
-
-
-	public function setShipmentReference(string $shipmentReference)
-	{
-		$this->shipmentReference = $shipmentReference;
-		return $this;
-	}
-
-
-	public function getShipmentItems(): ?array
-	{
-		return $this->shipmentItems;
-	}
-
-
-	public function setShipmentItems(array $shipmentItems)
+	public function setShipmentItems(array $shipmentItems): self
 	{
 		$this->_checkIfPureArray($shipmentItems, \HarmSmits\BolComClient\Models\ShipmentItem::class);
 		$this->shipmentItems = $shipmentItems;
 		return $this;
-	}
-
-
-	public function getTransport(): ?Transport
-	{
-		return $this->transport;
-	}
-
-
-	public function setTransport(Transport $transport)
-	{
-		$this->transport = $transport;
-		return $this;
-	}
-
-
-	public function getCustomerDetails(): ?CustomerDetails
-	{
-		return $this->customerDetails;
-	}
-
-
-	public function setCustomerDetails(CustomerDetails $customerDetails)
-	{
-		$this->customerDetails = $customerDetails;
-		return $this;
-	}
-
-
-	public function getBillingDetails(): ?CustomerDetails
-	{
-		return $this->billingDetails;
-	}
-
-
-	public function setBillingDetails(CustomerDetails $billingDetails)
-	{
-		$this->billingDetails = $billingDetails;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'shipmentId' => $this->getShipmentId(),
-			'pickUpPoint' => $this->getPickUpPoint(),
-			'shipmentDate' => $this->getShipmentDate(),
-			'shipmentReference' => $this->getShipmentReference(),
-			'shipmentItems' => $this->_convertPureArray($this->getShipmentItems()),
-			'transport' => $this->getTransport()->toArray(),
-			'customerDetails' => $this->getCustomerDetails()->toArray(),
-			'billingDetails' => $this->getBillingDetails()->toArray(),
-		);
 	}
 }

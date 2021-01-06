@@ -1,115 +1,61 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Order extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getOrderId()
+ * @method self setOrderId(string $orderId)
+ * @method null|bool getPickUpPoint()
+ * @method self setPickUpPoint(bool $pickUpPoint)
+ * @method null|DateTime getOrderPlacedDateTime()
+ * @method null|ShipmentDetails getShipmentDetails()
+ * @method self setShipmentDetails(ShipmentDetails $shipmentDetails)
+ * @method null|BillingDetails getBillingDetails()
+ * @method self setBillingDetails(BillingDetails $billingDetails)
+ * @method null|array getOrderItems()
+ */
+final class Order extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * The order id.
 	 * @var string
 	 */
-	private ?string $orderId = null;
+	protected ?string $orderId = null;
 
 	/**
 	 * Indicates whether this order is shipped to a Pick Up Point.
 	 * @var bool
 	 */
-	private ?bool $pickUpPoint = null;
+	protected ?bool $pickUpPoint = null;
 
 	/**
 	 * The date and time in ISO 8601 format when the order was placed.
-	 * @var string
+	 * @var DateTime
 	 */
-	private ?string $dateTimeOrderPlaced = null;
+	protected ?DateTime $orderPlacedDateTime = null;
 
-	private OrderCustomerDetails $customerDetails;
+	protected ShipmentDetails $shipmentDetails;
 
-	/** @var OrderItem[] */
-	private array $orderItems = [];
+	protected ?BillingDetails $billingDetails = null;
+
+	/** @var OrderOrderItem[] */
+	protected array $orderItems = [];
 
 
-	public function getOrderId(): ?string
+	public function setOrderPlacedDateTime($orderPlacedDateTime): self
 	{
-		return $this->orderId;
-	}
-
-
-	public function setOrderId(string $orderId)
-	{
-		$this->orderId = $orderId;
+		$orderPlacedDateTime = $this->_parseDate($orderPlacedDateTime);
+		$this->orderPlacedDateTime = $orderPlacedDateTime;
 		return $this;
 	}
 
 
-	public function getPickUpPoint(): ?bool
+	public function setOrderItems(array $orderItems): self
 	{
-		return $this->pickUpPoint;
-	}
-
-
-	public function setPickUpPoint(bool $pickUpPoint)
-	{
-		$this->pickUpPoint = $pickUpPoint;
-		return $this;
-	}
-
-
-	public function getDateTimeOrderPlaced(): ?string
-	{
-		return $this->dateTimeOrderPlaced;
-	}
-
-
-	public function setDateTimeOrderPlaced(string $dateTimeOrderPlaced)
-	{
-		$this->dateTimeOrderPlaced = $dateTimeOrderPlaced;
-		return $this;
-	}
-
-
-	public function getCustomerDetails(): ?OrderCustomerDetails
-	{
-		return $this->customerDetails;
-	}
-
-
-	public function setCustomerDetails(OrderCustomerDetails $customerDetails)
-	{
-		$this->customerDetails = $customerDetails;
-		return $this;
-	}
-
-
-	public function getOrderItems(): ?array
-	{
-		return $this->orderItems;
-	}
-
-
-	public function setOrderItems(array $orderItems)
-	{
-		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\OrderItem::class);
+		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\OrderOrderItem::class);
 		$this->orderItems = $orderItems;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'orderId' => $this->getOrderId(),
-			'pickUpPoint' => $this->getPickUpPoint(),
-			'dateTimeOrderPlaced' => $this->getDateTimeOrderPlaced(),
-			'customerDetails' => $this->getCustomerDetails()->toArray(),
-			'orderItems' => $this->_convertPureArray($this->getOrderItems()),
-		);
 	}
 }

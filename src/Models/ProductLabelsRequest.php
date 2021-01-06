@@ -1,16 +1,14 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class ProductLabelsRequest extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getFormat()
+ * @method null|array getProductLabels()
+ */
+final class ProductLabelsRequest extends \HarmSmits\BolComClient\Models\AModel
 {
 	const FORMAT_AVERY_J8159 = 'AVERY_J8159';
 	const FORMAT_AVERY_J8160 = 'AVERY_J8160';
@@ -20,23 +18,16 @@ final class ProductLabelsRequest extends \HarmSmits\BolComClient\Objects\AObject
 	const FORMAT_ZEBRA_Z_PERFORM_1000T = 'ZEBRA_Z_PERFORM_1000T';
 
 	/**
-	 * The printer format to create labels for, defaults to AVERY_J8159 if not
-	 * provided.
+	 * The printer format to create labels for.
 	 * @var string
 	 */
-	private ?string $format = null;
+	protected ?string $format = null;
 
 	/** @var ProductLabel[] */
-	private array $productLabels = [];
+	protected array $productLabels = [];
 
 
-	public function getFormat(): ?string
-	{
-		return $this->format;
-	}
-
-
-	public function setFormat(string $format)
+	public function setFormat(string $format): self
 	{
 		$this->_checkEnumBounds($format, [
 			"AVERY_J8159",
@@ -51,26 +42,11 @@ final class ProductLabelsRequest extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getProductLabels(): ?array
-	{
-		return $this->productLabels;
-	}
-
-
-	public function setProductLabels(array $productLabels)
+	public function setProductLabels(array $productLabels): self
 	{
 		$this->_checkIfPureArray($productLabels, \HarmSmits\BolComClient\Models\ProductLabel::class);
 		$this->_checkArrayBounds($productLabels, 1, 2147483647);
 		$this->productLabels = $productLabels;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'format' => $this->getFormat(),
-			'productLabels' => $this->_convertPureArray($this->getProductLabels()),
-		);
 	}
 }

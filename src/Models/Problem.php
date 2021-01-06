@@ -1,160 +1,71 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Problem extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getType()
+ * @method self setType(string $type)
+ * @method null|string getTitle()
+ * @method self setTitle(string $title)
+ * @method null|int getStatus()
+ * @method self setStatus(int $status)
+ * @method null|string getDetail()
+ * @method self setDetail(string $detail)
+ * @method null|string getHost()
+ * @method self setHost(string $host)
+ * @method null|string getInstance()
+ * @method self setInstance(string $instance)
+ * @method null|array getViolations()
+ */
+final class Problem extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * Type URI for this problem. Fixed value: https://api.bol.com/problems.
 	 * @var string
 	 */
-	private ?string $type = null;
+	protected ?string $type = null;
 
 	/**
 	 * Title describing the nature of the problem.
 	 * @var string
 	 */
-	private ?string $title = null;
+	protected ?string $title = null;
 
 	/**
 	 * HTTP status returned from the endpoint causing the problem.
 	 * @var int
 	 */
-	private ?int $status = null;
+	protected ?int $status = null;
 
 	/**
 	 * Detailed error message describing in additional detail what caused the service
 	 * to return this problem.
 	 * @var string
 	 */
-	private ?string $detail = null;
+	protected ?string $detail = null;
 
 	/**
 	 * Host identifier describing the server instance that reported the problem.
 	 * @var string
 	 */
-	private ?string $host = null;
+	protected ?string $host = null;
 
 	/**
 	 * Full URI path of the resource that reported the problem.
 	 * @var string
 	 */
-	private ?string $instance = null;
+	protected ?string $instance = null;
 
 	/** @var Violation[] */
-	private array $violations = [];
+	protected array $violations = [];
 
 
-	public function getType(): ?string
-	{
-		return $this->type;
-	}
-
-
-	public function setType(string $type)
-	{
-		$this->type = $type;
-		return $this;
-	}
-
-
-	public function getTitle(): ?string
-	{
-		return $this->title;
-	}
-
-
-	public function setTitle(string $title)
-	{
-		$this->title = $title;
-		return $this;
-	}
-
-
-	public function getStatus(): ?int
-	{
-		return $this->status;
-	}
-
-
-	public function setStatus(int $status)
-	{
-		$this->status = $status;
-		return $this;
-	}
-
-
-	public function getDetail(): ?string
-	{
-		return $this->detail;
-	}
-
-
-	public function setDetail(string $detail)
-	{
-		$this->detail = $detail;
-		return $this;
-	}
-
-
-	public function getHost(): ?string
-	{
-		return $this->host;
-	}
-
-
-	public function setHost(string $host)
-	{
-		$this->host = $host;
-		return $this;
-	}
-
-
-	public function getInstance(): ?string
-	{
-		return $this->instance;
-	}
-
-
-	public function setInstance(string $instance)
-	{
-		$this->instance = $instance;
-		return $this;
-	}
-
-
-	public function getViolations(): ?array
-	{
-		return $this->violations;
-	}
-
-
-	public function setViolations(array $violations)
+	public function setViolations(array $violations): self
 	{
 		$this->_checkIfPureArray($violations, \HarmSmits\BolComClient\Models\Violation::class);
 		$this->violations = $violations;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'type' => $this->getType(),
-			'title' => $this->getTitle(),
-			'status' => $this->getStatus(),
-			'detail' => $this->getDetail(),
-			'host' => $this->getHost(),
-			'instance' => $this->getInstance(),
-			'violations' => $this->_convertPureArray($this->getViolations()),
-		);
 	}
 }

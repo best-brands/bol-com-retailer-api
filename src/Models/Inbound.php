@@ -1,238 +1,136 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Inbound extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|int getInboundId()
+ * @method self setInboundId(int $inboundId)
+ * @method null|string getReference()
+ * @method self setReference(string $reference)
+ * @method null|DateTime getCreationDateTime()
+ * @method null|string getState()
+ * @method null|bool getLabellingService()
+ * @method self setLabellingService(bool $labellingService)
+ * @method null|int getAnnouncedBSKUs()
+ * @method self setAnnouncedBSKUs(int $announcedBSKUs)
+ * @method null|int getAnnouncedQuantity()
+ * @method self setAnnouncedQuantity(int $announcedQuantity)
+ * @method null|int getReceivedBSKUs()
+ * @method self setReceivedBSKUs(int $receivedBSKUs)
+ * @method null|int getReceivedQuantity()
+ * @method self setReceivedQuantity(int $receivedQuantity)
+ * @method null|TimeSlot getTimeSlot()
+ * @method self setTimeSlot(TimeSlot $timeSlot)
+ * @method null|array getProducts()
+ * @method null|array getStateTransitions()
+ * @method null|Transporter getInboundTransporter()
+ * @method self setInboundTransporter(Transporter $inboundTransporter)
+ */
+final class Inbound extends \HarmSmits\BolComClient\Models\AModel
 {
-	const STATE_Draft = 'Draft';
-	const STATE_PreAnnounced = 'PreAnnounced';
-	const STATE_ArrivedAtWH = 'ArrivedAtWH';
-	const STATE_Cancelled = 'Cancelled';
+	const STATE_DRAFT = 'DRAFT';
+	const STATE_PREANNOUNCED = 'PREANNOUNCED';
+	const STATE_ARRIVEDATWH = 'ARRIVEDATWH';
+	const STATE_CANCELLED = 'CANCELLED';
 
 	/**
 	 * A unique identifier for an inbound shipment.
 	 * @var int
 	 */
-	private int $id;
+	protected int $inboundId;
 
 	/**
 	 * A user defined reference to identify the inbound shipment.
 	 * @var string
 	 */
-	private string $reference;
+	protected string $reference;
 
 	/**
-	 * The date the inbound shipment was created in ISO 8601 format.
-	 * @var string
+	 * The date and time the inbound shipment was created, in ISO 8601 format.
+	 * @var DateTime
 	 */
-	private ?string $creationDate = null;
+	protected ?DateTime $creationDateTime = null;
 
 	/**
 	 * The current state of the inbound shipment.
 	 * @var string
 	 */
-	private string $state;
+	protected string $state;
 
 	/**
 	 * Indicates whether the inbound will be labeled by bol.com or not.
 	 * @var bool
 	 */
-	private bool $labellingService;
+	protected bool $labellingService;
 
 	/**
 	 * The number of announced BSKU‘s.
 	 * @var int
 	 */
-	private int $announcedBSKUs;
+	protected int $announcedBSKUs;
 
 	/**
 	 * The number of announced items.
 	 * @var int
 	 */
-	private int $announcedQuantity;
+	protected int $announcedQuantity;
 
 	/**
-	 * The number of received BSKU‘s.
+	 * Number of lines that were scanned in our warehouse. This value does not provide
+	 * the unique number of received bsku's.
 	 * @var int
 	 */
-	private int $receivedBSKUs;
+	protected int $receivedBSKUs;
 
 	/**
 	 * The number of received items.
 	 * @var int
 	 */
-	private int $receivedQuantity;
+	protected int $receivedQuantity;
 
-	/** The chosen timeslot for the inbound shipment. */
-	private ?TimeSlot $timeSlot = null;
+	/** The timeslot within which your shipment is expected to arrive at the warehouse. */
+	protected ?TimeSlot $timeSlot = null;
 
 	/**
 	 * List of products.
 	 * @var Product[]
 	 */
-	private array $products = [];
+	protected array $products = [];
 
 	/**
 	 * List of state transitions.
 	 * @var StateTransition[]
 	 */
-	private array $stateTransitions = [];
+	protected array $stateTransitions = [];
 
 	/** Transporter for the inbound shipment. */
-	private Transporter $fbbTransporter;
+	protected Transporter $inboundTransporter;
 
 
-	public function getId(): ?int
+	public function setCreationDateTime($creationDateTime): self
 	{
-		return $this->id;
-	}
-
-
-	public function setId(int $id)
-	{
-		$this->id = $id;
+		$creationDateTime = $this->_parseDate($creationDateTime);
+		$this->creationDateTime = $creationDateTime;
 		return $this;
 	}
 
 
-	public function getReference(): ?string
-	{
-		return $this->reference;
-	}
-
-
-	public function setReference(string $reference)
-	{
-		$this->reference = $reference;
-		return $this;
-	}
-
-
-	public function getCreationDate(): ?string
-	{
-		return $this->creationDate;
-	}
-
-
-	public function setCreationDate(string $creationDate)
-	{
-		$this->creationDate = $creationDate;
-		return $this;
-	}
-
-
-	public function getState(): ?string
-	{
-		return $this->state;
-	}
-
-
-	public function setState(string $state)
+	public function setState(string $state): self
 	{
 		$this->_checkEnumBounds($state, [
-			"Draft",
-			"PreAnnounced",
-			"ArrivedAtWH",
-			"Cancelled"
+			"DRAFT",
+			"PREANNOUNCED",
+			"ARRIVEDATWH",
+			"CANCELLED"
 		]);
 		$this->state = $state;
 		return $this;
 	}
 
 
-	public function getLabellingService(): ?bool
-	{
-		return $this->labellingService;
-	}
-
-
-	public function setLabellingService(bool $labellingService)
-	{
-		$this->labellingService = $labellingService;
-		return $this;
-	}
-
-
-	public function getAnnouncedBSKUs(): ?int
-	{
-		return $this->announcedBSKUs;
-	}
-
-
-	public function setAnnouncedBSKUs(int $announcedBSKUs)
-	{
-		$this->announcedBSKUs = $announcedBSKUs;
-		return $this;
-	}
-
-
-	public function getAnnouncedQuantity(): ?int
-	{
-		return $this->announcedQuantity;
-	}
-
-
-	public function setAnnouncedQuantity(int $announcedQuantity)
-	{
-		$this->announcedQuantity = $announcedQuantity;
-		return $this;
-	}
-
-
-	public function getReceivedBSKUs(): ?int
-	{
-		return $this->receivedBSKUs;
-	}
-
-
-	public function setReceivedBSKUs(int $receivedBSKUs)
-	{
-		$this->receivedBSKUs = $receivedBSKUs;
-		return $this;
-	}
-
-
-	public function getReceivedQuantity(): ?int
-	{
-		return $this->receivedQuantity;
-	}
-
-
-	public function setReceivedQuantity(int $receivedQuantity)
-	{
-		$this->receivedQuantity = $receivedQuantity;
-		return $this;
-	}
-
-
-	public function getTimeSlot(): ?TimeSlot
-	{
-		return $this->timeSlot;
-	}
-
-
-	public function setTimeSlot(TimeSlot $timeSlot)
-	{
-		$this->timeSlot = $timeSlot;
-		return $this;
-	}
-
-
-	public function getProducts(): ?array
-	{
-		return $this->products;
-	}
-
-
-	public function setProducts(array $products)
+	public function setProducts(array $products): self
 	{
 		$this->_checkIfPureArray($products, \HarmSmits\BolComClient\Models\Product::class);
 		$this->products = $products;
@@ -240,49 +138,10 @@ final class Inbound extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getStateTransitions(): ?array
-	{
-		return $this->stateTransitions;
-	}
-
-
-	public function setStateTransitions(array $stateTransitions)
+	public function setStateTransitions(array $stateTransitions): self
 	{
 		$this->_checkIfPureArray($stateTransitions, \HarmSmits\BolComClient\Models\StateTransition::class);
 		$this->stateTransitions = $stateTransitions;
 		return $this;
-	}
-
-
-	public function getFbbTransporter(): ?Transporter
-	{
-		return $this->fbbTransporter;
-	}
-
-
-	public function setFbbTransporter(Transporter $fbbTransporter)
-	{
-		$this->fbbTransporter = $fbbTransporter;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'id' => $this->getId(),
-			'reference' => $this->getReference(),
-			'creationDate' => $this->getCreationDate(),
-			'state' => $this->getState(),
-			'labellingService' => $this->getLabellingService(),
-			'announcedBSKUs' => $this->getAnnouncedBSKUs(),
-			'announcedQuantity' => $this->getAnnouncedQuantity(),
-			'receivedBSKUs' => $this->getReceivedBSKUs(),
-			'receivedQuantity' => $this->getReceivedQuantity(),
-			'timeSlot' => $this->getTimeSlot(),
-			'products' => $this->_convertPureArray($this->getProducts()),
-			'stateTransitions' => $this->_convertPureArray($this->getStateTransitions()),
-			'fbbTransporter' => $this->getFbbTransporter(),
-		);
 	}
 }

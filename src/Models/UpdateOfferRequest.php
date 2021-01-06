@@ -1,16 +1,20 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class UpdateOfferRequest extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getReference()
+ * @method self setReference(string $reference)
+ * @method null|bool getOnHoldByRetailer()
+ * @method self setOnHoldByRetailer(bool $onHoldByRetailer)
+ * @method null|string getUnknownProductTitle()
+ * @method self setUnknownProductTitle(string $unknownProductTitle)
+ * @method null|Fulfilment getFulfilment()
+ * @method self setFulfilment(Fulfilment $fulfilment)
+ */
+final class UpdateOfferRequest extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * A user-defined reference that helps you identify this particular offer when
@@ -18,14 +22,14 @@ final class UpdateOfferRequest extends \HarmSmits\BolComClient\Objects\AObject
 	 * maximum amount of 20 characters.
 	 * @var string
 	 */
-	private ?string $referenceCode = null;
+	protected ?string $reference = null;
 
 	/**
 	 * Indicates whether or not you want to put this offer for sale on the bol.com
 	 * website. Defaults to false.
 	 * @var bool
 	 */
-	private ?bool $onHoldByRetailer = null;
+	protected ?bool $onHoldByRetailer = null;
 
 	/**
 	 * In case the item is not known to bol.com you can use this field to identify this
@@ -33,70 +37,7 @@ final class UpdateOfferRequest extends \HarmSmits\BolComClient\Objects\AObject
 	 * product title will not be stored.
 	 * @var string
 	 */
-	private ?string $unknownProductTitle = null;
+	protected ?string $unknownProductTitle = null;
 
-	private Fulfilment $fulfilment;
-
-
-	public function getReferenceCode(): ?string
-	{
-		return $this->referenceCode;
-	}
-
-
-	public function setReferenceCode(string $referenceCode)
-	{
-		$this->referenceCode = $referenceCode;
-		return $this;
-	}
-
-
-	public function getOnHoldByRetailer(): ?bool
-	{
-		return $this->onHoldByRetailer;
-	}
-
-
-	public function setOnHoldByRetailer(bool $onHoldByRetailer)
-	{
-		$this->onHoldByRetailer = $onHoldByRetailer;
-		return $this;
-	}
-
-
-	public function getUnknownProductTitle(): ?string
-	{
-		return $this->unknownProductTitle;
-	}
-
-
-	public function setUnknownProductTitle(string $unknownProductTitle)
-	{
-		$this->unknownProductTitle = $unknownProductTitle;
-		return $this;
-	}
-
-
-	public function getFulfilment(): ?Fulfilment
-	{
-		return $this->fulfilment;
-	}
-
-
-	public function setFulfilment(Fulfilment $fulfilment)
-	{
-		$this->fulfilment = $fulfilment;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'referenceCode' => $this->getReferenceCode(),
-			'onHoldByRetailer' => $this->getOnHoldByRetailer(),
-			'unknownProductTitle' => $this->getUnknownProductTitle(),
-			'fulfilment' => $this->getFulfilment()->toArray(),
-		);
-	}
+	protected Fulfilment $fulfilment;
 }

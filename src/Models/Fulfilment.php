@@ -1,19 +1,18 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class Fulfilment extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getMethod()
+ * @method null|string getDeliveryCode()
+ * @method null|array getPickUpPoints()
+ */
+final class Fulfilment extends \HarmSmits\BolComClient\Models\AModel
 {
-	const TYPE_FBB = 'FBB';
-	const TYPE_FBR = 'FBR';
+	const METHOD_FBR = 'FBR';
+	const METHOD_FBB = 'FBB';
 	const DELIVERY_CODE_24uurs_23 = '24uurs-23';
 	const DELIVERY_CODE_24uurs_22 = '24uurs-22';
 	const DELIVERY_CODE_24uurs_21 = '24uurs-21';
@@ -32,51 +31,41 @@ final class Fulfilment extends \HarmSmits\BolComClient\Objects\AObject
 	const DELIVERY_CODE_4_8d = '4-8d';
 	const DELIVERY_CODE_1_8d = '1-8d';
 	const DELIVERY_CODE_MijnLeverbelofte = 'MijnLeverbelofte';
+	const DELIVERY_CODE_VVB = 'VVB';
 
 	/**
 	 * Specifies whether this shipment has been fulfilled by the retailer (FBR) or
 	 * fulfilled by bol.com (FBB). Defaults to FBR.
 	 * @var string
 	 */
-	private ?string $type = null;
+	protected string $method;
 
 	/**
-	 * The delivery promise that applies to this offer.
+	 * The delivery promise that applies to this offer. This value will only be used in
+	 * combination with fulfilmentMethod 'FBR'.
 	 * @var string
 	 */
-	private ?string $deliveryCode = null;
+	protected ?string $deliveryCode = null;
 
 	/**
-	 * List of Pick Up Points codes enabled for this offer.
+	 * Indicates whether this order is shipped to a Pick Up Point.
 	 * @var PickUpPoint[]
 	 */
-	private array $pickUpPoints = [];
+	protected array $pickUpPoints = [];
 
 
-	public function getType(): ?string
+	public function setMethod(string $method): self
 	{
-		return $this->type;
-	}
-
-
-	public function setType(string $type)
-	{
-		$this->_checkEnumBounds($type, [
-			"FBB",
-			"FBR"
+		$this->_checkEnumBounds($method, [
+			"FBR",
+			"FBB"
 		]);
-		$this->type = $type;
+		$this->method = $method;
 		return $this;
 	}
 
 
-	public function getDeliveryCode(): ?string
-	{
-		return $this->deliveryCode;
-	}
-
-
-	public function setDeliveryCode(string $deliveryCode)
+	public function setDeliveryCode(string $deliveryCode): self
 	{
 		$this->_checkEnumBounds($deliveryCode, [
 			"24uurs-23",
@@ -96,33 +85,18 @@ final class Fulfilment extends \HarmSmits\BolComClient\Objects\AObject
 			"3-5d",
 			"4-8d",
 			"1-8d",
-			"MijnLeverbelofte"
+			"MijnLeverbelofte",
+			"VVB"
 		]);
 		$this->deliveryCode = $deliveryCode;
 		return $this;
 	}
 
 
-	public function getPickUpPoints(): ?array
-	{
-		return $this->pickUpPoints;
-	}
-
-
-	public function setPickUpPoints(array $pickUpPoints)
+	public function setPickUpPoints(array $pickUpPoints): self
 	{
 		$this->_checkIfPureArray($pickUpPoints, \HarmSmits\BolComClient\Models\PickUpPoint::class);
 		$this->pickUpPoints = $pickUpPoints;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'type' => $this->getType(),
-			'deliveryCode' => $this->getDeliveryCode(),
-			'pickUpPoints' => $this->_convertPureArray($this->getPickUpPoints()),
-		);
 	}
 }

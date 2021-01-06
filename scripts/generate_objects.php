@@ -1,11 +1,6 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
+use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Type;
 
 /**
@@ -126,7 +121,7 @@ class GenerateObjects
      */
     private function parseProperty($name, array $schema, array $required) {
         $prop = new \Nette\PhpGenerator\Property($name);
-        $prop->setPrivate();
+        $prop->setProtected();
 
         $type = $this->getType($schema);
 
@@ -206,17 +201,12 @@ class GenerateObjects
     /**
      * Set the setter method
      *
-     * @param \Nette\PhpGenerator\ClassType $class
+     * @param ClassType $class
      * @param                               $name
      * @param array                         $schema
      */
-    private function setSetterFunction(\Nette\PhpGenerator\ClassType &$class, $name, array $schema) {
-        $method = $class->addMethod("set" . ucfirst($name));
-
+    private function setSetterFunction(ClassType &$class, $name, array $schema) {
         $type = $this->getType($schema);
-        $parameter = $method->addParameter($name);
-        $parameter->setType($type);
-
         $body = "";
 
         if ($this->isReference($schema) && $type === Type::ARRAY) {
@@ -241,6 +231,11 @@ class GenerateObjects
             }
         }
 
+        if ($type === "DateTime") {
+            $body .= '$' . $name . ' = $this->_parseDate($' . $name . ');' . PHP_EOL;
+            $type = '';
+        }
+
         if (isset($schema["enum"])) {
             $enums = array_map(function ($item) {
                 return sprintf("\t\"%s\"", $item);
@@ -249,38 +244,39 @@ class GenerateObjects
             $body .= sprintf("\$this->_checkEnumBounds(%s, [%s]);\n", "$$name", "\n" . implode(",\n", $enums) . "\n");
         }
 
-        $body .= sprintf("\$this->%s = $%s;\n", $name, $name);
-        $body .= "return \$this;";
-        $method->setBody($body);
+        if ($body) {
+            $body .= sprintf("\$this->%s = $%s;\n", $name, $name);
+            $body .= "return \$this;";
+
+            $method = $class->addMethod("set" . ucfirst($name));
+            $parameter = $method->addParameter($name);
+            $parameter->setType($type);
+            $method->setBody($body);
+            $method->setReturnType('self');
+        } else {
+            $class->addComment('@method self set' . ucfirst($name) . '(' . $type . ' $' . $name . ')');
+        }
     }
 
     /**
      * Set the getter method
      *
-     * @param \Nette\PhpGenerator\ClassType $class
+     * @param ClassType $class
      * @param                               $name
      * @param array                         $schema
      */
-    private function setGetterFunction(\Nette\PhpGenerator\ClassType &$class, $name, array $schema) {
+    private function setGetterFunction(ClassType &$class, $name, array $schema) {
         $type = $this->getType($schema);
-        $method = $class->addmethod("get" . ucfirst($name));
-        $method->setReturnNullable(true);
-        $method->setReturnType($type);
-
-        if ($type === Type::FLOAT) {
-            $method->setBody(sprintf('return round($this->%s, 2);', $name));
-        } else {
-            $method->setBody(sprintf('return $this->%s;', $name));
-        }
+        $class->addComment(sprintf('@method null|' . $type . ' ' .  'get' . ucfirst($name) . '()'));
     }
 
     /**
      * Set the to array function
      *
-     * @param \Nette\PhpGenerator\ClassType $class
+     * @param ClassType $class
      * @param array                         $properties
      */
-    private function setToArrayFunction(\Nette\PhpGenerator\ClassType &$class, array $properties) {
+    private function setToArrayFunction(ClassType &$class, array $properties) {
         $method = $class->addMethod("toArray");
         $method->setBody($this->getArrayExportFunction($properties));
         $method->setReturnType(Type::ARRAY);
@@ -289,11 +285,11 @@ class GenerateObjects
     /**
      * Set all enums as constants so that they are actually accessible
      *
-     * @param \Nette\PhpGenerator\ClassType $class
+     * @param ClassType $class
      * @param string                        $property
      * @param array                         $enum
      */
-    private function setEnums(\Nette\PhpGenerator\ClassType &$class, string $property, array $enum) {
+    private function setEnums(ClassType &$class, string $property, array $enum) {
         $prefix = $this->toHighSnakeCase($property);
 
         foreach ($enum as $value) {
@@ -308,20 +304,19 @@ class GenerateObjects
      * @param array  $definition
      */
     private function generateObject(string $name, array $definition) {
-        $class = new \Nette\PhpGenerator\ClassType($name);
-        $class->setFinal(true);
-        $class->addExtend($this->prefixClassPath(\HarmSmits\BolComClient\Objects\AObject::class));
+        $class = new ClassType($name);
+        $class->setFinal(true); // for the love of god, do not extend generated code of all things.
+        $class->addExtend($this->prefixClassPath(\HarmSmits\BolComClient\Models\AModel::class));
 
         foreach ($definition["properties"] as $property => $schema) {
             $class->addMember($this->parseProperty($property, $schema, isset($definition["required"]) ? $definition["required"] : []));
             $this->setGetterFunction($class, $property, $schema);
             $this->setSetterFunction($class, $property, $schema);
 
-            if (isset($schema["enum"]))
+            if (isset($schema["enum"])) {
                 $this->setEnums($class, $property, $schema["enum"]);
+            }
         }
-
-        $this->setToArrayFunction($class, $definition["properties"]);
 
         $file = <<<PHP
 <?php
@@ -352,5 +347,5 @@ PHP;
 
 require(dirname(__DIR__) . "/vendor/autoload.php");
 
-$class = new GenerateObjects(dirname(__DIR__) . "/resources/v3.json");
+$class = new GenerateObjects(dirname(__DIR__) . "/resources/v4.json");
 $class->generate();

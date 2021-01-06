@@ -1,383 +1,130 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class CustomerDetails extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getSalutationCode()
+ * @method self setSalutationCode(string $salutationCode)
+ * @method null|string getFirstName()
+ * @method self setFirstName(string $firstName)
+ * @method null|string getSurname()
+ * @method self setSurname(string $surname)
+ * @method null|string getStreetName()
+ * @method self setStreetName(string $streetName)
+ * @method null|string getHouseNumber()
+ * @method self setHouseNumber(string $houseNumber)
+ * @method null|string getHouseNumberExtended()
+ * @method self setHouseNumberExtended(string $houseNumberExtended)
+ * @method null|string getAddressSupplement()
+ * @method self setAddressSupplement(string $addressSupplement)
+ * @method null|string getExtraAddressInformation()
+ * @method self setExtraAddressInformation(string $extraAddressInformation)
+ * @method null|string getZipCode()
+ * @method self setZipCode(string $zipCode)
+ * @method null|string getCity()
+ * @method self setCity(string $city)
+ * @method null|string getCountryCode()
+ * @method self setCountryCode(string $countryCode)
+ * @method null|string getEmail()
+ * @method self setEmail(string $email)
+ * @method null|string getDeliveryPhoneNumber()
+ * @method self setDeliveryPhoneNumber(string $deliveryPhoneNumber)
+ * @method null|string getCompany()
+ * @method self setCompany(string $company)
+ * @method null|string getVatNumber()
+ * @method self setVatNumber(string $vatNumber)
+ */
+final class CustomerDetails extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
-	 * The name of Pick Up Point location this order needs to be shipped to.
+	 * The salutation of the customer.
 	 * @var string
 	 */
-	private ?string $pickUpPointName = null;
-
-	/**
-	 * The salutation of the customer (01 = MALE, 02 = FEMALE, 03 = UNKNOWN)
-	 * @var string
-	 */
-	private ?string $salutationCode = null;
+	protected ?string $salutationCode = null;
 
 	/**
 	 * The first name of the customer.
 	 * @var string
 	 */
-	private ?string $firstName = null;
+	protected ?string $firstName = null;
 
 	/**
 	 * The surname of the customer.
 	 * @var string
 	 */
-	private ?string $surname = null;
+	protected ?string $surname = null;
 
 	/**
 	 * The street name.
 	 * @var string
 	 */
-	private ?string $streetName = null;
+	protected ?string $streetName = null;
 
 	/**
 	 * The house number.
 	 * @var string
 	 */
-	private ?string $houseNumber = null;
+	protected ?string $houseNumber = null;
 
 	/**
 	 * The extension on the house number.
 	 * @var string
 	 */
-	private ?string $houseNumberExtended = null;
+	protected ?string $houseNumberExtended = null;
 
-	/**
-	 * The supplement belonging to the address.
-	 * @var string
-	 */
-	private ?string $addressSupplement = null;
+	/** @var string */
+	protected ?string $addressSupplement = null;
 
 	/**
 	 * Additional information related to the address that helps in delivering the
 	 * package.
 	 * @var string
 	 */
-	private ?string $extraAddressInformation = null;
+	protected ?string $extraAddressInformation = null;
 
 	/**
-	 * The ZIP code.
+	 * The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders.
 	 * @var string
 	 */
-	private ?string $zipCode = null;
+	protected ?string $zipCode = null;
 
 	/**
 	 * The name of the city.
 	 * @var string
 	 */
-	private ?string $city = null;
+	protected ?string $city = null;
 
 	/**
 	 * The country code.
 	 * @var string
 	 */
-	private ?string $countryCode = null;
+	protected ?string $countryCode = null;
 
 	/**
 	 * A scrambled email address that can be used to contact the customer.
 	 * @var string
 	 */
-	private ?string $email = null;
-
-	/**
-	 * The company name.
-	 * @var string
-	 */
-	private ?string $company = null;
-
-	/**
-	 * The VAT number.
-	 * @var string
-	 */
-	private ?string $vatNumber = null;
-
-	/**
-	 * The chamber of commerce number of the account that placed the order.
-	 * @var string
-	 */
-	private ?string $chamberOfCommerceNumber = null;
-
-	/**
-	 * The order reference specified by the customer when ordering a product.
-	 * @var string
-	 */
-	private ?string $orderReference = null;
+	protected ?string $email = null;
 
 	/**
 	 * The delivery phone number of the customer. Filled in case the order requires an
 	 * appointment for delivering the goods.
 	 * @var string
 	 */
-	private ?string $deliveryPhoneNumber = null;
-
-
-	public function getPickUpPointName(): ?string
-	{
-		return $this->pickUpPointName;
-	}
-
-
-	public function setPickUpPointName(string $pickUpPointName)
-	{
-		$this->pickUpPointName = $pickUpPointName;
-		return $this;
-	}
-
-
-	public function getSalutationCode(): ?string
-	{
-		return $this->salutationCode;
-	}
-
-
-	public function setSalutationCode(string $salutationCode)
-	{
-		$this->salutationCode = $salutationCode;
-		return $this;
-	}
-
-
-	public function getFirstName(): ?string
-	{
-		return $this->firstName;
-	}
-
-
-	public function setFirstName(string $firstName)
-	{
-		$this->firstName = $firstName;
-		return $this;
-	}
-
-
-	public function getSurname(): ?string
-	{
-		return $this->surname;
-	}
-
-
-	public function setSurname(string $surname)
-	{
-		$this->surname = $surname;
-		return $this;
-	}
-
-
-	public function getStreetName(): ?string
-	{
-		return $this->streetName;
-	}
-
-
-	public function setStreetName(string $streetName)
-	{
-		$this->streetName = $streetName;
-		return $this;
-	}
-
-
-	public function getHouseNumber(): ?string
-	{
-		return $this->houseNumber;
-	}
-
-
-	public function setHouseNumber(string $houseNumber)
-	{
-		$this->houseNumber = $houseNumber;
-		return $this;
-	}
-
-
-	public function getHouseNumberExtended(): ?string
-	{
-		return $this->houseNumberExtended;
-	}
-
-
-	public function setHouseNumberExtended(string $houseNumberExtended)
-	{
-		$this->houseNumberExtended = $houseNumberExtended;
-		return $this;
-	}
-
-
-	public function getAddressSupplement(): ?string
-	{
-		return $this->addressSupplement;
-	}
-
-
-	public function setAddressSupplement(string $addressSupplement)
-	{
-		$this->addressSupplement = $addressSupplement;
-		return $this;
-	}
-
-
-	public function getExtraAddressInformation(): ?string
-	{
-		return $this->extraAddressInformation;
-	}
-
-
-	public function setExtraAddressInformation(string $extraAddressInformation)
-	{
-		$this->extraAddressInformation = $extraAddressInformation;
-		return $this;
-	}
-
-
-	public function getZipCode(): ?string
-	{
-		return $this->zipCode;
-	}
-
-
-	public function setZipCode(string $zipCode)
-	{
-		$this->zipCode = $zipCode;
-		return $this;
-	}
-
-
-	public function getCity(): ?string
-	{
-		return $this->city;
-	}
-
-
-	public function setCity(string $city)
-	{
-		$this->city = $city;
-		return $this;
-	}
-
-
-	public function getCountryCode(): ?string
-	{
-		return $this->countryCode;
-	}
-
-
-	public function setCountryCode(string $countryCode)
-	{
-		$this->countryCode = $countryCode;
-		return $this;
-	}
-
-
-	public function getEmail(): ?string
-	{
-		return $this->email;
-	}
-
-
-	public function setEmail(string $email)
-	{
-		$this->email = $email;
-		return $this;
-	}
-
-
-	public function getCompany(): ?string
-	{
-		return $this->company;
-	}
-
-
-	public function setCompany(string $company)
-	{
-		$this->company = $company;
-		return $this;
-	}
-
-
-	public function getVatNumber(): ?string
-	{
-		return $this->vatNumber;
-	}
-
-
-	public function setVatNumber(string $vatNumber)
-	{
-		$this->vatNumber = $vatNumber;
-		return $this;
-	}
-
-
-	public function getChamberOfCommerceNumber(): ?string
-	{
-		return $this->chamberOfCommerceNumber;
-	}
-
-
-	public function setChamberOfCommerceNumber(string $chamberOfCommerceNumber)
-	{
-		$this->chamberOfCommerceNumber = $chamberOfCommerceNumber;
-		return $this;
-	}
-
-
-	public function getOrderReference(): ?string
-	{
-		return $this->orderReference;
-	}
-
-
-	public function setOrderReference(string $orderReference)
-	{
-		$this->orderReference = $orderReference;
-		return $this;
-	}
-
-
-	public function getDeliveryPhoneNumber(): ?string
-	{
-		return $this->deliveryPhoneNumber;
-	}
-
-
-	public function setDeliveryPhoneNumber(string $deliveryPhoneNumber)
-	{
-		$this->deliveryPhoneNumber = $deliveryPhoneNumber;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'pickUpPointName' => $this->getPickUpPointName(),
-			'salutationCode' => $this->getSalutationCode(),
-			'firstName' => $this->getFirstName(),
-			'surname' => $this->getSurname(),
-			'streetName' => $this->getStreetName(),
-			'houseNumber' => $this->getHouseNumber(),
-			'houseNumberExtended' => $this->getHouseNumberExtended(),
-			'addressSupplement' => $this->getAddressSupplement(),
-			'extraAddressInformation' => $this->getExtraAddressInformation(),
-			'zipCode' => $this->getZipCode(),
-			'city' => $this->getCity(),
-			'countryCode' => $this->getCountryCode(),
-			'email' => $this->getEmail(),
-			'company' => $this->getCompany(),
-			'vatNumber' => $this->getVatNumber(),
-			'chamberOfCommerceNumber' => $this->getChamberOfCommerceNumber(),
-			'orderReference' => $this->getOrderReference(),
-			'deliveryPhoneNumber' => $this->getDeliveryPhoneNumber(),
-		);
-	}
+	protected ?string $deliveryPhoneNumber = null;
+
+	/**
+	 * The company name.
+	 * @var string
+	 */
+	protected ?string $company = null;
+
+	/**
+	 * The Value Added Tax (VAT) / BTW number for business sellers situated in the
+	 * Netherlands.
+	 * @var string
+	 */
+	protected ?string $vatNumber = null;
 }

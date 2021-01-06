@@ -1,115 +1,61 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class ReducedShipment extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|int getShipmentId()
+ * @method self setShipmentId(int $shipmentId)
+ * @method null|DateTime getShipmentDateTime()
+ * @method null|string getShipmentReference()
+ * @method self setShipmentReference(string $shipmentReference)
+ * @method null|ReducedShipmentOrder getOrder()
+ * @method self setOrder(ReducedShipmentOrder $order)
+ * @method null|array getShipmentItems()
+ * @method null|ReducedTransport getTransport()
+ * @method self setTransport(ReducedTransport $transport)
+ */
+final class ReducedShipment extends \HarmSmits\BolComClient\Models\AModel
 {
 	/**
 	 * A unique identifier for this shipment.
 	 * @var int
 	 */
-	private ?int $shipmentId = null;
+	protected ?int $shipmentId = null;
 
 	/**
 	 * The date and time in ISO 8601 format when the order item was shipped.
-	 * @var string
+	 * @var DateTime
 	 */
-	private ?string $shipmentDate = null;
+	protected ?DateTime $shipmentDateTime = null;
 
 	/**
 	 * Reference supplied by the user when this item was shipped.
 	 * @var string
 	 */
-	private ?string $shipmentReference = null;
+	protected ?string $shipmentReference = null;
+
+	protected ReducedShipmentOrder $order;
 
 	/** @var ReducedShipmentItem[] */
-	private array $shipmentItems = [];
+	protected array $shipmentItems = [];
 
-	private ReducedTransport $transport;
+	protected ReducedTransport $transport;
 
 
-	public function getShipmentId(): ?int
+	public function setShipmentDateTime($shipmentDateTime): self
 	{
-		return $this->shipmentId;
-	}
-
-
-	public function setShipmentId(int $shipmentId)
-	{
-		$this->shipmentId = $shipmentId;
+		$shipmentDateTime = $this->_parseDate($shipmentDateTime);
+		$this->shipmentDateTime = $shipmentDateTime;
 		return $this;
 	}
 
 
-	public function getShipmentDate(): ?string
-	{
-		return $this->shipmentDate;
-	}
-
-
-	public function setShipmentDate(string $shipmentDate)
-	{
-		$this->shipmentDate = $shipmentDate;
-		return $this;
-	}
-
-
-	public function getShipmentReference(): ?string
-	{
-		return $this->shipmentReference;
-	}
-
-
-	public function setShipmentReference(string $shipmentReference)
-	{
-		$this->shipmentReference = $shipmentReference;
-		return $this;
-	}
-
-
-	public function getShipmentItems(): ?array
-	{
-		return $this->shipmentItems;
-	}
-
-
-	public function setShipmentItems(array $shipmentItems)
+	public function setShipmentItems(array $shipmentItems): self
 	{
 		$this->_checkIfPureArray($shipmentItems, \HarmSmits\BolComClient\Models\ReducedShipmentItem::class);
 		$this->shipmentItems = $shipmentItems;
 		return $this;
-	}
-
-
-	public function getTransport(): ?ReducedTransport
-	{
-		return $this->transport;
-	}
-
-
-	public function setTransport(ReducedTransport $transport)
-	{
-		$this->transport = $transport;
-		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'shipmentId' => $this->getShipmentId(),
-			'shipmentDate' => $this->getShipmentDate(),
-			'shipmentReference' => $this->getShipmentReference(),
-			'shipmentItems' => $this->_convertPureArray($this->getShipmentItems()),
-			'transport' => $this->getTransport()->toArray(),
-		);
 	}
 }

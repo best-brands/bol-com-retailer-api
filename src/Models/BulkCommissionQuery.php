@@ -1,16 +1,16 @@
 <?php
-/**********************************************************************************************************************
- * Any components or design related choices are copyright protected under international law. They are proprietary     *
- * code from Harm Smits and shall not be obtained, used or distributed without explicit permission from Harm Smits.   *
- * I grant you a non-commercial license via github when you download the product. Commercial licenses can be obtained *
- * by contacting me. For any legal inquiries, please contact me at <harmsmitsdev@gmail.com>                           *
- **********************************************************************************************************************/
 
 namespace HarmSmits\BolComClient\Models;
 
 use \DateTime;
 
-final class BulkCommissionQuery extends \HarmSmits\BolComClient\Objects\AObject
+/**
+ * @method null|string getEan()
+ * @method self setEan(string $ean)
+ * @method null|string getCondition()
+ * @method null|float getUnitPrice()
+ */
+final class BulkCommissionQuery extends \HarmSmits\BolComClient\Models\AModel
 {
 	const CONDITION_NEW = 'NEW';
 	const CONDITION_AS_NEW = 'AS_NEW';
@@ -22,42 +22,23 @@ final class BulkCommissionQuery extends \HarmSmits\BolComClient\Objects\AObject
 	 * The EAN number associated with this product.
 	 * @var string
 	 */
-	private string $ean;
+	protected string $ean;
 
 	/**
 	 * The condition of the offer.
 	 * @var string
 	 */
-	private ?string $condition = null;
+	protected ?string $condition = null;
 
 	/**
 	 * The price of the product with a period as a decimal separator. The price should
 	 * always have two decimals precision.
-	 * @var int
+	 * @var float
 	 */
-	private ?int $price = null;
+	protected float $unitPrice;
 
 
-	public function getEan(): ?string
-	{
-		return $this->ean;
-	}
-
-
-	public function setEan(string $ean)
-	{
-		$this->ean = $ean;
-		return $this;
-	}
-
-
-	public function getCondition(): ?string
-	{
-		return $this->condition;
-	}
-
-
-	public function setCondition(string $condition)
+	public function setCondition(string $condition): self
 	{
 		$this->_checkEnumBounds($condition, [
 			"NEW",
@@ -71,26 +52,10 @@ final class BulkCommissionQuery extends \HarmSmits\BolComClient\Objects\AObject
 	}
 
 
-	public function getPrice(): ?int
+	public function setUnitPrice(float $unitPrice): self
 	{
-		return $this->price;
-	}
-
-
-	public function setPrice(int $price)
-	{
-		$this->_checkIntegerBounds($price, 0, 9999);
-		$this->price = $price;
+		$this->_checkFloatBounds($unitPrice, 0, 9999);
+		$this->unitPrice = $unitPrice;
 		return $this;
-	}
-
-
-	public function toArray(): array
-	{
-		return array(
-			'ean' => $this->getEan(),
-			'condition' => $this->getCondition(),
-			'price' => $this->getPrice(),
-		);
 	}
 }
