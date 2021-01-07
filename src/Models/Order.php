@@ -14,7 +14,7 @@ use \DateTime;
  * @method self setShipmentDetails(ShipmentDetails $shipmentDetails)
  * @method null|BillingDetails getBillingDetails()
  * @method self setBillingDetails(BillingDetails $billingDetails)
- * @method null|array getOrderItems()
+ * @method OrderOrderItem[] getOrderItems()
  */
 final class Order extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -36,7 +36,7 @@ final class Order extends \HarmSmits\BolComClient\Models\AModel
 	 */
 	protected ?DateTime $orderPlacedDateTime = null;
 
-	protected ShipmentDetails $shipmentDetails;
+	protected ?ShipmentDetails $shipmentDetails = null;
 
 	protected ?BillingDetails $billingDetails = null;
 
@@ -52,6 +52,11 @@ final class Order extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param OrderOrderItem[] $orderItems
+     *
+     * @return $this
+     */
 	public function setOrderItems(array $orderItems): self
 	{
 		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\OrderOrderItem::class);

@@ -23,8 +23,8 @@ use \DateTime;
  * @method self setReceivedQuantity(int $receivedQuantity)
  * @method null|TimeSlot getTimeSlot()
  * @method self setTimeSlot(TimeSlot $timeSlot)
- * @method null|array getProducts()
- * @method null|array getStateTransitions()
+ * @method Product[] getProducts()
+ * @method StateTransition[] getStateTransitions()
  * @method null|Transporter getInboundTransporter()
  * @method self setInboundTransporter(Transporter $inboundTransporter)
  */
@@ -130,6 +130,11 @@ final class Inbound extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param Product[] $products
+     *
+     * @return $this
+     */
 	public function setProducts(array $products): self
 	{
 		$this->_checkIfPureArray($products, \HarmSmits\BolComClient\Models\Product::class);
@@ -138,6 +143,11 @@ final class Inbound extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param StateTransition[] $stateTransitions
+     *
+     * @return $this
+     */
 	public function setStateTransitions(array $stateTransitions): self
 	{
 		$this->_checkIfPureArray($stateTransitions, \HarmSmits\BolComClient\Models\StateTransition::class);

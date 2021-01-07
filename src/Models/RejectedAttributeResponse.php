@@ -7,7 +7,7 @@ use \DateTime;
 /**
  * @method null|string getAttributeId()
  * @method self setAttributeId(string $attributeId)
- * @method null|array getRejectionErrors()
+ * @method RejectionError[] getRejectionErrors()
  */
 final class RejectedAttributeResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -21,6 +21,11 @@ final class RejectedAttributeResponse extends \HarmSmits\BolComClient\Models\AMo
 	protected array $rejectionErrors = [];
 
 
+    /**
+     * @param RejectionError[] $rejectionErrors
+     *
+     * @return $this
+     */
 	public function setRejectionErrors(array $rejectionErrors): self
 	{
 		$this->_checkIfPureArray($rejectionErrors, \HarmSmits\BolComClient\Models\RejectionError::class);

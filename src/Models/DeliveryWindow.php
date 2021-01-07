@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getTimeSlots()
+ * @method null|TimeSlot[] getTimeSlots()
  */
 final class DeliveryWindow extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -16,6 +16,11 @@ final class DeliveryWindow extends \HarmSmits\BolComClient\Models\AModel
 	protected array $timeSlots = [];
 
 
+    /**
+     * @param TimeSlot[] $timeSlots
+     *
+     * @return $this
+     */
 	public function setTimeSlots(array $timeSlots): self
 	{
 		$this->_checkIfPureArray($timeSlots, \HarmSmits\BolComClient\Models\TimeSlot::class);

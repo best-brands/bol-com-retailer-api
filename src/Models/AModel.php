@@ -145,7 +145,8 @@ class AModel
      *
      * @return array[]
      */
-    protected function _convertPureArray(array $array) {
+    protected function _convertPureArray(array $array)
+    {
         return array_map(function (AModel $item) {
             return $item->toArray();
         }, $array);
@@ -160,7 +161,8 @@ class AModel
      *
      * @throws InvalidArgumentException
      */
-    protected function _checkIntegerBounds(int $check, int $min, int $max) {
+    protected function _checkIntegerBounds(int $check, int $min, int $max)
+    {
         if ($check < $min || $check > $max) {
             throw new InvalidArgumentException("Integer is not in correct range");
         }
@@ -175,7 +177,8 @@ class AModel
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidArgumentException
      */
-    protected function _checkFloatBounds(float $check, float $min, float $max) {
+    protected function _checkFloatBounds(float $check, float $min, float $max)
+    {
         if ($check < $min || $check > $max) {
             throw new InvalidArgumentException("Float is not in correct range");
         }
@@ -189,7 +192,8 @@ class AModel
      *
      * @return int
      */
-    protected function _checkIntegerDefault(?int $int, int $default) {
+    protected function _checkIntegerDefault(?int $int, int $default)
+    {
         return is_null($int) ? $default : $int;
     }
 
@@ -202,7 +206,8 @@ class AModel
      *
      * @throws InvalidArgumentException
      */
-    protected function _checkArrayBounds(array $array, int $min, int $max) {
+    protected function _checkArrayBounds(array $array, int $min, int $max)
+    {
         $this->_checkIntegerBounds(count($array), $min, $max);
     }
 
@@ -212,7 +217,8 @@ class AModel
      * @param string $enum
      * @param array  $enums
      */
-    protected function _checkEnumBounds(string $enum, array $enums) {
+    protected function _checkEnumBounds(string $enum, array $enums)
+    {
         if (!in_array($enum, $enums)) {
             throw new \InvalidArgumentException("Unknown enum");
         }

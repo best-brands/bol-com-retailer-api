@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getInbounds()
+ * @method ReducedInbound[] getInbounds()
  */
 final class Inbounds extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -16,6 +16,11 @@ final class Inbounds extends \HarmSmits\BolComClient\Models\AModel
 	protected array $inbounds = [];
 
 
+    /**
+     * @param ReducedInbound[] $inbounds
+     *
+     * @return $this
+     */
 	public function setInbounds(array $inbounds): self
 	{
 		$this->_checkIfPureArray($inbounds, \HarmSmits\BolComClient\Models\ReducedInbound::class);

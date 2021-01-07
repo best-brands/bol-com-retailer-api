@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getDeliveryOptions()
+ * @method null|DeliveryOption[] getDeliveryOptions()
  */
 final class DeliveryOptionsResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class DeliveryOptionsResponse extends \HarmSmits\BolComClient\Models\AMode
 	protected array $deliveryOptions = [];
 
 
+    /**
+     * @param DeliveryOption[] $deliveryOptions
+     *
+     * @return $this
+     */
 	public function setDeliveryOptions(array $deliveryOptions): self
 	{
 		$this->_checkIfPureArray($deliveryOptions, \HarmSmits\BolComClient\Models\DeliveryOption::class);

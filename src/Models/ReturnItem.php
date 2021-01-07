@@ -25,7 +25,7 @@ use \DateTime;
  * @method self setTransporterName(string $transporterName)
  * @method null|bool getHandled()
  * @method self setHandled(bool $handled)
- * @method null|array getProcessingResults()
+ * @method ReturnProcessingResult[] getProcessingResults()
  * @method null|CustomerDetails getCustomerDetails()
  * @method self setCustomerDetails(CustomerDetails $customerDetails)
  */
@@ -100,6 +100,11 @@ final class ReturnItem extends \HarmSmits\BolComClient\Models\AModel
 	protected ?CustomerDetails $customerDetails = null;
 
 
+    /**
+     * @param ReturnProcessingResult[] $processingResults
+     *
+     * @return $this
+     */
 	public function setProcessingResults(array $processingResults): self
 	{
 		$this->_checkIfPureArray($processingResults, \HarmSmits\BolComClient\Models\ReturnProcessingResult::class);

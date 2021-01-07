@@ -7,7 +7,7 @@ use \DateTime;
 /**
  * @method null|string getInternalReference()
  * @method self setInternalReference(string $internalReference)
- * @method null|array getAttributes()
+ * @method Attribute[] getAttributes()
  */
 final class ProductContent extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -24,6 +24,11 @@ final class ProductContent extends \HarmSmits\BolComClient\Models\AModel
 	protected array $attributes = [];
 
 
+    /**
+     * @param Attribute[] $attributes
+     *
+     * @return $this
+     */
 	public function setAttributes(array $attributes): self
 	{
 		$this->_checkIfPureArray($attributes, \HarmSmits\BolComClient\Models\Attribute::class);

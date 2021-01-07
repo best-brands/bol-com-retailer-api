@@ -12,7 +12,7 @@ use \DateTime;
  * @method self setShipmentReference(string $shipmentReference)
  * @method null|ReducedShipmentOrder getOrder()
  * @method self setOrder(ReducedShipmentOrder $order)
- * @method null|array getShipmentItems()
+ * @method ReducedShipmentItem[] getShipmentItems()
  * @method null|ReducedTransport getTransport()
  * @method self setTransport(ReducedTransport $transport)
  */
@@ -52,6 +52,11 @@ final class ReducedShipment extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param ReducedShipmentItem[] $shipmentItems
+     *
+     * @return $this
+     */
 	public function setShipmentItems(array $shipmentItems): self
 	{
 		$this->_checkIfPureArray($shipmentItems, \HarmSmits\BolComClient\Models\ReducedShipmentItem::class);

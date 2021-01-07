@@ -11,8 +11,8 @@ use \DateTime;
  * @method self setType(string $type)
  * @method null|Total getTotal()
  * @method self setTotal(Total $total)
- * @method null|array getCountries()
- * @method null|array getPeriods()
+ * @method Countries[] getCountries()
+ * @method Period[] getPeriods()
  */
 final class SalesForecastResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -37,6 +37,11 @@ final class SalesForecastResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $periods = [];
 
 
+    /**
+     * @param Countries[] $countries
+     *
+     * @return $this
+     */
 	public function setCountries(array $countries): self
 	{
 		$this->_checkIfPureArray($countries, \HarmSmits\BolComClient\Models\Countries::class);
@@ -45,6 +50,11 @@ final class SalesForecastResponse extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param Period[] $periods
+     *
+     * @return $this
+     */
 	public function setPeriods(array $periods): self
 	{
 		$this->_checkIfPureArray($periods, \HarmSmits\BolComClient\Models\Period::class);

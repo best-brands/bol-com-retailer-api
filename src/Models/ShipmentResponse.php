@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getShipments()
+ * @method ReducedShipment[] getShipments()
  */
 final class ShipmentResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class ShipmentResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $shipments = [];
 
 
+    /**
+     * @param ReducedShipment[] $shipments
+     *
+     * @return $this
+     */
 	public function setShipments(array $shipments): self
 	{
 		$this->_checkIfPureArray($shipments, \HarmSmits\BolComClient\Models\ReducedShipment::class);

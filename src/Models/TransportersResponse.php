@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getTransporters()
+ * @method Transporter[] getTransporters()
  */
 final class TransportersResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class TransportersResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $transporters = [];
 
 
+    /**
+     * @param Transporter[] $transporters
+     *
+     * @return $this
+     */
 	public function setTransporters(array $transporters): self
 	{
 		$this->_checkIfPureArray($transporters, \HarmSmits\BolComClient\Models\Transporter::class);

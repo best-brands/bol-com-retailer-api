@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getOfferInsights()
+ * @method OfferInsight[] getOfferInsights()
  */
 final class OfferInsights extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class OfferInsights extends \HarmSmits\BolComClient\Models\AModel
 	protected array $offerInsights = [];
 
 
+    /**
+     * @param OfferInsight[] $offerInsights
+     *
+     * @return $this
+     */
 	public function setOfferInsights(array $offerInsights): self
 	{
 		$this->_checkIfPureArray($offerInsights, \HarmSmits\BolComClient\Models\OfferInsight::class);

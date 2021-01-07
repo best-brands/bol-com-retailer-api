@@ -9,7 +9,7 @@ use \DateTime;
  * @method self setPeriod(Period $period)
  * @method null|float getTotal()
  * @method self setTotal(float $total)
- * @method null|array getCountries()
+ * @method Country[] getCountries()
  */
 final class Periods extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -26,6 +26,11 @@ final class Periods extends \HarmSmits\BolComClient\Models\AModel
 	protected array $countries = [];
 
 
+    /**
+     * @param Country[] $countries
+     *
+     * @return $this
+     */
 	public function setCountries(array $countries): self
 	{
 		$this->_checkIfPureArray($countries, \HarmSmits\BolComClient\Models\Country::class);

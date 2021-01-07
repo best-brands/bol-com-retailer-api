@@ -10,7 +10,7 @@ use \DateTime;
  * @method null|DateTime getRegistrationDateTime()
  * @method null|string getFulfilmentMethod()
  * @method self setFulfilmentMethod(string $fulfilmentMethod)
- * @method null|array getReturnItems()
+ * @method ReturnItem[] getReturnItems()
  */
 final class Return_ extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -45,6 +45,11 @@ final class Return_ extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param ReturnItem[] $returnItems
+     *
+     * @return $this
+     */
 	public function setReturnItems(array $returnItems): self
 	{
 		$this->_checkIfPureArray($returnItems, \HarmSmits\BolComClient\Models\ReturnItem::class);

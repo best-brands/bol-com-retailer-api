@@ -17,7 +17,7 @@ use \DateTime;
  * @method null|string getErrorMessage()
  * @method self setErrorMessage(string $errorMessage)
  * @method null|DateTime getCreateTimestamp()
- * @method null|array getLinks()
+ * @method Link[] getLinks()
  */
 final class ProcessStatus extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -97,6 +97,11 @@ final class ProcessStatus extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param Link[] $links
+     *
+     * @return $this
+     */
 	public function setLinks(array $links): self
 	{
 		$this->_checkIfPureArray($links, \HarmSmits\BolComClient\Models\Link::class);

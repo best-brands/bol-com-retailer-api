@@ -11,7 +11,8 @@ use \DateTime;
  */
 final class Norm extends \HarmSmits\BolComClient\Models\AModel
 {
-	const CONDITION__ = '>=';
+	const CONDITION_LARGER_EQUAL = ">=";
+	const CONDITION_SMALLER_EQUAL = "<=";
 
 	/**
 	 * Condition norm for this indicator.

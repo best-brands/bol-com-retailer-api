@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|string getValue()
+ * @method string getValue()
  * @method self setValue(string $value)
  * @method null|string getUnitId()
  * @method self setUnitId(string $unitId)

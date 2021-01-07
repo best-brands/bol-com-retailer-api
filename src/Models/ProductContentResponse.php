@@ -7,7 +7,7 @@ use \DateTime;
 /**
  * @method null|string getInternalReference()
  * @method self setInternalReference(string $internalReference)
- * @method null|array getRejectedAttributes()
+ * @method RejectedAttributeResponse[] getRejectedAttributes()
  * @method null|string getStatus()
  * @method null|int getErrorCode()
  * @method self setErrorCode(int $errorCode)
@@ -49,6 +49,11 @@ final class ProductContentResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected ?string $errorDescription = null;
 
 
+    /**
+     * @param RejectedAttributeResponse[] $rejectedAttributes
+     *
+     * @return $this
+     */
 	public function setRejectedAttributes(array $rejectedAttributes): self
 	{
 		$this->_checkIfPureArray($rejectedAttributes, \HarmSmits\BolComClient\Models\RejectedAttributeResponse::class);

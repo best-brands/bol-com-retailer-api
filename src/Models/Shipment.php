@@ -18,7 +18,7 @@ use \DateTime;
  * @method self setShipmentDetails(ShipmentDetails $shipmentDetails)
  * @method null|BillingDetails getBillingDetails()
  * @method self setBillingDetails(BillingDetails $billingDetails)
- * @method null|array getShipmentItems()
+ * @method ShipmentItem[] getShipmentItems()
  * @method null|ShipmentTransport getTransport()
  * @method self setTransport(ShipmentTransport $transport)
  */
@@ -68,6 +68,11 @@ final class Shipment extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param ShipmentItem[] $shipmentItems
+     *
+     * @return $this
+     */
 	public function setShipmentItems(array $shipmentItems): self
 	{
 		$this->_checkIfPureArray($shipmentItems, \HarmSmits\BolComClient\Models\ShipmentItem::class);

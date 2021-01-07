@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getProcessStatusQueries()
+ * @method null|ProcessStatusId[] getProcessStatusQueries()
  */
 final class BulkProcessStatusRequest extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class BulkProcessStatusRequest extends \HarmSmits\BolComClient\Models\AMod
 	protected array $processStatusQueries = [];
 
 
+    /**
+     * @param ProcessStatusId[] $processStatusQueries
+     *
+     * @return $this
+     */
 	public function setProcessStatusQueries(array $processStatusQueries): self
 	{
 		$this->_checkIfPureArray($processStatusQueries, \HarmSmits\BolComClient\Models\ProcessStatusId::class);

@@ -19,7 +19,7 @@ use \DateTime;
  * @method self setTotalCost(float $totalCost)
  * @method null|float getTotalCostWithoutReduction()
  * @method self setTotalCostWithoutReduction(float $totalCostWithoutReduction)
- * @method null|array getReductions()
+ * @method Reduction[] getReductions()
  */
 final class Commission extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -73,6 +73,11 @@ final class Commission extends \HarmSmits\BolComClient\Models\AModel
 	protected array $reductions = [];
 
 
+    /**
+     * @param Reduction[] $reductions
+     *
+     * @return $this
+     */
 	public function setReductions(array $reductions): self
 	{
 		$this->_checkIfPureArray($reductions, \HarmSmits\BolComClient\Models\Reduction::class);

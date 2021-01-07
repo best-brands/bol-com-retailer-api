@@ -16,7 +16,7 @@ final class BundlePrice extends \HarmSmits\BolComClient\Models\AModel
 	 * the respective quantities must be in increasing order.
 	 * @var int
 	 */
-	protected int $quantity;
+	protected int $quantity = 0;
 
 	/**
 	 * The price per single unit including VAT in case the customer orders at least the
@@ -24,7 +24,7 @@ final class BundlePrice extends \HarmSmits\BolComClient\Models\AModel
 	 * in decreasing order using 2 decimal precision and dot separated.
 	 * @var float
 	 */
-	protected float $unitPrice;
+	protected float $unitPrice = 0.00;
 
 
 	public function setQuantity(int $quantity): self

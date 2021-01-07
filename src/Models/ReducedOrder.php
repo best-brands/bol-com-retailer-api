@@ -8,7 +8,7 @@ use \DateTime;
  * @method null|string getOrderId()
  * @method self setOrderId(string $orderId)
  * @method null|DateTime getOrderPlacedDateTime()
- * @method null|array getOrderItems()
+ * @method ReducedOrderItem[] getOrderItems()
  */
 final class ReducedOrder extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -36,6 +36,11 @@ final class ReducedOrder extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param ReducedOrderItem[] $orderItems
+     *
+     * @return $this
+     */
 	public function setOrderItems(array $orderItems): self
 	{
 		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\ReducedOrderItem::class);

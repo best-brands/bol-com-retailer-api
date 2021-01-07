@@ -6,7 +6,7 @@ use \DateTime;
 
 /**
  * @method null|string getFormat()
- * @method null|array getProductLabels()
+ * @method ProductLabel[] getProductLabels()
  */
 final class ProductLabelsRequest extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -42,6 +42,11 @@ final class ProductLabelsRequest extends \HarmSmits\BolComClient\Models\AModel
 	}
 
 
+    /**
+     * @param ProductLabel[] $productLabels
+     *
+     * @return $this
+     */
 	public function setProductLabels(array $productLabels): self
 	{
 		$this->_checkIfPureArray($productLabels, \HarmSmits\BolComClient\Models\ProductLabel::class);

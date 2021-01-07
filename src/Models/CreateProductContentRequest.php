@@ -6,7 +6,7 @@ use \DateTime;
 
 /**
  * @method null|string getLanguage()
- * @method null|array getProductContents()
+ * @method ProductContent[] getProductContents()
  */
 final class CreateProductContentRequest extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -42,6 +42,11 @@ final class CreateProductContentRequest extends \HarmSmits\BolComClient\Models\A
 	}
 
 
+    /**
+     * @param Productcontent[] $productContents
+     *
+     * @return $this
+     */
 	public function setProductContents(array $productContents): self
 	{
 		$this->_checkIfPureArray($productContents, \HarmSmits\BolComClient\Models\ProductContent::class);

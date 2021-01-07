@@ -7,7 +7,7 @@ use \DateTime;
 /**
  * @method null|string getProductTitle()
  * @method self setProductTitle(string $productTitle)
- * @method null|array getVisible()
+ * @method CountryCode[] getVisible()
  */
 final class Store extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -21,6 +21,11 @@ final class Store extends \HarmSmits\BolComClient\Models\AModel
 	protected array $visible = [];
 
 
+    /**
+     * @param CountryCode[] $visible
+     *
+     * @return $this
+     */
 	public function setVisible(array $visible): self
 	{
 		$this->_checkIfPureArray($visible, \HarmSmits\BolComClient\Models\CountryCode::class);

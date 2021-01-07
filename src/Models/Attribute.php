@@ -7,7 +7,7 @@ use \DateTime;
 /**
  * @method null|string getId()
  * @method self setId(string $id)
- * @method null|array getValues()
+ * @method null|AttributeValue[] getValues()
  */
 final class Attribute extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -23,7 +23,11 @@ final class Attribute extends \HarmSmits\BolComClient\Models\AModel
 	 */
 	protected array $values = [];
 
-
+    /**
+     * @param AttributeValue[] $values
+     *
+     * @return $this
+     */
 	public function setValues(array $values): self
 	{
 		$this->_checkIfPureArray($values, \HarmSmits\BolComClient\Models\AttributeValue::class);

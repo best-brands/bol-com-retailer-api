@@ -21,7 +21,7 @@ use \DateTime;
  * @method self setUnitPrice(float $unitPrice)
  * @method null|float getCommission()
  * @method self setCommission(float $commission)
- * @method null|array getAdditionalServices()
+ * @method AdditionalService[] getAdditionalServices()
  */
 final class OrderOrderItem extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -66,6 +66,11 @@ final class OrderOrderItem extends \HarmSmits\BolComClient\Models\AModel
 	protected array $additionalServices = [];
 
 
+    /**
+     * @param AdditionalService[] $additionalServices
+     *
+     * @return $this
+     */
 	public function setAdditionalServices(array $additionalServices): self
 	{
 		$this->_checkIfPureArray($additionalServices, \HarmSmits\BolComClient\Models\AdditionalService::class);

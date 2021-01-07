@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getRetailPrices()
+ * @method RetailPrice[] getRetailPrices()
  */
 final class RetailPriceResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class RetailPriceResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $retailPrices = [];
 
 
+    /**
+     * @param RetailPrice[] $retailPrices
+     *
+     * @return $this
+     */
 	public function setRetailPrices(array $retailPrices): self
 	{
 		$this->_checkIfPureArray($retailPrices, \HarmSmits\BolComClient\Models\RetailPrice::class);

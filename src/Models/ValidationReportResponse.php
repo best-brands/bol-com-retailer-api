@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getProductContents()
+ * @method ProductContentResponse[] getProductContents()
  */
 final class ValidationReportResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class ValidationReportResponse extends \HarmSmits\BolComClient\Models\AMod
 	protected array $productContents = [];
 
 
+    /**
+     * @param ProductContentResponse[] $productContents
+     *
+     * @return $this
+     */
 	public function setProductContents(array $productContents): self
 	{
 		$this->_checkIfPureArray($productContents, \HarmSmits\BolComClient\Models\ProductContentResponse::class);

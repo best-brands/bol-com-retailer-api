@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getOrders()
+ * @method ReducedOrder[] getOrders()
  */
 final class ReducedOrders extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class ReducedOrders extends \HarmSmits\BolComClient\Models\AModel
 	protected array $orders = [];
 
 
+    /**
+     * @param ReducedOrder[] $orders
+     *
+     * @return $this
+     */
 	public function setOrders(array $orders): self
 	{
 		$this->_checkIfPureArray($orders, \HarmSmits\BolComClient\Models\ReducedOrder::class);

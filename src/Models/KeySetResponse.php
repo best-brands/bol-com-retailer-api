@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getSignatureKeys()
+ * @method KeySet[] getSignatureKeys()
  */
 final class KeySetResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class KeySetResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $signatureKeys = [];
 
 
+    /**
+     * @param KeySet[] $signatureKeys
+     *
+     * @return $this
+     */
 	public function setSignatureKeys(array $signatureKeys): self
 	{
 		$this->_checkIfPureArray($signatureKeys, \HarmSmits\BolComClient\Models\KeySet::class);

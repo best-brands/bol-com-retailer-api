@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getCommissionQueries()
+ * @method null|BulkCommissionQuery[] getCommissionQueries()
  */
 final class BulkCommissionRequest extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class BulkCommissionRequest extends \HarmSmits\BolComClient\Models\AModel
 	protected array $commissionQueries = [];
 
 
+    /**
+     * @param BulkCommissionQuery[] $commissionQueries
+     *
+     * @return $this
+     */
 	public function setCommissionQueries(array $commissionQueries): self
 	{
 		$this->_checkIfPureArray($commissionQueries, \HarmSmits\BolComClient\Models\BulkCommissionQuery::class);

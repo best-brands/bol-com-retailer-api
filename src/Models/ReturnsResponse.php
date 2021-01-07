@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getReturns()
+ * @method ReducedReturn[] getReturns()
  */
 final class ReturnsResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class ReturnsResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $returns = [];
 
 
+    /**
+     * @param ReducedReturn[] $returns
+     *
+     * @return $this
+     */
 	public function setReturns(array $returns): self
 	{
 		$this->_checkIfPureArray($returns, \HarmSmits\BolComClient\Models\ReducedReturn::class);

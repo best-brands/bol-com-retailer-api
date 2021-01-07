@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getSubscriptions()
+ * @method SubscriptionResponse[] getSubscriptions()
  */
 final class SubscriptionsResponse extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -13,6 +13,11 @@ final class SubscriptionsResponse extends \HarmSmits\BolComClient\Models\AModel
 	protected array $subscriptions = [];
 
 
+    /**
+     * @param SubscriptionResponse[] $subscriptions
+     *
+     * @return $this
+     */
 	public function setSubscriptions(array $subscriptions): self
 	{
 		$this->_checkIfPureArray($subscriptions, \HarmSmits\BolComClient\Models\SubscriptionResponse::class);

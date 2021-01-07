@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getOrderItems()
+ * @method OrderItem[] getOrderItems()
  * @method null|string getShippingLabelOfferId()
  * @method self setShippingLabelOfferId(string $shippingLabelOfferId)
  */
@@ -24,6 +24,11 @@ final class ShippingLabelRequest extends \HarmSmits\BolComClient\Models\AModel
 	protected string $shippingLabelOfferId;
 
 
+    /**
+     * @param OrderItem[] $orderItems
+     *
+     * @return $this
+     */
 	public function setOrderItems(array $orderItems): self
 	{
 		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\OrderItem::class);

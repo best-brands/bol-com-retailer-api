@@ -25,7 +25,7 @@ use \DateTime;
  * @method self setStore(Store $store)
  * @method null|Condition getCondition()
  * @method self setCondition(Condition $condition)
- * @method null|array getNotPublishableReasons()
+ * @method NotPublishableReason[] getNotPublishableReasons()
  */
 final class RetailerOffer extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -79,6 +79,11 @@ final class RetailerOffer extends \HarmSmits\BolComClient\Models\AModel
 	protected array $notPublishableReasons = [];
 
 
+    /**
+     * @param NotPublishableReason[] $notPublishableReasons
+     *
+     * @return $this
+     */
 	public function setNotPublishableReasons(array $notPublishableReasons): self
 	{
 		$this->_checkIfPureArray($notPublishableReasons, \HarmSmits\BolComClient\Models\NotPublishableReason::class);

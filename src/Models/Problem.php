@@ -17,7 +17,7 @@ use \DateTime;
  * @method self setHost(string $host)
  * @method null|string getInstance()
  * @method self setInstance(string $instance)
- * @method null|array getViolations()
+ * @method Violation[] getViolations()
  */
 final class Problem extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -62,6 +62,11 @@ final class Problem extends \HarmSmits\BolComClient\Models\AModel
 	protected array $violations = [];
 
 
+    /**
+     * @param Violation[] $violations
+     *
+     * @return $this
+     */
 	public function setViolations(array $violations): self
 	{
 		$this->_checkIfPureArray($violations, \HarmSmits\BolComClient\Models\Violation::class);

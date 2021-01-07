@@ -19,7 +19,7 @@ use \DateTime;
  * @method self setReturnReasonComments(string $returnReasonComments)
  * @method null|bool getHandled()
  * @method self setHandled(bool $handled)
- * @method null|array getProcessingResults()
+ * @method ReturnProcessingResult[] getProcessingResults()
  */
 final class ReducedReturnItem extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -72,6 +72,11 @@ final class ReducedReturnItem extends \HarmSmits\BolComClient\Models\AModel
 	protected array $processingResults = [];
 
 
+    /**
+     * @param ReturnProcessingResult[] $processingResults
+     *
+     * @return $this
+     */
 	public function setProcessingResults(array $processingResults): self
 	{
 		$this->_checkIfPureArray($processingResults, \HarmSmits\BolComClient\Models\ReturnProcessingResult::class);

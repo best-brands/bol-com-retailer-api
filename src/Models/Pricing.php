@@ -5,7 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use \DateTime;
 
 /**
- * @method null|array getBundlePrices()
+ * @method BundlePrice[] getBundlePrices()
  */
 final class Pricing extends \HarmSmits\BolComClient\Models\AModel
 {
@@ -17,6 +17,11 @@ final class Pricing extends \HarmSmits\BolComClient\Models\AModel
 	protected array $bundlePrices = [];
 
 
+    /**
+     * @param BundlePrice[] $bundlePrices
+     *
+     * @return $this
+     */
 	public function setBundlePrices(array $bundlePrices): self
 	{
 		$this->_checkIfPureArray($bundlePrices, \HarmSmits\BolComClient\Models\BundlePrice::class);
