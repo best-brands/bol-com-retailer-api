@@ -39,7 +39,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/commission';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -81,7 +81,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -141,7 +141,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -159,7 +159,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/content/product';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -186,7 +186,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -239,7 +239,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -311,7 +311,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -328,7 +328,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/inbounds';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -355,7 +355,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -401,7 +401,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -431,7 +431,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -449,7 +449,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/inbounds/productlabels';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+pdf',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -476,7 +476,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -544,7 +544,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -587,7 +587,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -630,7 +630,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -700,7 +700,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -760,7 +760,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -816,7 +816,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -870,7 +870,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -889,7 +889,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/offers';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -916,7 +916,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -930,12 +930,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function requestOfferExportFile(CreateOfferExportRequest $body): array
+    public function createOfferExport(CreateOfferExportRequest $body): array
     {
         $data = [];
         $url = 'https://api.bol.com/retailer/offers/export';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -962,7 +962,6 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
         return [$method, $url, $data, $response];
     }
 
@@ -1005,7 +1004,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1024,7 +1023,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/offers/unpublished';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1051,7 +1050,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1094,7 +1093,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1177,7 +1176,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1198,7 +1197,7 @@ class Request
         $url = 'https://api.bol.com/retailer/offers/{offer-id}';
         $method = 'put';
         $url = str_replace('{offer-id}', $offerId, $url);
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1225,7 +1224,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1268,7 +1267,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1289,7 +1288,7 @@ class Request
         $url = 'https://api.bol.com/retailer/offers/{offer-id}/price';
         $method = 'put';
         $url = str_replace('{offer-id}', $offerId, $url);
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1316,7 +1315,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1337,7 +1336,7 @@ class Request
         $url = 'https://api.bol.com/retailer/offers/{offer-id}/stock';
         $method = 'put';
         $url = str_replace('{offer-id}', $offerId, $url);
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1364,7 +1363,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1406,7 +1405,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1426,7 +1425,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/orders/cancellation';
         $method = 'put';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1453,7 +1452,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1474,7 +1473,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/orders/shipment';
         $method = 'put';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1501,7 +1500,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1574,7 +1573,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1630,7 +1629,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1688,7 +1687,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1711,7 +1710,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/process-status';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -1743,7 +1742,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1792,7 +1791,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1852,7 +1851,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1872,7 +1871,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/returns';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
         );
@@ -1898,7 +1897,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1951,7 +1950,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1975,7 +1974,7 @@ class Request
         $url = 'https://api.bol.com/retailer/returns/{rma-id}';
         $method = 'put';
         $url = str_replace('{rma-id}', $rmaId, $url);
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -2002,7 +2001,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2068,7 +2067,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2146,7 +2145,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2165,7 +2164,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/shipping-labels';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -2192,7 +2191,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2212,7 +2211,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/shipping-labels/delivery-options';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -2264,7 +2263,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2307,7 +2306,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2357,7 +2356,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2377,7 +2376,7 @@ class Request
         $data = [];
         $url = 'https://api.bol.com/retailer/subscriptions';
         $method = 'post';
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -2404,7 +2403,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2435,7 +2434,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2476,7 +2475,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2524,7 +2523,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2546,7 +2545,7 @@ class Request
         $url = 'https://api.bol.com/retailer/subscriptions/{subscription-id}';
         $method = 'put';
         $url = str_replace('{subscription-id}', $subscriptionId, $url);
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -2573,7 +2572,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2617,7 +2616,7 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2639,7 +2638,7 @@ class Request
         $url = 'https://api.bol.com/retailer/transports/{transport-id}';
         $method = 'put';
         $url = str_replace('{transport-id}', $transportId, $url);
-        $data['body'] = $body->__toArray();
+        $data['body'] = json_encode($body->__toArray());
         $data['headers'] = array(
             'Accept' => 'application/vnd.retailer.v4+json',
             'Content-Type' => 'application/vnd.retailer.v4+json',
@@ -2666,7 +2665,23 @@ class Request
                         ),
                 ),
         );
-        $data = array_map('array_filter', $data);
+        $this->_filterOutput($data);
         return [$method, $url, $data, $response];
+    }
+
+    /**
+     * A quick array filter that will remove any empty arrays.
+     *
+     * @param $data
+     */
+    private function _filterOutput(&$data)
+    {
+        if (is_array($data)) {
+            $data = array_filter($data);
+
+            foreach ($data as &$_data) {
+                $this->_filterOutput($_data);
+            }
+        }
     }
 }
