@@ -1199,7 +1199,7 @@
             "name": "body",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/Container for the order items that have to be cancelled."
+              "$ref": "#/definitions/CancelOrderItemsRequest"
             }
           }
         ],
@@ -1970,7 +1970,7 @@
           "200": {
             "description": "Ok: Successfully processed the request.",
             "schema": {
-              "$ref": "#/definitions/Return"
+              "$ref": "#/definitions/_Return"
             }
           },
           "404": {
@@ -2991,7 +2991,7 @@
         }
       }
     },
-    "Container for the order items that have to be cancelled.": {
+    "CancelOrderItemsRequest": {
       "type": "object",
       "required": [
         "orderItems"
@@ -5474,7 +5474,7 @@
         }
       }
     },
-    "Return": {
+    "_Return": {
       "type": "object",
       "required": [
         "fulfilmentMethod",

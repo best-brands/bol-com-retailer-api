@@ -2,10 +2,8 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
- * @method null|array getOrderItems()
+ * @method OrderItem[] getOrderItems()
  * @method null|string getShipmentReference()
  * @method self setShipmentReference(string $shipmentReference)
  * @method null|string getShippingLabelId()
@@ -13,7 +11,7 @@ use \DateTime;
  * @method null|TransportInstruction getTransport()
  * @method self setTransport(TransportInstruction $transport)
  */
-final class ShipmentRequest extends \HarmSmits\BolComClient\Models\AModel
+final class ShipmentRequest extends AModel
 {
 	/**
 	 * List of order items to ship. Order item id's must belong to the same order.
@@ -22,8 +20,8 @@ final class ShipmentRequest extends \HarmSmits\BolComClient\Models\AModel
 	protected array $orderItems = [];
 
 	/**
-	 * A user-defined reference that you can provide to add to the shipment. Can be
-	 * used for own administration purposes.
+     * A user-defined reference that you can provide to add to the shipment. Can be used for own administration
+     * purposes.
 	 * @var string
 	 */
 	protected ?string $shipmentReference = null;
@@ -36,10 +34,9 @@ final class ShipmentRequest extends \HarmSmits\BolComClient\Models\AModel
 
 	protected ?TransportInstruction $transport = null;
 
-
 	public function setOrderItems(array $orderItems): self
 	{
-		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\OrderItem::class);
+		$this->_checkIfPureArray($orderItems, OrderItem::class);
 		$this->_checkArrayBounds($orderItems, 1, 1);
 		$this->orderItems = $orderItems;
 		return $this;

@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getEan()
  * @method self setEan(string $ean)
@@ -21,67 +19,63 @@ use \DateTime;
  * @method self setTotalCostWithoutReduction(float $totalCostWithoutReduction)
  * @method Reduction[] getReductions()
  */
-final class Commission extends \HarmSmits\BolComClient\Models\AModel
+final class Commission extends AModel
 {
-	/**
-	 * The EAN number associated with this product.
-	 * @var string
-	 */
-	protected ?string $ean = null;
+    /**
+     * The EAN number associated with this product.
+     * @var string
+     */
+    protected string $ean;
 
-	/**
-	 * The condition of the offer.
-	 * @var string
-	 */
-	protected ?string $condition = null;
+    /**
+     * The condition of the offer.
+     * @var string
+     */
+    protected string $condition;
 
-	/**
-	 * The intended selling price per single unit up to 2 decimals precision, including
-	 * VAT.
-	 * @var float
-	 */
-	protected float $unitPrice;
+    /**
+     * The intended selling price per single unit up to 2 decimals precision, including VAT.
+     * @var float
+     */
+    protected float $unitPrice;
 
-	/**
-	 * A fixed commission fee, including VAT.
-	 * @var float
-	 */
-	protected ?float $fixedAmount = null;
+    /**
+     * A fixed commission fee, including VAT.
+     * @var float
+     */
+    protected float $fixedAmount;
 
-	/**
-	 * A percentage of commission, based on the intended selling price per unit,
-	 * including VAT.
-	 * @var float
-	 */
-	protected ?float $percentage = null;
+    /**
+     * A percentage of commission, based on the intended selling price per unit, including VAT.
+     * @var float
+     */
+    protected float $percentage;
 
-	/**
-	 * The total commission for selling this product at bol.com. The price includes VAT
-	 * for Dutch sellers, and excludes VAT for Belgium sellers.
-	 * @var float
-	 */
-	protected ?float $totalCost = null;
+    /**
+     * The total commission for selling this product at bol.com. The price includes VAT for Dutch sellers, and
+     * excludes VAT for Belgium sellers.
+     * @var float
+     */
+    protected float $totalCost;
 
-	/**
-	 * The total commission for selling this product at bol.com without reductions
-	 * including VAT.
-	 * @var float
-	 */
-	protected ?float $totalCostWithoutReduction = null;
+    /**
+     * The total commission for selling this product at bol.com without reductions including VAT.
+     * @var float
+     */
+    protected ?float $totalCostWithoutReduction = null;
 
-	/** @var Reduction[] */
-	protected array $reductions = [];
-
+    /** @var Reduction[] */
+    protected array $reductions = [];
 
     /**
      * @param Reduction[] $reductions
      *
      * @return $this
      */
-	public function setReductions(array $reductions): self
-	{
-		$this->_checkIfPureArray($reductions, \HarmSmits\BolComClient\Models\Reduction::class);
-		$this->reductions = $reductions;
-		return $this;
-	}
+    public function setReductions(array $reductions): self
+    {
+        $this->_checkIfPureArray($reductions, Reduction::class);
+        $this->reductions = $reductions;
+        return $this;
+    }
 }

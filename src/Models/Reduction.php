@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|float getMaximumPrice()
  * @method self setMaximumPrice(float $maximumPrice)
@@ -14,32 +12,30 @@ use \DateTime;
  * @method null|string getEndDate()
  * @method self setEndDate(string $endDate)
  */
-final class Reduction extends \HarmSmits\BolComClient\Models\AModel
+final class Reduction extends AModel
 {
 	/**
-	 * Maximum offer price that can be used to benefit from a commission reduction,
-	 * including VAT.
+	 * Maximum offer price that can be used to benefit from a commission reduction, including VAT.
 	 * @var float
 	 */
-	protected ?float $maximumPrice = null;
+	protected float $maximumPrice;
 
 	/**
-	 * A reduction to the commission if the maximum price criteria is met, including
-	 * VAT.
+	 * A reduction to the commission if the maximum price criteria is met, including VAT.
 	 * @var float
 	 */
-	protected ?float $costReduction = null;
+	protected float $costReduction;
 
 	/**
 	 * The start date from which the commission reduction is valid, in ISO 8601 format.
 	 * @var string
 	 */
-	protected ?string $startDate = null;
+	protected string $startDate;
 
 	/**
-	 * The end date from which the commission reduction is not valid anymore, in ISO
-	 * 8601 format.
+	 * The end date from which the commission reduction is not valid anymore, in ISO 8601 format.
 	 * @var string
 	 */
-	protected ?string $endDate = null;
+	// TODO fix date type
+	protected string $endDate;
 }

@@ -2,33 +2,31 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
- * @method null|int getId()
- * @method self setId(int $id)
+ * @method null|string getId()
+ * @method self setId(string $id)
  * @method null|array getResources()
  * @method self setResources(array $resources)
  * @method null|string getUrl()
  * @method self setUrl(string $url)
  */
-final class SubscriptionResponse extends \HarmSmits\BolComClient\Models\AModel
+final class SubscriptionResponse extends AModel
 {
-	/**
-	 * A unique identifier for the subscription
-	 * @var int
-	 */
-	protected int $id;
+    /**
+     * A unique identifier for the subscription.
+     * @var string
+     */
+    protected string $id;
 
-	/**
-	 * Type of event
-	 * @var array
-	 */
-	protected array $resources = [];
+    /**
+     * Type of event.
+     * @var array
+     */
+    protected array $resources = [];
 
-	/**
-	 * URL to receive this WebHook notification
-	 * @var string
-	 */
-	protected string $url;
+    /**
+     * URL to receive this WebHook notification.
+     * @var string
+     */
+    protected string $url;
 }

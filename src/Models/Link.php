@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getRel()
  * @method self setRel(string $rel)
@@ -12,17 +10,23 @@ use \DateTime;
  * @method null|string getMethod()
  * @method self setMethod(string $method)
  */
-final class Link extends \HarmSmits\BolComClient\Models\AModel
+final class Link extends AModel
 {
-	/** @var string */
-	protected ?string $rel = null;
+    /**
+     * The link relation.
+     * @var string
+     */
+    protected string $rel;
 
-	/** @var string */
-	protected ?string $href = null;
+    /**
+     * The URI for the resource linked to.
+     * @var string
+     */
+    protected string $href;
 
-	/**
-	 * HTTP method
-	 * @var string
-	 */
-	protected ?string $method = null;
+    /**
+     * The HTTP method to use when accessing the link.
+     * @var string
+     */
+    protected string $method;
 }

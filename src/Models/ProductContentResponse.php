@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getInternalReference()
  * @method self setInternalReference(string $internalReference)
@@ -14,63 +12,61 @@ use \DateTime;
  * @method null|string getErrorDescription()
  * @method self setErrorDescription(string $errorDescription)
  */
-final class ProductContentResponse extends \HarmSmits\BolComClient\Models\AModel
+final class ProductContentResponse extends AModel
 {
-	const STATUS_VALIDATED_OK = 'VALIDATED_OK';
-	const STATUS_VALIDATED_WITH_ATTRIBUTE_FAILURES = 'VALIDATED_WITH_ATTRIBUTE_FAILURES';
-	const STATUS_REJECTED = 'REJECTED';
-	const STATUS_REJECTED_WITH_ATTRIBUTE_FAILURES = 'REJECTED_WITH_ATTRIBUTE_FAILURES';
+    const STATUS_VALIDATED_OK = 'VALIDATED_OK';
+    const STATUS_VALIDATED_WITH_ATTRIBUTE_FAILURES = 'VALIDATED_WITH_ATTRIBUTE_FAILURES';
+    const STATUS_REJECTED = 'REJECTED';
+    const STATUS_REJECTED_WITH_ATTRIBUTE_FAILURES = 'REJECTED_WITH_ATTRIBUTE_FAILURES';
 
-	/**
-	 * A user defined unique reference to identify the products in the upload.
-	 * @var string
-	 */
-	protected ?string $internalReference = null;
+    /**
+     * A user defined unique reference to identify the products in the upload.
+     * @var string
+     */
+    protected string $internalReference;
 
-	/** @var RejectedAttributeResponse[] */
-	protected array $rejectedAttributes = [];
+    /** @var RejectedAttributeResponse[] */
+    protected array $rejectedAttributes = [];
 
-	/**
-	 * The end status of the rejected attribute.
-	 * @var string
-	 */
-	protected ?string $status = null;
+    /**
+     * The end status of the rejected attribute.
+     * @var string
+     */
+    protected string $status;
 
-	/**
-	 * The rejection error code.
-	 * @var int
-	 */
-	protected ?int $errorCode = null;
+    /**
+     * The rejection error code.
+     * @var int
+     */
+    protected ?int $errorCode = null;
 
-	/**
-	 * The rejection error message explains why the value was rejected.
-	 * @var string
-	 */
-	protected ?string $errorDescription = null;
-
+    /**
+     * The rejection error message explains why the value was rejected.
+     * @var string
+     */
+    protected ?string $errorDescription = null;
 
     /**
      * @param RejectedAttributeResponse[] $rejectedAttributes
      *
      * @return $this
      */
-	public function setRejectedAttributes(array $rejectedAttributes): self
-	{
-		$this->_checkIfPureArray($rejectedAttributes, \HarmSmits\BolComClient\Models\RejectedAttributeResponse::class);
-		$this->rejectedAttributes = $rejectedAttributes;
-		return $this;
-	}
+    public function setRejectedAttributes(array $rejectedAttributes): self
+    {
+        $this->_checkIfPureArray($rejectedAttributes, RejectedAttributeResponse::class);
+        $this->rejectedAttributes = $rejectedAttributes;
+        return $this;
+    }
 
-
-	public function setStatus(string $status): self
-	{
-		$this->_checkEnumBounds($status, [
-			"VALIDATED_OK",
-			"VALIDATED_WITH_ATTRIBUTE_FAILURES",
-			"REJECTED",
-			"REJECTED_WITH_ATTRIBUTE_FAILURES"
-		]);
-		$this->status = $status;
-		return $this;
-	}
+    public function setStatus(string $status): self
+    {
+        $this->_checkEnumBounds($status, [
+            "VALIDATED_OK",
+            "VALIDATED_WITH_ATTRIBUTE_FAILURES",
+            "REJECTED",
+            "REJECTED_WITH_ATTRIBUTE_FAILURES",
+        ]);
+        $this->status = $status;
+        return $this;
+    }
 }

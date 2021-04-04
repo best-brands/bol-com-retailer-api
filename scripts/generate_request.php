@@ -26,10 +26,10 @@ class GenerateMap
      */
     private static array $types = [
         "boolean" => "bool",
-        "string" => "string",
-        "number" => "int",
+        "string"  => "string",
+        "number"  => "int",
         "integer" => "int",
-        "array" => "array"
+        "array"   => "array",
     ];
 
     /**
@@ -39,10 +39,10 @@ class GenerateMap
      */
     public function __construct(string $path, string $methodMap)
     {
-        $this->spec = json_decode(file_get_contents($path), true);
+        $this->spec      = json_decode(file_get_contents($path), true);
         $this->methodMap = json_decode(file_get_contents($methodMap), true);
-        $this->protocol = array_pop($this->spec["schemes"]);
-        $this->host = $this->spec["host"];
+        $this->protocol  = array_pop($this->spec["schemes"]);
+        $this->host      = $this->spec["host"];
     }
 
     public function javaTypeFixer(string $type)
@@ -74,15 +74,21 @@ class GenerateMap
         $makeNonPlural = false;
 
         $parts = array_map(function ($part) {
-            if ($part === "retailer") return "";
-            if (strpos($part, "{") !== false) return "by-" . trim($part, "{}");
+            if ($part === "retailer") {
+                return "";
+            }
+            if (strpos($part, "{") !== false) {
+                return "by-" . trim($part, "{}");
+            }
             return $part;
         }, $parts);
 
         $part = $this->dashesToCamelCase(implode("-", $parts));
         $name = $makeNonPlural ? rtrim($part, "s") : $part;
 
-        return (isset($this->methodMap[$name]) ? $this->methodMap[$name] : $name);
+        die($name);
+
+        return $this->methodMap[$name] ?? $name;
     }
 
     /**
@@ -96,11 +102,13 @@ class GenerateMap
     {
         if (isset($spec["name"])) {
             return lcfirst($this->dashesToCamelCase($spec["name"]));
-        } else if (isset($spec["schema"])) {
-            $list = explode("/", $spec["schema"]["\$ref"]);
-            return $list[array_key_last($list)];
         } else {
-            return "unknown";
+            if (isset($spec["schema"])) {
+                $list = explode("/", $spec["schema"]["\$ref"]);
+                return $list[array_key_last($list)];
+            } else {
+                return "unknown";
+            }
         }
     }
 
@@ -115,12 +123,14 @@ class GenerateMap
     {
         if (isset($spec["type"])) {
             return $this->javaTypeFixer($spec["type"]);
-        } else if (isset($spec["schema"])) {
-            $object = $this->getObjectName($spec["schema"]["\$ref"]);
-            $this->addInclude($object);
-            return $this->javaTypeFixer($this->getObjectName($object));
         } else {
-            return null;
+            if (isset($spec["schema"])) {
+                $object = $this->getObjectName($spec["schema"]["\$ref"]);
+                $this->addInclude($object);
+                return $this->javaTypeFixer($this->getObjectName($object));
+            } else {
+                return null;
+            }
         }
     }
 
@@ -139,10 +149,11 @@ class GenerateMap
         $param->setType($type);
 
         $comment = "@param $type $$name";
-        if (isset($schema["description"]))
+        if (isset($schema["description"])) {
             $comment .= " " . $schema["description"];
+        }
 
-        $method->addComment(wordwrap($comment, 80));
+        $method->addComment(wordwrap($comment, 120));
 
         if (!$schema["required"]) {
             $param->setNullable(!$schema["required"]);
@@ -160,10 +171,12 @@ class GenerateMap
         usort($parameters, function ($left, $right) {
             if ($left === $right) {
                 return 0;
-            } else if ($left === false) {
-                return 1;
             } else {
-                return -1;
+                if ($left === false) {
+                    return 1;
+                } else {
+                    return -1;
+                }
             }
         });
     }
@@ -176,8 +189,8 @@ class GenerateMap
 
     private function getSchemaProperties(string $reference)
     {
-        $spec = $this->spec;
-        $parts = explode("/", $reference);
+        $spec    = $this->spec;
+        $parts   = explode("/", $reference);
         $parts[] = "properties";
 
         for ($i = 1; $i < count($parts); $i++) {
@@ -197,12 +210,12 @@ class GenerateMap
     private function getFullSchema(string $reference)
     {
         return array_map(function ($property) {
-            $is_array = isset($property["items"]);
+            $is_array  = isset($property["items"]);
             $reference = $is_array ? $property["items"]["\$ref"] : $property["\$ref"];
 
             return array_merge([
                 "\$type" => $is_array ? Populator::TYPE_ARRAY_OF_OBJECTS : Populator::TYPE_OBJECT,
-                "\$ref" => sprintf('HarmSmits\BolComClient\Models\%s', $this->getObjectName($reference))
+                "\$ref"  => sprintf('HarmSmits\BolComClient\Models\%s', $this->getObjectName($reference)),
             ], $this->getFullSchema($reference));
 
         }, array_filter($this->getSchemaProperties($reference), function ($item) {
@@ -217,11 +230,12 @@ class GenerateMap
      *
      * @return array
      */
-    private function getFullSchemaByReference(string $reference) {
+    private function getFullSchemaByReference(string $reference)
+    {
         return array_merge(
             [
                 "\$type" => Populator::TYPE_OBJECT,
-                "\$ref" => sprintf('HarmSmits\BolComClient\Models\%s', $this->getObjectName($reference))
+                "\$ref"  => sprintf('HarmSmits\BolComClient\Models\%s', $this->getObjectName($reference)),
             ],
             $this->getFullSchema($reference)
         );
@@ -239,21 +253,25 @@ class GenerateMap
         $formatted = [];
 
         foreach ($responses as $code => $response) {
-            if (isset($response["schema"]) && isset($response["schema"]["\$ref"]))
+            if (isset($response["schema"]) && isset($response["schema"]["\$ref"])) {
                 $formatted[intval($code)] = $this->getFullSchemaByReference($response["schema"]["\$ref"]);
+            }
         }
 
         return var_export($formatted, true);
     }
 
-    private function generateHeaders(array $spec) {
+    private function generateHeaders(array $spec)
+    {
         $headers = [];
 
-        if (isset($spec["produces"]))
+        if (isset($spec["produces"])) {
             $headers["Accept"] = $spec["produces"][0];
+        }
 
-        if (isset($spec["consumes"]))
+        if (isset($spec["consumes"])) {
             $headers["Content-Type"] = $spec["consumes"][0];
+        }
         return (var_export($headers, true));
     }
 
@@ -271,8 +289,9 @@ class GenerateMap
 
         if (isset($spec["parameters"])) {
             foreach ($spec["parameters"] as $parameter) {
-                if (!isset($sorted[$parameter["in"]]))
+                if (!isset($sorted[$parameter["in"]])) {
                     $sorted[$parameter["in"]] = [];
+                }
 
                 $sorted[$parameter["in"]][] = $parameter;
             }
@@ -303,7 +322,7 @@ class GenerateMap
             $method->addComment(sprintf("\n@throws \%s", HarmSmits\BolComClient\Exception\InvalidPropertyException::class));
 
             foreach ($sorted["body"] as $body) {
-                $method->addBody(sprintf('$data["body"] = $%s->toArray();', $this->getParameterName($body)));
+                $method->addBody(sprintf('$data["body"] = $%s->__toArray();', $this->getParameterName($body)));
             }
         }
 
@@ -327,8 +346,9 @@ class GenerateMap
         $method = $class->addMethod($name);
         $method->setReturnType("array");
 
-        if (isset($spec["description"]))
-            $method->addComment(wordwrap($spec["description"], 80) . "\n");
+        if (isset($spec["description"])) {
+            $method->addComment(wordwrap($spec["description"], 120) . "\n");
+        }
 
         if (isset($spec["parameters"])) {
             $this->sortParameters($spec["parameters"]);
@@ -354,13 +374,14 @@ class GenerateMap
         foreach ($this->spec["paths"] as $path => $schema) {
             foreach ($schema as $method => $spec) {
                 $parts = explode("/", $path);
-                $name = $method . $this->getMethodName($parts);
+                $name  = $method . $this->getMethodName($parts);
                 $this->addMethod($class, $name, $spec, $path, $method);
             }
         }
     }
 
-    private function addInclude(string $name) {
+    private function addInclude(string $name)
+    {
         $this->includes[] = "use HarmSmits\BolComClient\Models\\$name;";
     }
 
@@ -382,7 +403,7 @@ class GenerateMap
 require(dirname(__DIR__) . "/vendor/autoload.php");
 
 $class = new GenerateMap(
-    dirname(__DIR__) . "/resources/v4.json",
+    dirname(__DIR__) . "/resources/v5.json",
     dirname(__DIR__) . "/resources/methods.json"
 );
 

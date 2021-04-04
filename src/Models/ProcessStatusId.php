@@ -2,17 +2,15 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
- * @method null|int getId()
- * @method self setId(int $id)
+ * @method null|string getProcessStatusId()
+ * @method self setProcessStatusId(string $processStatusId)
  */
-final class ProcessStatusId extends \HarmSmits\BolComClient\Models\AModel
+final class ProcessStatusId extends AModel
 {
-	/**
-	 * The process status id.
-	 * @var int
-	 */
-	protected ?int $id = null;
+    /**
+     * The process status id.
+     * @var string
+     */
+    protected ?string $processStatusId = null;
 }

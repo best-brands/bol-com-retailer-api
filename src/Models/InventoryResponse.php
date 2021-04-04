@@ -2,26 +2,23 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
- * @method Inventory[] getInventory()
+ * @method null|array getInventory()
  */
-final class InventoryResponse extends \HarmSmits\BolComClient\Models\AModel
+final class InventoryResponse extends AModel
 {
-	/** @var Inventory[] */
-	protected array $inventory = [];
-
+    /** @var Inventory[] */
+    protected array $inventory = [];
 
     /**
      * @param Inventory[] $inventory
      *
      * @return $this
      */
-	public function setInventory(array $inventory): self
-	{
-		$this->_checkIfPureArray($inventory, \HarmSmits\BolComClient\Models\Inventory::class);
-		$this->inventory = $inventory;
-		return $this;
-	}
+    public function setInventory(array $inventory): self
+    {
+        $this->_checkIfPureArray($inventory, Inventory::class);
+        $this->inventory = $inventory;
+        return $this;
+    }
 }

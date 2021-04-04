@@ -2,26 +2,23 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method ProductContentResponse[] getProductContents()
  */
-final class ValidationReportResponse extends \HarmSmits\BolComClient\Models\AModel
+final class ValidationReportResponse extends AModel
 {
-	/** @var ProductContentResponse[] */
-	protected array $productContents = [];
-
+    /** @var ProductContentResponse[] */
+    protected array $productContents = [];
 
     /**
      * @param ProductContentResponse[] $productContents
      *
      * @return $this
      */
-	public function setProductContents(array $productContents): self
-	{
-		$this->_checkIfPureArray($productContents, \HarmSmits\BolComClient\Models\ProductContentResponse::class);
-		$this->productContents = $productContents;
-		return $this;
-	}
+    public function setProductContents(array $productContents): self
+    {
+        $this->_checkIfPureArray($productContents, ProductContentResponse::class);
+        $this->productContents = $productContents;
+        return $this;
+    }
 }

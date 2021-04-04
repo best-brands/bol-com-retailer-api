@@ -2,19 +2,16 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
- * @method null|OrderItem[] getOrderItems()
+ * @method null|array getOrderItems()
  */
-final class DeliveryOptionsRequest extends \HarmSmits\BolComClient\Models\AModel
+final class DeliveryOptionsRequest extends AModel
 {
 	/**
 	 * Order items for which the delivery options are requested.
 	 * @var OrderItem[]
 	 */
 	protected array $orderItems = [];
-
 
     /**
      * @param OrderItem[] $orderItems
@@ -23,7 +20,7 @@ final class DeliveryOptionsRequest extends \HarmSmits\BolComClient\Models\AModel
      */
 	public function setOrderItems(array $orderItems): self
 	{
-		$this->_checkIfPureArray($orderItems, \HarmSmits\BolComClient\Models\OrderItem::class);
+		$this->_checkIfPureArray($orderItems, OrderItem::class);
 		$this->orderItems = $orderItems;
 		return $this;
 	}

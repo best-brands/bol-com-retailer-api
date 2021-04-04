@@ -2,7 +2,7 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
+use DateTime;
 
 /**
  * @method null|int getShipmentId()
@@ -10,8 +10,8 @@ use \DateTime;
  * @method null|DateTime getShipmentDateTime()
  * @method null|string getShipmentReference()
  * @method self setShipmentReference(string $shipmentReference)
- * @method null|bool getPickUpPoint()
- * @method self setPickUpPoint(bool $pickUpPoint)
+ * @method null|bool getPickupPoint()
+ * @method self setPickupPoint(bool $pickupPoint)
  * @method null|ShipmentOrder getOrder()
  * @method self setOrder(ShipmentOrder $order)
  * @method null|ShipmentDetails getShipmentDetails()
@@ -22,61 +22,59 @@ use \DateTime;
  * @method null|ShipmentTransport getTransport()
  * @method self setTransport(ShipmentTransport $transport)
  */
-final class Shipment extends \HarmSmits\BolComClient\Models\AModel
+final class Shipment extends AModel
 {
-	/**
-	 * A unique identifier for this shipment.
-	 * @var int
-	 */
-	protected ?int $shipmentId = null;
+    /**
+     * A unique identifier for this shipment.
+     * @var int
+     */
+    protected ?int $shipmentId = null;
 
-	/**
-	 * The date and time in ISO 8601 format when the order item was shipped.
-	 * @var DateTime
-	 */
-	protected ?DateTime $shipmentDateTime = null;
+    /**
+     * The date and time in ISO 8601 format when the order item was shipped.
+     * @var DateTime
+     */
+    protected ?DateTime $shipmentDateTime = null;
 
-	/**
-	 * Reference supplied by the user when this item was shipped.
-	 * @var string
-	 */
-	protected ?string $shipmentReference = null;
+    /**
+     * Reference supplied by the user when this item was shipped.
+     * @var string
+     */
+    protected ?string $shipmentReference = null;
 
-	/**
-	 * Indicates whether this order is shipped to a Pick Up Point.
-	 * @var bool
-	 */
-	protected ?bool $pickUpPoint = null;
+    /**
+     * Indicates whether this order is shipped to a Pick Up Point.
+     * @var bool
+     */
+    protected ?bool $pickupPoint = null;
 
-	protected ShipmentOrder $order;
+    protected ShipmentOrder $order;
 
-	protected ?ShipmentDetails $shipmentDetails = null;
+    protected ?ShipmentDetails $shipmentDetails = null;
 
-	protected ?BillingDetails $billingDetails = null;
+    protected ?BillingDetails $billingDetails = null;
 
-	/** @var ShipmentItem[] */
-	protected array $shipmentItems = [];
+    /** @var ShipmentItem[] */
+    protected array $shipmentItems = [];
 
-	protected ?ShipmentTransport $transport = null;
+    protected ?ShipmentTransport $transport = null;
 
-
-	public function setShipmentDateTime($shipmentDateTime): self
-	{
-		$shipmentDateTime = $this->_parseDate($shipmentDateTime);
-		$this->shipmentDateTime = $shipmentDateTime;
-		return $this;
-	}
-
+    public function setShipmentDateTime($shipmentDateTime): self
+    {
+        $shipmentDateTime       = $this->_parseDate($shipmentDateTime);
+        $this->shipmentDateTime = $shipmentDateTime;
+        return $this;
+    }
 
     /**
      * @param ShipmentItem[] $shipmentItems
      *
      * @return $this
      */
-	public function setShipmentItems(array $shipmentItems): self
-	{
-		$this->_checkIfPureArray($shipmentItems, \HarmSmits\BolComClient\Models\ShipmentItem::class);
-		$this->shipmentItems = $shipmentItems;
-		return $this;
-	}
+    public function setShipmentItems(array $shipmentItems): self
+    {
+        $this->_checkIfPureArray($shipmentItems, ShipmentItem::class);
+        $this->shipmentItems = $shipmentItems;
+        return $this;
+    }
 }

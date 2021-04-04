@@ -13,10 +13,10 @@ class GenerateObjects
 
     private array $types = [
         "boolean" => Type::BOOL,
-        "string" => Type::STRING,
-        "number" => Type::FLOAT,
+        "string"  => Type::STRING,
+        "number"  => Type::FLOAT,
         "integer" => Type::INT,
-        "array" => Type::ARRAY
+        "array"   => Type::ARRAY,
     ];
 
     /**
@@ -24,7 +24,8 @@ class GenerateObjects
      *
      * @param $path
      */
-    public function __construct(string $path) {
+    public function __construct(string $path)
+    {
         $this->spec = json_decode(file_get_contents($path), true);
     }
 
@@ -35,7 +36,8 @@ class GenerateObjects
      *
      * @return mixed
      */
-    private function javaTypeFixer($type) {
+    private function javaTypeFixer($type)
+    {
         if (array_key_exists($type, $this->types)) {
             return $this->types[$type];
         } else {
@@ -50,7 +52,8 @@ class GenerateObjects
      *
      * @return bool
      */
-    private function isReference(array $property) {
+    private function isReference(array $property)
+    {
         return (isset($property['$ref']) || (isset($property['items']) && isset($property['items']['$ref'])));
     }
 
@@ -62,7 +65,8 @@ class GenerateObjects
      *
      * @return string
      */
-    private function getReference(array $property) {
+    private function getReference(array $property)
+    {
         if (isset($property['$ref'])) {
             return $property['$ref'];
         } else {
@@ -77,7 +81,8 @@ class GenerateObjects
      *
      * @return array
      */
-    private function getReferenceObject(string $reference) {
+    private function getReferenceObject(string $reference)
+    {
         $parts = explode("/", $reference);
         $parts[0] === '#' && array_shift($parts);
 
@@ -97,16 +102,19 @@ class GenerateObjects
      *
      * @return string
      */
-    private function getType(array $schema, $strict = true): ?string {
+    private function getType(array $schema, $strict = true): ?string
+    {
         if (isset($schema["format"]) && $schema["format"] === "date-time") {
             return "DateTime";
-        } else if ($strict && isset($schema["type"])) {
-            return $this->javaTypeFixer($schema["type"]);
-        } elseif ($this->isReference($schema)) {
-            list ($name, $definition) = $this->getReferenceObject($this->getReference($schema));
-            return $name;
         } else {
-            return null;
+            if ($strict && isset($schema["type"])) {
+                return $this->javaTypeFixer($schema["type"]);
+            } else if ($this->isReference($schema)) {
+                [$name, $definition] = $this->getReferenceObject($this->getReference($schema));
+                return $name;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -119,7 +127,8 @@ class GenerateObjects
      *
      * @return \Nette\PhpGenerator\Property
      */
-    private function parseProperty($name, array $schema, array $required) {
+    private function parseProperty($name, array $schema, array $required)
+    {
         $prop = new \Nette\PhpGenerator\Property($name);
         $prop->setProtected();
 
@@ -143,13 +152,15 @@ class GenerateObjects
 
         // sets the documentation for each property
         if (isset($schema["description"])) {
-            $prop->addComment(\wordwrap($schema["description"], 80, "\n", true));
+            $prop->addComment(\wordwrap($schema["description"], 120, "\n", true));
         }
 
-        if ($this->isReference($schema) && isset($schema["type"]))
+        if ($this->isReference($schema) && isset($schema["type"])) {
             $prop->addComment(sprintf("@var %s[]", $this->getType($schema, false)));
-        else if (isset($schema["type"])) {
-            $prop->addComment(sprintf("@var %s", $this->getType($schema)));
+        } else {
+            if (isset($schema["type"])) {
+                $prop->addComment(sprintf("@var %s", $this->getType($schema)));
+            }
         }
 
         return $prop;
@@ -162,7 +173,8 @@ class GenerateObjects
      *
      * @return string
      */
-    private function prefixClassPath(string $classPath) {
+    private function prefixClassPath(string $classPath)
+    {
         return ("\\" . $classPath);
     }
 
@@ -173,7 +185,8 @@ class GenerateObjects
      *
      * @return string
      */
-    private function getArrayExportFunction($properties) {
+    private function getArrayExportFunction($properties)
+    {
         $code = "return array(\n";
         foreach ($properties as $name => $property) {
             $getter = sprintf('$this->get%s()', ucfirst($name));
@@ -190,28 +203,31 @@ class GenerateObjects
         return $code;
     }
 
-    private function toHighSnakeCase(string $input) {
+    private function toHighSnakeCase(string $input)
+    {
         return strtoupper(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
 
-    private function sanitizeAmbiguousName($input) {
+    private function sanitizeAmbiguousName($input)
+    {
         return preg_replace('/[^a-zA-Z0-9]+/', '_', $input);
     }
 
     /**
      * Set the setter method
      *
-     * @param ClassType $class
+     * @param ClassType                     $class
      * @param                               $name
      * @param array                         $schema
      */
-    private function setSetterFunction(ClassType &$class, $name, array $schema) {
+    private function setSetterFunction(ClassType &$class, $name, array $schema)
+    {
         $type = $this->getType($schema);
         $body = "";
 
         if ($this->isReference($schema) && $type === Type::ARRAY) {
             $classname = sprintf("%s\\%s::class", $this->namespace, $this->getType($schema, false));
-            $body .= sprintf("\$this->_checkIfPureArray(%s, %s);\n", "$$name", $this->prefixClassPath($classname));
+            $body      .= sprintf("\$this->_checkIfPureArray(%s, %s);\n", "$$name", $this->prefixClassPath($classname));
         }
 
         if ($type === Type::ARRAY && isset($schema["items"])
@@ -248,7 +264,7 @@ class GenerateObjects
             $body .= sprintf("\$this->%s = $%s;\n", $name, $name);
             $body .= "return \$this;";
 
-            $method = $class->addMethod("set" . ucfirst($name));
+            $method    = $class->addMethod("set" . ucfirst($name));
             $parameter = $method->addParameter($name);
             $parameter->setType($type);
             $method->setBody($body);
@@ -261,22 +277,24 @@ class GenerateObjects
     /**
      * Set the getter method
      *
-     * @param ClassType $class
+     * @param ClassType                     $class
      * @param                               $name
      * @param array                         $schema
      */
-    private function setGetterFunction(ClassType &$class, $name, array $schema) {
+    private function setGetterFunction(ClassType &$class, $name, array $schema)
+    {
         $type = $this->getType($schema);
-        $class->addComment(sprintf('@method null|' . $type . ' ' .  'get' . ucfirst($name) . '()'));
+        $class->addComment(sprintf('@method null|' . $type . ' ' . 'get' . ucfirst($name) . '()'));
     }
 
     /**
      * Set the to array function
      *
      * @param ClassType $class
-     * @param array                         $properties
+     * @param array     $properties
      */
-    private function setToArrayFunction(ClassType &$class, array $properties) {
+    private function setToArrayFunction(ClassType &$class, array $properties)
+    {
         $method = $class->addMethod("toArray");
         $method->setBody($this->getArrayExportFunction($properties));
         $method->setReturnType(Type::ARRAY);
@@ -286,10 +304,11 @@ class GenerateObjects
      * Set all enums as constants so that they are actually accessible
      *
      * @param ClassType $class
-     * @param string                        $property
-     * @param array                         $enum
+     * @param string    $property
+     * @param array     $enum
      */
-    private function setEnums(ClassType &$class, string $property, array $enum) {
+    private function setEnums(ClassType &$class, string $property, array $enum)
+    {
         $prefix = $this->toHighSnakeCase($property);
 
         foreach ($enum as $value) {
@@ -303,13 +322,15 @@ class GenerateObjects
      * @param string $name
      * @param array  $definition
      */
-    private function generateObject(string $name, array $definition) {
+    private function generateObject(string $name, array $definition)
+    {
         $class = new ClassType($name);
         $class->setFinal(true); // for the love of god, do not extend generated code of all things.
         $class->addExtend($this->prefixClassPath(\HarmSmits\BolComClient\Models\AModel::class));
 
         foreach ($definition["properties"] as $property => $schema) {
-            $class->addMember($this->parseProperty($property, $schema, isset($definition["required"]) ? $definition["required"] : []));
+            $class->addMember($this->parseProperty($property, $schema, isset($definition["required"])
+                ? $definition["required"] : []));
             $this->setGetterFunction($class, $property, $schema);
             $this->setSetterFunction($class, $property, $schema);
 
@@ -334,18 +355,20 @@ PHP;
     /**
      * Generate all the object classes
      */
-    private function generateObjects() {
+    private function generateObjects()
+    {
         foreach ($this->spec["definitions"] as $name => $definition) {
             $this->generateObject($name, $definition);
         }
     }
 
-    public function generate() {
+    public function generate()
+    {
         $this->generateObjects();
     }
 }
 
 require(dirname(__DIR__) . "/vendor/autoload.php");
 
-$class = new GenerateObjects(dirname(__DIR__) . "/resources/v4.json");
+$class = new GenerateObjects(dirname(__DIR__) . "/resources/v5.json");
 $class->generate();

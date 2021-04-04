@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getType()
  * @method self setType(string $type)
@@ -19,58 +17,56 @@ use \DateTime;
  * @method self setInstance(string $instance)
  * @method Violation[] getViolations()
  */
-final class Problem extends \HarmSmits\BolComClient\Models\AModel
+final class Problem extends AModel
 {
-	/**
-	 * Type URI for this problem. Fixed value: https://api.bol.com/problems.
-	 * @var string
-	 */
-	protected ?string $type = null;
+    /**
+     * Type URI for this problem. Fixed value: https://api.bol.com/problems.
+     * @var string
+     */
+    protected ?string $type = null;
 
-	/**
-	 * Title describing the nature of the problem.
-	 * @var string
-	 */
-	protected ?string $title = null;
+    /**
+     * Title describing the nature of the problem.
+     * @var string
+     */
+    protected ?string $title = null;
 
-	/**
-	 * HTTP status returned from the endpoint causing the problem.
-	 * @var int
-	 */
-	protected ?int $status = null;
+    /**
+     * HTTP status returned from the endpoint causing the problem.
+     * @var int
+     */
+    protected ?int $status = null;
 
-	/**
-	 * Detailed error message describing in additional detail what caused the service
-	 * to return this problem.
-	 * @var string
-	 */
-	protected ?string $detail = null;
+    /**
+     * Detailed error message describing in additional detail what caused the service to return this problem.
+     * @var string
+     */
+    protected ?string $detail = null;
 
-	/**
-	 * Host identifier describing the server instance that reported the problem.
-	 * @var string
-	 */
-	protected ?string $host = null;
+    /**
+     * Host identifier describing the server instance that reported the problem.
+     * @var string
+     */
+    protected ?string $host = null;
 
-	/**
-	 * Full URI path of the resource that reported the problem.
-	 * @var string
-	 */
-	protected ?string $instance = null;
+    /**
+     * Full URI path of the resource that reported the problem.
+     * @var string
+     */
+    protected ?string $instance = null;
 
-	/** @var Violation[] */
-	protected array $violations = [];
-
+    /** @var Violation[] */
+    protected array $violations = [];
 
     /**
      * @param Violation[] $violations
      *
      * @return $this
      */
-	public function setViolations(array $violations): self
-	{
-		$this->_checkIfPureArray($violations, \HarmSmits\BolComClient\Models\Violation::class);
-		$this->violations = $violations;
-		return $this;
-	}
+    public function setViolations(array $violations): self
+    {
+        $this->_checkIfPureArray($violations, Violation::class);
+        $this->violations = $violations;
+        return $this;
+    }
 }

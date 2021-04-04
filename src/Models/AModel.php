@@ -80,12 +80,13 @@ class AModel
     {
         $result = new DateTime();
 
-        if ($updatedSince instanceof DateTime)
+        if ($updatedSince instanceof DateTime) {
             $result = $updatedSince;
-        elseif (gettype($updatedSince) === 'int')
+        } else if (gettype($updatedSince) === 'int') {
             ($result = new DateTime())->setTimestamp($updatedSince);
-        elseif ($parsed = DateTime::createFromFormat(DATE_ISO8601, $updatedSince))
+        } else if ($parsed = DateTime::createFromFormat(DATE_ISO8601, $updatedSince)) {
             $result = $parsed;
+        }
 
         return $result;
     }
@@ -220,7 +221,7 @@ class AModel
     protected function _checkEnumBounds(string $enum, array $enums)
     {
         if (!in_array($enum, $enums)) {
-            throw new \InvalidArgumentException("Unknown enum");
+            throw new InvalidArgumentException("Unknown enum");
         }
     }
 }

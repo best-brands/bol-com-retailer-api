@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getOfferId()
  * @method self setOfferId(string $offerId)
@@ -27,67 +25,63 @@ use \DateTime;
  * @method self setCondition(Condition $condition)
  * @method NotPublishableReason[] getNotPublishableReasons()
  */
-final class RetailerOffer extends \HarmSmits\BolComClient\Models\AModel
+final class RetailerOffer extends AModel
 {
-	/**
-	 * Unique identifier for an offer.
-	 * @var string
-	 */
-	protected ?string $offerId = null;
+    /**
+     * Unique identifier for an offer.
+     * @var string
+     */
+    protected string $offerId;
 
-	/**
-	 * The EAN number associated with this product. Note: in case an ISBN is provided,
-	 * the ISBN will be replaced with the actual EAN belonging to this ISBN.
-	 * @var string
-	 */
-	protected ?string $ean = null;
+    /**
+     * The EAN number associated with this product. Note: in case an ISBN is provided, the ISBN will be replaced with
+     * the actual EAN belonging to this ISBN.
+     * @var string
+     */
+    protected string $ean;
 
-	/**
-	 * A user-defined reference that helps you identify this particular offer when
-	 * receiving data from us. This element can optionally be left empty and has a
-	 * maximum amount of 20 characters.
-	 * @var string
-	 */
-	protected ?string $reference = null;
+    /**
+     * A user-defined reference that helps you identify this particular offer when receiving data from us. This
+     * element can optionally be left empty and has a maximum amount of 20 characters.
+     * @var string
+     */
+    protected ?string $reference = null;
 
-	/**
-	 * Indicates whether or not you want to put this offer for sale on the bol.com
-	 * website. Defaults to false.
-	 * @var bool
-	 */
-	protected ?bool $onHoldByRetailer = null;
+    /**
+     * Indicates whether or not you want to put this offer for sale on the bol.com website. Defaults to false.
+     * @var bool
+     */
+    protected bool $onHoldByRetailer;
 
-	/**
-	 * In case the item is not known to bol.com you can use this field to identify this
-	 * particular product. Note: in case the product is known to bol.com, the unknown
-	 * product title will not be stored.
-	 * @var string
-	 */
-	protected ?string $unknownProductTitle = null;
+    /**
+     * In case the item is not known to bol.com you can use this field to identify this particular product. Note: in
+     * case the product is known to bol.com, the unknown product title will not be stored.
+     * @var string
+     */
+    protected ?string $unknownProductTitle = null;
 
-	protected Pricing $pricing;
+    protected Pricing $pricing;
 
-	protected Stock $stock;
+    protected Stock $stock;
 
-	protected Fulfilment $fulfilment;
+    protected Fulfilment $fulfilment;
 
-	protected Store $store;
+    protected Store $store;
 
-	protected Condition $condition;
+    protected Condition $condition;
 
-	/** @var NotPublishableReason[] */
-	protected array $notPublishableReasons = [];
-
+    /** @var NotPublishableReason[] */
+    protected array $notPublishableReasons = [];
 
     /**
      * @param NotPublishableReason[] $notPublishableReasons
      *
      * @return $this
      */
-	public function setNotPublishableReasons(array $notPublishableReasons): self
-	{
-		$this->_checkIfPureArray($notPublishableReasons, \HarmSmits\BolComClient\Models\NotPublishableReason::class);
-		$this->notPublishableReasons = $notPublishableReasons;
-		return $this;
-	}
+    public function setNotPublishableReasons(array $notPublishableReasons): self
+    {
+        $this->_checkIfPureArray($notPublishableReasons, NotPublishableReason::class);
+        $this->notPublishableReasons = $notPublishableReasons;
+        return $this;
+    }
 }

@@ -3,7 +3,6 @@
 namespace HarmSmits\BolComClient;
 
 use Closure;
-use DateTime;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
@@ -15,53 +14,29 @@ use GuzzleHttp\Promise\Utils;
 use HarmSmits\BolComClient\Exception\BearerTokenException;
 use HarmSmits\BolComClient\Exception\InvalidArgumentException;
 use HarmSmits\BolComClient\Exception\ProblemException;
-use HarmSmits\BolComClient\Models\BulkCommissionQuery;
 use HarmSmits\BolComClient\Models\BulkCommissionRequest;
-use HarmSmits\BolComClient\Models\BulkCommissionResponse;
 use HarmSmits\BolComClient\Models\BulkProcessStatusRequest;
-use HarmSmits\BolComClient\Models\CanceledOrderRequest;
+use HarmSmits\BolComClient\Models\CancelOrderItemsRequest;
 use HarmSmits\BolComClient\Models\ChangeTransportRequest;
-use HarmSmits\BolComClient\Models\Commission;
 use HarmSmits\BolComClient\Models\CreateOfferExportRequest;
 use HarmSmits\BolComClient\Models\CreateOfferRequest;
 use HarmSmits\BolComClient\Models\CreateProductContentRequest;
+use HarmSmits\BolComClient\Models\CreateReplenishmentRequest;
 use HarmSmits\BolComClient\Models\CreateReturnRequest;
 use HarmSmits\BolComClient\Models\CreateSubscriptionRequest;
 use HarmSmits\BolComClient\Models\CreateUnpublishedOfferReportRequest;
 use HarmSmits\BolComClient\Models\DeliveryOptionsRequest;
-use HarmSmits\BolComClient\Models\DeliveryOptionsResponse;
-use HarmSmits\BolComClient\Models\DeliveryWindow;
-use HarmSmits\BolComClient\Models\Inbound;
-use HarmSmits\BolComClient\Models\InboundRequest;
-use HarmSmits\BolComClient\Models\Inbounds;
-use HarmSmits\BolComClient\Models\InventoryResponse;
-use HarmSmits\BolComClient\Models\KeySetResponse;
-use HarmSmits\BolComClient\Models\OfferInsights;
-use HarmSmits\BolComClient\Models\Order;
-use HarmSmits\BolComClient\Models\PerformanceIndicators;
+use HarmSmits\BolComClient\Models\PickupTimeSlotsRequest;
 use HarmSmits\BolComClient\Models\Problem;
-use HarmSmits\BolComClient\Models\ProcessStatus;
-use HarmSmits\BolComClient\Models\ProcessStatusResponse;
 use HarmSmits\BolComClient\Models\ProductLabelsRequest;
-use HarmSmits\BolComClient\Models\ReducedOrders;
-use HarmSmits\BolComClient\Models\RetailerOffer;
-use HarmSmits\BolComClient\Models\RetailPriceResponse;
-use HarmSmits\BolComClient\Models\Return_;
 use HarmSmits\BolComClient\Models\ReturnRequest;
-use HarmSmits\BolComClient\Models\ReturnsResponse;
-use HarmSmits\BolComClient\Models\SalesForecastResponse;
-use HarmSmits\BolComClient\Models\Shipment;
 use HarmSmits\BolComClient\Models\ShipmentRequest;
-use HarmSmits\BolComClient\Models\ShipmentResponse;
 use HarmSmits\BolComClient\Models\ShippingLabelRequest;
-use HarmSmits\BolComClient\Models\SubscriptionResponse;
-use HarmSmits\BolComClient\Models\SubscriptionsResponse;
-use HarmSmits\BolComClient\Models\TransportersResponse;
 use HarmSmits\BolComClient\Models\UpdateOfferPriceRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferRequest;
 use HarmSmits\BolComClient\Models\UpdateOfferStockRequest;
+use HarmSmits\BolComClient\Models\UpdateReplenishmentRequest;
 use HarmSmits\BolComClient\Models\UpdateSubscriptionRequest;
-use HarmSmits\BolComClient\Models\ValidationReportResponse;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -69,108 +44,114 @@ use Throwable;
 
 /**
  * Class Client
- * @method BulkCommissionResponse getCommissions(BulkCommissionRequest $body)
- * @method PromiseInterface getCommissionsAsync(BulkCommissionRequest $body)
- * @method Commission getCommission(string $ean, float $unitPrice, string $condition = BulkCommissionQuery::CONDITION_NEW)
- * @method PromiseInterface getCommissionAsync(string $ean, float $unitPrice, string $condition = BulkCommissionQuery::CONDITION_NEW)
- * @method ProcessStatus createProductContent(CreateProductContentRequest $body)
- * @method PromiseInterface createProductContentAsync(CreateProductContentRequest $body)
- * @method ValidationReportResponse getContentValidationReport(string $uploadId)
- * @method PromiseInterface getContentValidationReportAsync(string $uploadId)
- * @method Inbounds getInbounds(?string $reference = null, ?string $bsku = null, ?DateTime $creationStartDate = null, ?DateTime $creationEndDate = null, ?string $state = null, int $page = 1)
- * @method PromiseInterface getInboundsAsync(?string $reference = null, ?string $bsku = null, ?DateTime $creationStartDate = null, ?DateTime $creationEndDate = null, ?string $state = null, int $page = 1)
- * @method ProcessStatus createInboundShipment(InboundRequest $body)
- * @method PromiseInterface createInboundShipmentAsync(InboundRequest $body)
- * @method DeliveryWindow getDeliveryWindows(DateTime $deliveryDate, int $itemsToSend = 1)
- * @method PromiseInterface getDeliveryWindowsAsync(DateTime $deliveryDate, int $itemsToSend = 1)
- * @method TransportersResponse getInboundTransporters()
- * @method PromiseInterface getInboundTransportersAsync()
- * @method string getProductLabel(ProductLabelsRequest $body)
- * @method PromiseInterface getProductLabelAsync(ProductLabelsRequest $body)
- * @method Inbound getInboundShipment(int $inboundId)
- * @method PromiseInterface getInboundShipmentAsync(int $inboundId)
- * @method string getPackingList(int $inboundId)
- * @method PromiseInterface getPackingListAsync(int $inboundId)
- * @method string getInboundShippingLabel(int $inboundId)
- * @method PromiseInterface getInboundShippingLabelAsync(int $inboundId)
- * @method OfferInsights getOfferInsights(string $offerId, string $period, int $numberOfPeriods, array $name)
- * @method PromiseInterface getOfferInsightsAsync(string $offerId, string $period, int $numberOfPeriods, array $name)
- * @method PerformanceIndicators getInsightsPerformanceIndicator(array $name, string $year, string $week)
+ * @method postCommission(BulkCommissionRequest $body)
+ * @method PromiseInterface postCommissionAsync(BulkCommissionRequest $body)
+ * @method getCommissionByEan(string $ean, string $condition, int $unitPrice)
+ * @method PromiseInterface getCommissionByEanAsync(string $ean, string $condition, int $unitPrice)
+ * @method postContentProduct(CreateProductContentRequest $body = NULL)
+ * @method PromiseInterface postContentProductAsync(CreateProductContentRequest $body = NULL)
+ * @method getContentValidationReportByUploadId(string $uploadId)
+ * @method PromiseInterface getContentValidationReportByUploadIdAsync(string $uploadId)
+ * @method getInsightsOffer(string $offerId, string $period, int $numberOfPeriods, array $name)
+ * @method PromiseInterface getInsightsOfferAsync(string $offerId, string $period, int $numberOfPeriods, array $name)
+ * @method getInsightsPerformanceIndicator(array $name, string $year, string $week)
  * @method PromiseInterface getInsightsPerformanceIndicatorAsync(array $name, string $year, string $week)
- * @method SalesForecastResponse getInsightsSalesForecast(string $offerId, int $weeksAhead)
+ * @method getInsightsSalesForecast(string $offerId, int $weeksAhead)
  * @method PromiseInterface getInsightsSalesForecastAsync(string $offerId, int $weeksAhead)
- * @method InventoryResponse getInventory(int $page = 1, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
- * @method PromiseInterface getInventoryAsync(int $page = 1, ?array $quantity = null, ?string $stock = null, ?string $state = null, ?string $query = null)
- * @method ProcessStatus createOffer(CreateOfferRequest $body)
- * @method PromiseInterface createOfferAsync(CreateOfferRequest $body)
- * @method ProcessStatus createOfferExport(CreateOfferExportRequest $body)
- * @method PromiseInterface createOfferExportAsync(CreateOfferExportRequest $body)
- * @method string getOffersExport(string $reportId)
- * @method PromiseInterface getOffersExportAsync(string $reportId)
- * @method ProcessStatus createUnpublishedOfferReport(CreateUnpublishedOfferReportRequest $body)
- * @method PromiseInterface createUnpublishedOfferReportAsync(CreateUnpublishedOfferReportRequest $body)
- * @method string getUnpublishedOffer(string $reportId)
- * @method PromiseInterface getUnpublishedOfferAsync(string $reportId)
- * @method RetailerOffer getOffer(string $offerId)
- * @method PromiseInterface getOfferAsync(string $offerId)
- * @method ProcessStatus updateOffer(string $offerId, UpdateOfferRequest $body)
- * @method PromiseInterface updateOfferAsync(string $offerId, UpdateOfferRequest $body)
- * @method ProcessStatus deleteOffer(string $offerId)
- * @method PromiseInterface deleteOfferAsync(string $offerId)
- * @method ProcessStatus updateOfferPrice(string $offerId, UpdateOfferPriceRequest $body)
- * @method PromiseInterface updateOfferPriceAsync(string $offerId, UpdateOfferPriceRequest $body)
- * @method ProcessStatus updateOfferStock(string $offerId, UpdateOfferStockRequest $body)
- * @method PromiseInterface updateOfferStockAsync(string $offerId, UpdateOfferStockRequest $body)
- * @method ReducedOrders getOrders(int $page = 1, ?string $fulfilmentMethod = null)
- * @method PromiseInterface getOrdersAsync(int $page = 1, ?string $fulfilmentMethod = null)
- * @method ProcessStatus cancelOrder(CanceledOrderRequest $body)
- * @method PromiseInterface cancelOrderAsync(CanceledOrderRequest $body)
- * @method ProcessStatus shipOrder(ShipmentRequest $body)
- * @method PromiseInterface shipOrderAsync(ShipmentRequest $body)
- * @method Order getOrder(string $orderId)
- * @method PromiseInterface getOrderAsync(string $orderId)
- * @method RetailPriceResponse getRetailPrice(string $ean)
- * @method PromiseInterface getRetailPriceAsync(string $ean)
- * @method ProcessStatusResponse getProcessStatuses(string $entityId, string $eventType, int $page = 1)
- * @method PromiseInterface getProcessStatusesAsync(string $entityId, string $eventType, int $page = 1)
- * @method ProcessStatusResponse queryProcessStatuses(BulkProcessStatusRequest $body)
- * @method PromiseInterface queryProcessStatusesAsync(BulkProcessStatusRequest $body)
- * @method ProcessStatus getProcessStatus(int $processStatusId)
- * @method PromiseInterface getProcessStatusAsync(int $processStatusId)
- * @method ReturnsResponse getReturns(?int $page = null, ?bool $handled = null, ?string $fulfilmentMethod = null)
- * @method PromiseInterface getReturnsAsync(?int $page = null, ?bool $handled = null, ?string $fulfilmentMethod = null)
- * @method ProcessStatus createReturn(CreateReturnRequest $body)
- * @method PromiseInterface createReturnAsync(CreateReturnRequest $body)
- * @method Return_ getReturn(int $returnId)
- * @method PromiseInterface getReturnAsync(int $returnId)
- * @method ProcessStatus updateReturn(int $rmaId, ReturnRequest $body)
- * @method PromiseInterface updateReturnAsync(int $rmaId, ReturnRequest $body)
- * @method ShipmentResponse getShipments(int $page = 1, ?string $fulfilmentMethod = null, ?string $orderId = null)
- * @method PromiseInterface getShipmentsAsync(?int $page = null, ?string $fulfilmentMethod = null, ?string $orderId = null)
- * @method Shipment getShipment(int $shipmentId)
- * @method PromiseInterface getShipmentAsync(int $shipmentId)
- * @method ShippingLabelRequest createShippingLabel(ShippingLabelRequest $body)
- * @method PromiseInterface createShippingLabelAsync(ShippingLabelRequest $body)
- * @method DeliveryOptionsResponse getDeliveryOptions(DeliveryOptionsRequest $body)
- * @method PromiseInterface getDeliveryOptionsAsync(DeliveryOptionsRequest $body)
- * @method string getShippingLabel(string $shippingLabelId)
- * @method PromiseInterface getShippingLabelAsync(string $shippingLabelId)
- * @method SubscriptionsResponse getSubscriptions()
+ * @method getInsightsSearchTerms(string $searchTerm, string $period, int $numberOfPeriods, bool $relatedSearchTerms = NULL)
+ * @method PromiseInterface getInsightsSearchTermsAsync(string $searchTerm, string $period, int $numberOfPeriods, bool $relatedSearchTerms = NULL)
+ * @method getInventory(int $page = NULL, array $quantity = NULL, string $stock = NULL, string $state = NULL, string $query = NULL)
+ * @method PromiseInterface getInventoryAsync(int $page = NULL, array $quantity = NULL, string $stock = NULL, string $state = NULL, string $query = NULL)
+ * @method getInvoices(string $periodStartDate = NULL, string $periodEndDate = NULL)
+ * @method PromiseInterface getInvoicesAsync(string $periodStartDate = NULL, string $periodEndDate = NULL)
+ * @method getInvoicesByInvoiceId(string $invoiceId)
+ * @method PromiseInterface getInvoicesByInvoiceIdAsync(string $invoiceId)
+ * @method getInvoicesByInvoiceIdSpecification(string $invoiceId, int $page = NULL)
+ * @method PromiseInterface getInvoicesByInvoiceIdSpecificationAsync(string $invoiceId, int $page = NULL)
+ * @method postOffers(CreateOfferRequest $body)
+ * @method PromiseInterface postOffersAsync(CreateOfferRequest $body)
+ * @method postOffersExport(CreateOfferExportRequest $body)
+ * @method PromiseInterface postOffersExportAsync(CreateOfferExportRequest $body)
+ * @method getOffersExportByReportId(string $reportId)
+ * @method PromiseInterface getOffersExportByReportIdAsync(string $reportId)
+ * @method postOffersUnpublished(CreateUnpublishedOfferReportRequest $body)
+ * @method PromiseInterface postOffersUnpublishedAsync(CreateUnpublishedOfferReportRequest $body)
+ * @method getOffersUnpublishedByReportId(string $reportId)
+ * @method PromiseInterface getOffersUnpublishedByReportIdAsync(string $reportId)
+ * @method getOffersByOfferId(string $offerId)
+ * @method PromiseInterface getOffersByOfferIdAsync(string $offerId)
+ * @method putOffersByOfferId(string $offerId, UpdateOfferRequest $body)
+ * @method PromiseInterface putOffersByOfferIdAsync(string $offerId, UpdateOfferRequest $body)
+ * @method deleteOffersByOfferId(string $offerId)
+ * @method PromiseInterface deleteOffersByOfferIdAsync(string $offerId)
+ * @method putOffersByOfferIdPrice(string $offerId, UpdateOfferPriceRequest $body)
+ * @method PromiseInterface putOffersByOfferIdPriceAsync(string $offerId, UpdateOfferPriceRequest $body)
+ * @method putOffersByOfferIdStock(string $offerId, UpdateOfferStockRequest $body)
+ * @method PromiseInterface putOffersByOfferIdStockAsync(string $offerId, UpdateOfferStockRequest $body)
+ * @method getOrders(int $page = NULL, string $fulfilmentMethod = NULL, string $status = NULL)
+ * @method PromiseInterface getOrdersAsync(int $page = NULL, string $fulfilmentMethod = NULL, string $status = NULL)
+ * @method putOrdersCancellation(CancelOrderItemsRequest $body)
+ * @method PromiseInterface putOrdersCancellationAsync(CancelOrderItemsRequest $body)
+ * @method putOrdersShipment(ShipmentRequest $body)
+ * @method PromiseInterface putOrdersShipmentAsync(ShipmentRequest $body)
+ * @method getOrdersByOrderId(string $orderId)
+ * @method PromiseInterface getOrdersByOrderIdAsync(string $orderId)
+ * @method getProcessStatus(string $entityId, string $eventType, int $page = NULL)
+ * @method PromiseInterface getProcessStatusAsync(string $entityId, string $eventType, int $page = NULL)
+ * @method postProcessStatus(BulkProcessStatusRequest $body)
+ * @method PromiseInterface postProcessStatusAsync(BulkProcessStatusRequest $body)
+ * @method getProcessStatusByProcessStatusId(string $processStatusId)
+ * @method PromiseInterface getProcessStatusByProcessStatusIdAsync(string $processStatusId)
+ * @method getReplenishments(string $reference = NULL, string $ean = NULL, string $startDate = NULL, string $endDate = NULL, array $state = NULL, int $page = NULL)
+ * @method PromiseInterface getReplenishmentsAsync(string $reference = NULL, string $ean = NULL, string $startDate = NULL, string $endDate = NULL, array $state = NULL, int $page = NULL)
+ * @method postReplenishments(CreateReplenishmentRequest $body)
+ * @method PromiseInterface postReplenishmentsAsync(CreateReplenishmentRequest $body)
+ * @method postReplenishmentsPickupTimeSlots(PickupTimeSlotsRequest $body)
+ * @method PromiseInterface postReplenishmentsPickupTimeSlotsAsync(PickupTimeSlotsRequest $body)
+ * @method postReplenishmentsProductLabels(ProductLabelsRequest $body)
+ * @method PromiseInterface postReplenishmentsProductLabelsAsync(ProductLabelsRequest $body)
+ * @method getReplenishmentsByReplenishmentId(string $replenishmentId)
+ * @method PromiseInterface getReplenishmentsByReplenishmentIdAsync(string $replenishmentId)
+ * @method putReplenishmentsByReplenishmentId(string $replenishmentId, UpdateReplenishmentRequest $body)
+ * @method PromiseInterface putReplenishmentsByReplenishmentIdAsync(string $replenishmentId, UpdateReplenishmentRequest $body)
+ * @method getReplenishmentsByReplenishmentIdLoadCarrierLabels(string $replenishmentId, string $labelType)
+ * @method PromiseInterface getReplenishmentsByReplenishmentIdLoadCarrierLabelsAsync(string $replenishmentId, string $labelType)
+ * @method getReplenishmentsByReplenishmentIdPickList(string $replenishmentId)
+ * @method PromiseInterface getReplenishmentsByReplenishmentIdPickListAsync(string $replenishmentId)
+ * @method getReturns(int $page = NULL, bool $handled = NULL, string $fulfilmentMethod = NULL)
+ * @method PromiseInterface getReturnsAsync(int $page = NULL, bool $handled = NULL, string $fulfilmentMethod = NULL)
+ * @method postReturns(CreateReturnRequest $body)
+ * @method PromiseInterface postReturnsAsync(CreateReturnRequest $body)
+ * @method getReturnsByReturnId(string $returnId)
+ * @method PromiseInterface getReturnsByReturnIdAsync(string $returnId)
+ * @method putReturnsByRmaId(int $rmaId, ReturnRequest $body)
+ * @method PromiseInterface putReturnsByRmaIdAsync(int $rmaId, ReturnRequest $body)
+ * @method getShipments(int $page = NULL, string $fulfilmentMethod = NULL, string $orderId = NULL)
+ * @method PromiseInterface getShipmentsAsync(int $page = NULL, string $fulfilmentMethod = NULL, string $orderId = NULL)
+ * @method getShipmentsByShipmentId(string $shipmentId)
+ * @method PromiseInterface getShipmentsByShipmentIdAsync(string $shipmentId)
+ * @method postShippingLabels(ShippingLabelRequest $body)
+ * @method PromiseInterface postShippingLabelsAsync(ShippingLabelRequest $body)
+ * @method postShippingLabelsDeliveryOptions(DeliveryOptionsRequest $body)
+ * @method PromiseInterface postShippingLabelsDeliveryOptionsAsync(DeliveryOptionsRequest $body)
+ * @method getShippingLabelsByShippingLabelId(string $shippingLabelId)
+ * @method PromiseInterface getShippingLabelsByShippingLabelIdAsync(string $shippingLabelId)
+ * @method getSubscriptions()
  * @method PromiseInterface getSubscriptionsAsync()
- * @method ProcessStatus createSubscription(CreateSubscriptionRequest $body)
- * @method PromiseInterface createSubscriptionAsync(CreateSubscriptionRequest $body)
- * @method KeySetResponse getSubscriptionsSignatureKeys()
+ * @method postSubscriptions(CreateSubscriptionRequest $body)
+ * @method PromiseInterface postSubscriptionsAsync(CreateSubscriptionRequest $body)
+ * @method getSubscriptionsSignatureKeys()
  * @method PromiseInterface getSubscriptionsSignatureKeysAsync()
- * @method ProcessStatus createSubscriptionTest()
- * @method PromiseInterface createSubscriptionTestAsync()
- * @method SubscriptionResponse getSubscription(int $subscriptionId)
- * @method PromiseInterface getSubscriptionAsync(int $subscriptionId)
- * @method ProcessStatus updateSubscription(int $subscriptionId, UpdateSubscriptionRequest $body)
- * @method PromiseInterface updateSubscriptionAsync(int $subscriptionId, UpdateSubscriptionRequest $body)
- * @method ProcessStatus deleteSubscription(int $subscriptionId)
- * @method PromiseInterface deleteSubscriptionAsync(int $subscriptionId)
- * @method ProcessStatus updateTransport(int $transportId, ChangeTransportRequest $body)
- * @method PromiseInterface updateTransportAsync(int $transportId, ChangeTransportRequest $body)
+ * @method postSubscriptionsTest()
+ * @method PromiseInterface postSubscriptionsTestAsync()
+ * @method getSubscriptionsBySubscriptionId(string $subscriptionId)
+ * @method PromiseInterface getSubscriptionsBySubscriptionIdAsync(string $subscriptionId)
+ * @method putSubscriptionsBySubscriptionId(string $subscriptionId, UpdateSubscriptionRequest $body)
+ * @method PromiseInterface putSubscriptionsBySubscriptionIdAsync(string $subscriptionId, UpdateSubscriptionRequest $body)
+ * @method deleteSubscriptionsBySubscriptionId(string $subscriptionId)
+ * @method PromiseInterface deleteSubscriptionsBySubscriptionIdAsync(string $subscriptionId)
+ * @method putTransportsByTransportId(string $transportId, ChangeTransportRequest $body)
+ * @method PromiseInterface putTransportsByTransportIdAsync(string $transportId, ChangeTransportRequest $body)
  * @package HarmSmits\BolComClient
  */
 class Client

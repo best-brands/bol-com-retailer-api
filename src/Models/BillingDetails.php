@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getSalutation()
  * @method null|string getFirstName()
@@ -35,114 +33,113 @@ use \DateTime;
  * @method null|string getOrderReference()
  * @method self setOrderReference(string $orderReference)
  */
-final class BillingDetails extends \HarmSmits\BolComClient\Models\AModel
+final class BillingDetails extends AModel
 {
-	const SALUTATION_MALE = 'MALE';
-	const SALUTATION_FEMALE = 'FEMALE';
-	const SALUTATION_UNKNOWN = 'UNKNOWN';
+    const SALUTATION_MALE = 'MALE';
+    const SALUTATION_FEMALE = 'FEMALE';
+    const SALUTATION_UNKNOWN = 'UNKNOWN';
 
-	/**
-	 * The salutation of the customer.
-	 * @var string
-	 */
-	protected ?string $salutation = null;
+    /**
+     * The salutation of the customer.
+     * @var string
+     */
+    protected ?string $salutation = null;
 
-	/**
-	 * The first name of the customer.
-	 * @var string
-	 */
-	protected ?string $firstName = null;
+    /**
+     * The first name of the customer.
+     * @var string
+     */
+    protected ?string $firstName = null;
 
-	/**
-	 * The surname of the customer.
-	 * @var string
-	 */
-	protected ?string $surname = null;
+    /**
+     * The surname of the customer.
+     * @var string
+     */
+    protected ?string $surname = null;
 
-	/**
-	 * The street name.
-	 * @var string
-	 */
-	protected ?string $streetName = null;
+    /**
+     * The street name.
+     * @var string
+     */
+    protected ?string $streetName = null;
 
-	/**
-	 * The house number.
-	 * @var string
-	 */
-	protected ?string $houseNumber = null;
+    /**
+     * The house number.
+     * @var string
+     */
+    protected ?string $houseNumber = null;
 
-	/**
-	 * The extension on the house number.
-	 * @var string
-	 */
-	protected ?string $houseNumberExtension = null;
+    /**
+     * The extension on the house number.
+     * @var string
+     */
+    protected ?string $houseNumberExtension = null;
 
-	/**
-	 * Additional information related to the address that helps in delivering the
-	 * package.
-	 * @var string
-	 */
-	protected ?string $extraAddressInformation = null;
+    /**
+     * Additional information related to the address that helps in delivering the
+     * package.
+     * @var string
+     */
+    protected ?string $extraAddressInformation = null;
 
-	/**
-	 * The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders.
-	 * @var string
-	 */
-	protected ?string $zipCode = null;
+    /**
+     * The ZIP code in '1234AB' format for NL orders and '0000' format for BE orders.
+     * @var string
+     */
+    protected ?string $zipCode = null;
 
-	/**
-	 * The name of the city.
-	 * @var string
-	 */
-	protected ?string $city = null;
+    /**
+     * The name of the city.
+     * @var string
+     */
+    protected ?string $city = null;
 
-	/**
-	 * The country code.
-	 * @var string
-	 */
-	protected ?string $countryCode = null;
+    /**
+     * The country code.
+     * @var string
+     */
+    protected ?string $countryCode = null;
 
-	/**
-	 * A scrambled email address that can be used to contact the customer.
-	 * @var string
-	 */
-	protected ?string $email = null;
+    /**
+     * A scrambled email address that can be used to contact the customer.
+     * @var string
+     */
+    protected ?string $email = null;
 
-	/**
-	 * The company name.
-	 * @var string
-	 */
-	protected ?string $company = null;
+    /**
+     * The company name.
+     * @var string
+     */
+    protected ?string $company = null;
 
-	/**
-	 * The Value Added Tax (VAT) / BTW number for business sellers situated in the
-	 * Netherlands.
-	 * @var string
-	 */
-	protected ?string $vatNumber = null;
+    /**
+     * The Value Added Tax (VAT) / BTW number for business sellers situated in the
+     * Netherlands.
+     * @var string
+     */
+    protected ?string $vatNumber = null;
 
-	/**
-	 * The Kamer van Koophandel (kvk) number for organizations situated in the
-	 * Netherlands or ondernemingsnummer for organizations situated in Belgium.
-	 * @var string
-	 */
-	protected ?string $kvkNumber = null;
+    /**
+     * The Kamer van Koophandel (kvk) number for organizations situated in the
+     * Netherlands or ondernemingsnummer for organizations situated in Belgium.
+     * @var string
+     */
+    protected ?string $kvkNumber = null;
 
-	/**
-	 * The order reference specified by the customer when ordering a product.
-	 * @var string
-	 */
-	protected ?string $orderReference = null;
+    /**
+     * The order reference specified by the customer when ordering a product.
+     * @var string
+     */
+    protected ?string $orderReference = null;
 
-
-	public function setSalutation(string $salutation): self
-	{
-		$this->_checkEnumBounds($salutation, [
-			"MALE",
-			"FEMALE",
-			"UNKNOWN"
-		]);
-		$this->salutation = $salutation;
-		return $this;
-	}
+    public function setSalutation(string $salutation): self
+    {
+        $this->_checkEnumBounds($salutation, [
+            "MALE",
+            "FEMALE",
+            "UNKNOWN",
+        ]);
+        $this->salutation = $salutation;
+        return $this;
+    }
 }

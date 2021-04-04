@@ -2,8 +2,6 @@
 
 namespace HarmSmits\BolComClient\Models;
 
-use \DateTime;
-
 /**
  * @method null|string getEan()
  * @method self setEan(string $ean)
@@ -16,35 +14,35 @@ use \DateTime;
  * @method null|string getTitle()
  * @method self setTitle(string $title)
  */
-final class Inventory extends \HarmSmits\BolComClient\Models\AModel
+final class Inventory extends AModel
 {
-	/**
-	 * The EAN number associated with this product.
-	 * @var string
-	 */
-	protected ?string $ean = null;
+    /**
+     * The EAN number associated with this product.
+     * @var string
+     */
+    protected string $ean;
 
-	/**
-	 * The BSKU number associated with this product.
-	 * @var string
-	 */
-	protected ?string $bsku = null;
+    /**
+     * The BSKU number associated with this product.
+     * @var string
+     */
+    protected string $bsku;
 
-	/**
-	 * The stock that is not available for sale anymore.
-	 * @var int
-	 */
-	protected ?int $gradedStock = null;
+    /**
+     * The stock that is not available for sale anymore.
+     * @var int
+     */
+    protected int $gradedStock;
 
-	/**
-	 * The stock that is available for sale.
-	 * @var int
-	 */
-	protected ?int $regularStock = null;
+    /**
+     * The stock that is available for sale.
+     * @var int
+     */
+    protected int $regularStock;
 
-	/**
-	 * The product title.
-	 * @var string
-	 */
-	protected ?string $title = null;
+    /**
+     * The product title.
+     * @var string
+     */
+    protected string $title;
 }
