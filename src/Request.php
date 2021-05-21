@@ -797,9 +797,7 @@ class Request
                         ],
                 ],
         ];
-        print_r($data);
         $data = $this->recursiveArrayFilter($data);
-        print_r($data);
         return [$method, $url, $data, $response];
     }
 
