@@ -5,6 +5,7 @@ namespace HarmSmits\BolComClient\Models;
 use BadMethodCallException;
 use DateTime;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Class AModel
@@ -28,6 +29,14 @@ class AModel
         if ($get || $set) {
             $variable = lcfirst(substr($method, 3));
             if (!$this->_propertyExists($variable)) {
+                if (defined('HSMITS_CI')) {
+                    throw new RuntimeException(sprintf(
+                        "Undefined property '%s' for '%s'",
+                        $variable,
+                        get_class($this)
+                    ));
+                }
+
                 return null;
             }
 
