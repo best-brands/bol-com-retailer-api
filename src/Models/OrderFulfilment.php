@@ -52,6 +52,14 @@ final class OrderFulfilment extends AModel
      */
     protected ?string $expiryDate = null;
 
+    /**
+     * The timeFrameType attribute indicates the delivery method as chosen by the customer in the checkout process of
+     * the order. It contains amongst other Evening Delivery for Verzenden via bol.com where Evening Parcel shipping
+     * label is the only option and you are not able to switch to the mailbox label.
+     * @var string|null
+     */
+    protected ?string $timeFrameType = null;
+
     public function setDistributionParty(string $distributionParty): self
     {
         $this->_checkEnumBounds($distributionParty, [
