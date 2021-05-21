@@ -861,8 +861,8 @@ class Request
         $method          = "post";
         $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
-            'Accept'       => 'application/vnd.retailer.v5+json',
-            'Content-Type' => 'application/vnd.retailer.v5+json',
+            'Accept'       => 'application/vnd.retailer.v6+json',
+            'Content-Type' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             202 =>
@@ -905,7 +905,7 @@ class Request
         $method          = "get";
         $url             = str_replace("{report-id}", $reportId, $url);
         $data["headers"] = [
-            'Accept' => 'application/vnd.retailer.v5+csv',
+            'Accept' => 'application/vnd.retailer.v6+csv',
         ];
         $response        = [
             400 =>
@@ -2557,7 +2557,7 @@ class Request
         $url             = "https://api.bol.com/retailer/subscriptions";
         $method          = "get";
         $data["headers"] = [
-            'Accept' => 'application/vnd.retailer.v5+json',
+            'Accept' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             200 =>
@@ -2603,8 +2603,8 @@ class Request
         $method          = "post";
         $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
-            'Accept'       => 'application/vnd.retailer.v5+json',
-            'Content-Type' => 'application/vnd.retailer.v5+json',
+            'Accept'       => 'application/vnd.retailer.v6+json',
+            'Content-Type' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             202 =>
@@ -2645,7 +2645,7 @@ class Request
         $url             = "https://api.bol.com/retailer/subscriptions/signature-keys";
         $method          = "get";
         $data["headers"] = [
-            'Accept' => 'application/vnd.retailer.v5+json',
+            'Accept' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             200 =>
@@ -2675,8 +2675,8 @@ class Request
         $url             = "https://api.bol.com/retailer/subscriptions/test";
         $method          = "post";
         $data["headers"] = [
-            'Accept'       => 'application/vnd.retailer.v5+json',
-            'Content-Type' => 'application/vnd.retailer.v5+json',
+            'Accept'       => 'application/vnd.retailer.v6+json',
+            'Content-Type' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             202 =>
@@ -2719,7 +2719,7 @@ class Request
         $method          = "get";
         $url             = str_replace("{subscription-id}", $subscriptionId, $url);
         $data["headers"] = [
-            'Accept' => 'application/vnd.retailer.v5+json',
+            'Accept' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             200 =>
@@ -2774,8 +2774,8 @@ class Request
         $url             = str_replace("{subscription-id}", $subscriptionId, $url);
         $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
-            'Accept'       => 'application/vnd.retailer.v5+json',
-            'Content-Type' => 'application/vnd.retailer.v5+json',
+            'Accept'       => 'application/vnd.retailer.v6+json',
+            'Content-Type' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             202 =>
@@ -2818,8 +2818,8 @@ class Request
         $method          = "delete";
         $url             = str_replace("{subscription-id}", $subscriptionId, $url);
         $data["headers"] = [
-            'Accept'       => 'application/vnd.retailer.v5+json',
-            'Content-Type' => 'application/vnd.retailer.v5+json',
+            'Accept'       => 'application/vnd.retailer.v6+json',
+            'Content-Type' => 'application/vnd.retailer.v6+json',
         ];
         $response        = [
             202 =>
