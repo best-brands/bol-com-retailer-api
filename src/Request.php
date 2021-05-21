@@ -36,12 +36,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postCommission(BulkCommissionRequest $body): array
+    public function getCommissions(BulkCommissionRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/commission";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -83,7 +83,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -99,7 +99,7 @@ class Request
      *
      * @return array
      */
-    public function getCommissionByEan(string $ean, string $condition, int $unitPrice): array
+    public function getCommission(string $ean, string $condition, int $unitPrice): array
     {
         $data                        = [];
         $url                         = "https://api.bol.com/retailer/commission/{ean}";
@@ -143,7 +143,7 @@ class Request
                         ],
                 ],
         ];
-        $data                        = array_map("array_filter", $data);
+        $data                        = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -157,12 +157,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postContentProduct(CreateProductContentRequest $body): array
+    public function createProductContent(CreateProductContentRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/content/product";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -189,7 +189,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -201,7 +201,7 @@ class Request
      *
      * @return array
      */
-    public function getContentValidationReportByUploadId(string $uploadId): array
+    public function getContentValidationReport(string $uploadId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/content/validation-report/{uploadId}";
@@ -242,7 +242,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -257,7 +257,7 @@ class Request
      *
      * @return array
      */
-    public function getInsightsOffer(string $offerId, string $period, int $numberOfPeriods, array $name): array
+    public function getOfferInsights(string $offerId, string $period, int $numberOfPeriods, array $name): array
     {
         $data                               = [];
         $url                                = "https://api.bol.com/retailer/insights/offer";
@@ -312,7 +312,7 @@ class Request
                         ],
                 ],
         ];
-        $data                               = array_map("array_filter", $data);
+        $data                               = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -328,7 +328,7 @@ class Request
      *
      * @return array
      */
-    public function getInsightsPerformanceIndicator(array $name, string $year, string $week): array
+    public function getPerformanceIndicatorInsights(array $name, string $year, string $week): array
     {
         $data                  = [];
         $url                   = "https://api.bol.com/retailer/insights/performance/indicator";
@@ -382,7 +382,7 @@ class Request
                         ],
                 ],
         ];
-        $data                  = array_map("array_filter", $data);
+        $data                  = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -396,7 +396,7 @@ class Request
      *
      * @return array
      */
-    public function getInsightsSalesForecast(string $offerId, int $weeksAhead): array
+    public function getSalesForecastInsights(string $offerId, int $weeksAhead): array
     {
         $data                         = [];
         $url                          = "https://api.bol.com/retailer/insights/sales-forecast";
@@ -449,7 +449,7 @@ class Request
                         ],
                 ],
         ];
-        $data                         = array_map("array_filter", $data);
+        $data                         = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -466,7 +466,7 @@ class Request
      *
      * @return array
      */
-    public function getInsightsSearchTerms(
+    public function getSearchTermsInsights(
         string $searchTerm,
         string $period,
         int $numberOfPeriods,
@@ -530,7 +530,7 @@ class Request
                         ],
                 ],
         ];
-        $data                                  = array_map("array_filter", $data);
+        $data                                  = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -590,7 +590,7 @@ class Request
                         ],
                 ],
         ];
-        $data                      = array_map("array_filter", $data);
+        $data                      = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -631,7 +631,7 @@ class Request
                         ],
                 ],
         ];
-        $data                               = array_map("array_filter", $data);
+        $data                               = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -645,7 +645,7 @@ class Request
      *
      * @return array
      */
-    public function getInvoicesByInvoiceId(string $invoiceId): array
+    public function getInvoice(string $invoiceId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/invoices/{invoice-id}";
@@ -666,7 +666,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -681,7 +681,7 @@ class Request
      *
      * @return array
      */
-    public function getInvoicesByInvoiceIdSpecification(string $invoiceId, ?int $page = null): array
+    public function getInvoiceSpecifications(string $invoiceId, int $page = 1): array
     {
         $data                  = [];
         $url                   = "https://api.bol.com/retailer/invoices/{invoice-id}/specification";
@@ -704,7 +704,7 @@ class Request
                         ],
                 ],
         ];
-        $data                  = array_map("array_filter", $data);
+        $data                  = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -719,12 +719,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postOffers(CreateOfferRequest $body): array
+    public function createOffer(CreateOfferRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -751,7 +751,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -765,12 +765,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postOffersExport(CreateOfferExportRequest $body): array
+    public function createOfferExport(CreateOfferExportRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/export";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -797,7 +797,9 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        print_r($data);
+        $data = $this->recursiveArrayFilter($data);
+        print_r($data);
         return [$method, $url, $data, $response];
     }
 
@@ -809,7 +811,7 @@ class Request
      *
      * @return array
      */
-    public function getOffersExportByReportId(string $reportId): array
+    public function getOfferExport(string $reportId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/export/{report-id}";
@@ -840,7 +842,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -854,12 +856,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postOffersUnpublished(CreateUnpublishedOfferReportRequest $body): array
+    public function createUnpublishedOfferReport(CreateUnpublishedOfferReportRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/unpublished";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -886,7 +888,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -898,7 +900,7 @@ class Request
      *
      * @return array
      */
-    public function getOffersUnpublishedByReportId(string $reportId): array
+    public function getUnpublishedOfferReport(string $reportId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/unpublished/{report-id}";
@@ -929,7 +931,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -941,7 +943,7 @@ class Request
      *
      * @return array
      */
-    public function getOffersByOfferId(string $offerId): array
+    public function getOffer(string $offerId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/{offer-id}";
@@ -1007,7 +1009,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1022,13 +1024,13 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOffersByOfferId(string $offerId, UpdateOfferRequest $body): array
+    public function updateOffer(string $offerId, UpdateOfferRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/{offer-id}";
         $method          = "put";
         $url             = str_replace("{offer-id}", $offerId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1055,7 +1057,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1067,7 +1069,7 @@ class Request
      *
      * @return array
      */
-    public function deleteOffersByOfferId(string $offerId): array
+    public function deleteOffer(string $offerId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/{offer-id}";
@@ -1098,7 +1100,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1113,13 +1115,13 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOffersByOfferIdPrice(string $offerId, UpdateOfferPriceRequest $body): array
+    public function updateOfferPrice(string $offerId, UpdateOfferPriceRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/{offer-id}/price";
         $method          = "put";
         $url             = str_replace("{offer-id}", $offerId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1146,7 +1148,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1161,13 +1163,13 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOffersByOfferIdStock(string $offerId, UpdateOfferStockRequest $body): array
+    public function updateOfferStock(string $offerId, UpdateOfferStockRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/offers/{offer-id}/stock";
         $method          = "put";
         $url             = str_replace("{offer-id}", $offerId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1194,7 +1196,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1240,7 +1242,7 @@ class Request
                         ],
                 ],
         ];
-        $data                               = array_map("array_filter", $data);
+        $data                               = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1255,12 +1257,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOrdersCancellation(CancelOrderItemsRequest $body): array
+    public function cancelOrderItems(CancelOrderItemsRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/orders/cancellation";
         $method          = "put";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1287,7 +1289,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1303,12 +1305,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putOrdersShipment(ShipmentRequest $body): array
+    public function updateShipment(ShipmentRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/orders/shipment";
         $method          = "put";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1335,7 +1337,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1348,7 +1350,7 @@ class Request
      *
      * @return array
      */
-    public function getOrdersByOrderId(string $orderId): array
+    public function getOrder(string $orderId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/orders/{order-id}";
@@ -1409,7 +1411,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1467,7 +1469,7 @@ class Request
                         ],
                 ],
         ];
-        $data                        = array_map("array_filter", $data);
+        $data                        = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1485,12 +1487,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postProcessStatus(BulkProcessStatusRequest $body): array
+    public function getBulkProcessStatus(BulkProcessStatusRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/process-status";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1522,7 +1524,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1540,7 +1542,7 @@ class Request
      *
      * @return array
      */
-    public function getProcessStatusByProcessStatusId(string $processStatusId): array
+    public function getDetailedProcessStatus(string $processStatusId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/process-status/{process-status-id}";
@@ -1571,7 +1573,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1579,12 +1581,12 @@ class Request
     /**
      * Gets a list of replenishments.
      *
-     * @param string $reference Custom user defined reference to identify the replenishment.
-     * @param string $ean       The EAN number associated with this product.
-     * @param string $startDate The creation start date to find the replenishment. In ISO 8601 format.
-     * @param string $endDate   The end date of the range to find the replenishment. In ISO 8601 format.
-     * @param array  $state     The current state(s) of the replenishment.
-     * @param int    $page      The requested page number with a page size of 50 items.
+     * @param string|null $reference Custom user defined reference to identify the replenishment.
+     * @param string|null $ean       The EAN number associated with this product.
+     * @param string|null $startDate The creation start date to find the replenishment. In ISO 8601 format.
+     * @param string|null $endDate   The end date of the range to find the replenishment. In ISO 8601 format.
+     * @param array|null  $state     The current state(s) of the replenishment.
+     * @param int|null    $page      The requested page number with a page size of 50 items.
      *
      * @return array
      */
@@ -1641,7 +1643,7 @@ class Request
                         ],
                 ],
         ];
-        $data                        = array_map("array_filter", $data);
+        $data                        = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1655,12 +1657,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postReplenishments(CreateReplenishmentRequest $body): array
+    public function createReplenishment(CreateReplenishmentRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/replenishments";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1687,7 +1689,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1701,12 +1703,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postReplenishmentsPickupTimeSlots(PickupTimeSlotsRequest $body): array
+    public function createReplenishmentsPickupTimeSlots(PickupTimeSlotsRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/replenishments/pickup-time-slots";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1733,7 +1735,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1747,12 +1749,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postReplenishmentsProductLabels(ProductLabelsRequest $body): array
+    public function createReplenishmentsProductLabels(ProductLabelsRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/replenishments/product-labels";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+pdf',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1779,7 +1781,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1791,7 +1793,7 @@ class Request
      *
      * @return array
      */
-    public function getReplenishmentsByReplenishmentId(string $replenishmentId): array
+    public function getReplenishment(string $replenishmentId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/replenishments/{replenishment-id}";
@@ -1872,7 +1874,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1887,7 +1889,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putReplenishmentsByReplenishmentId(
+    public function updateReplenishment(
         string $replenishmentId,
         UpdateReplenishmentRequest $body
     ): array {
@@ -1895,7 +1897,7 @@ class Request
         $url             = "https://api.bol.com/retailer/replenishments/{replenishment-id}";
         $method          = "put";
         $url             = str_replace("{replenishment-id}", $replenishmentId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -1922,7 +1924,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1935,7 +1937,7 @@ class Request
      *
      * @return array
      */
-    public function getReplenishmentsByReplenishmentIdLoadCarrierLabels(string $replenishmentId, string $labelType): array
+    public function getReplenishmentLoadCarrierLabels(string $replenishmentId, string $labelType): array
     {
         $data                        = [];
         $url                         = "https://api.bol.com/retailer/replenishments/{replenishment-id}/load-carrier-labels";
@@ -1968,7 +1970,7 @@ class Request
                         ],
                 ],
         ];
-        $data                        = array_map("array_filter", $data);
+        $data                        = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -1980,7 +1982,7 @@ class Request
      *
      * @return array
      */
-    public function getReplenishmentsByReplenishmentIdPickList(string $replenishmentId): array
+    public function getReplenishmentsPickList(string $replenishmentId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/replenishments/{replenishment-id}/pick-list";
@@ -2011,7 +2013,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2019,11 +2021,13 @@ class Request
     /**
      * Get a paginated list of multi-item returns, which are sorted by date in descending order.
      *
-     * @param int    $page             The page to get with a page size of 50.
-     * @param bool   $handled          The status of the returns you wish to see, shows either handled or unhandled
-     *                                 returns.
-     * @param string $fulfilmentMethod The fulfilment method. Fulfilled by the retailer (FBR) or fulfilled by bol.com
-     *                                 (FBB).
+     * @param int|null    $page             The page to get with a page size of 50.
+     * @param bool        $handled          The status of the returns you wish to see, shows either handled or
+     *                                      unhandled
+     *                                      returns.
+     * @param string|null $fulfilmentMethod The fulfilment method. Fulfilled by the retailer (FBR) or fulfilled by
+     *                                      bol.com
+     *                                      (FBB).
      *
      * @return array
      */
@@ -2076,7 +2080,7 @@ class Request
                         ],
                 ],
         ];
-        $data                               = array_map("array_filter", $data);
+        $data                               = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2091,12 +2095,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postReturns(CreateReturnRequest $body): array
+    public function createReturn(CreateReturnRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/returns";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept' => 'application/vnd.retailer.v5+json',
         ];
@@ -2122,7 +2126,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2134,7 +2138,7 @@ class Request
      *
      * @return array
      */
-    public function getReturnsByReturnId(string $returnId): array
+    public function getReturn(string $returnId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/returns/{return-id}";
@@ -2180,7 +2184,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2198,13 +2202,13 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putReturnsByRmaId(int $rmaId, ReturnRequest $body): array
+    public function updateReturn(int $rmaId, ReturnRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/returns/{rma-id}";
         $method          = "put";
         $url             = str_replace("{rma-id}", $rmaId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -2231,7 +2235,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2240,11 +2244,12 @@ class Request
      * A paginated list to retrieve all your shipments up to 3 months old. The shipments will be sorted by date in
      * descending order.
      *
-     * @param int    $page             The page to get with a page size of 50.
-     * @param string $fulfilmentMethod The fulfilment method. Fulfilled by the retailer (FBR) or fulfilled by bol.com
-     *                                 (FBB).
-     * @param string $orderId          The id of the order. Only valid without fulfilment-method. The default
-     *                                 fulfilment-method is ignored.
+     * @param int|null    $page             The page to get with a page size of 50.
+     * @param string|null $fulfilmentMethod The fulfilment method. Fulfilled by the retailer (FBR) or fulfilled by
+     *                                      bol.com
+     *                                      (FBB).
+     * @param string|null $orderId          The id of the order. Only valid without fulfilment-method. The default
+     *                                      fulfilment-method is ignored.
      *
      * @return array
      */
@@ -2297,7 +2302,7 @@ class Request
                         ],
                 ],
         ];
-        $data                               = array_map("array_filter", $data);
+        $data                               = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2309,7 +2314,7 @@ class Request
      *
      * @return array
      */
-    public function getShipmentsByShipmentId(string $shipmentId): array
+    public function getShipment(string $shipmentId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/shipments/{shipment-id}";
@@ -2375,7 +2380,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2389,12 +2394,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postShippingLabels(ShippingLabelRequest $body): array
+    public function createShippingLabel(ShippingLabelRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/shipping-labels";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -2421,7 +2426,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2436,12 +2441,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postShippingLabelsDeliveryOptions(DeliveryOptionsRequest $body): array
+    public function getShippingLabelsDeliveryOptions(DeliveryOptionsRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/shipping-labels/delivery-options";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -2493,7 +2498,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2507,7 +2512,7 @@ class Request
      *
      * @return array
      */
-    public function getShippingLabelsByShippingLabelId(string $shippingLabelId): array
+    public function getShippingLabel(string $shippingLabelId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/shipping-labels/{shipping-label-id}";
@@ -2538,7 +2543,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2578,7 +2583,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2593,12 +2598,12 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function postSubscriptions(CreateSubscriptionRequest $body): array
+    public function createSubscription(CreateSubscriptionRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/subscriptions";
         $method          = "post";
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -2625,7 +2630,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2656,7 +2661,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2666,7 +2671,7 @@ class Request
      *
      * @return array
      */
-    public function postSubscriptionsTest(): array
+    public function createSubscriptionTest(): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/subscriptions/test";
@@ -2697,7 +2702,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2709,7 +2714,7 @@ class Request
      *
      * @return array
      */
-    public function getSubscriptionsBySubscriptionId(string $subscriptionId): array
+    public function getSubscription(string $subscriptionId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/subscriptions/{subscription-id}";
@@ -2745,7 +2750,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2761,7 +2766,7 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putSubscriptionsBySubscriptionId(
+    public function updateSubscription(
         string $subscriptionId,
         UpdateSubscriptionRequest $body
     ): array {
@@ -2769,7 +2774,7 @@ class Request
         $url             = "https://api.bol.com/retailer/subscriptions/{subscription-id}";
         $method          = "put";
         $url             = str_replace("{subscription-id}", $subscriptionId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -2796,7 +2801,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2808,7 +2813,7 @@ class Request
      *
      * @return array
      */
-    public function deleteSubscriptionsBySubscriptionId(string $subscriptionId): array
+    public function deleteSubscription(string $subscriptionId): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/subscriptions/{subscription-id}";
@@ -2840,7 +2845,7 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
     }
 
@@ -2856,13 +2861,13 @@ class Request
      *
      * @throws \HarmSmits\BolComClient\Exception\InvalidPropertyException
      */
-    public function putTransportsByTransportId(string $transportId, ChangeTransportRequest $body): array
+    public function updateTransport(string $transportId, ChangeTransportRequest $body): array
     {
         $data            = [];
         $url             = "https://api.bol.com/retailer/transports/{transport-id}";
         $method          = "put";
         $url             = str_replace("{transport-id}", $transportId, $url);
-        $data["body"]    = $body->__toArray();
+        $data["body"]    = json_encode($body->__toArray());
         $data["headers"] = [
             'Accept'       => 'application/vnd.retailer.v5+json',
             'Content-Type' => 'application/vnd.retailer.v5+json',
@@ -2889,7 +2894,27 @@ class Request
                         ],
                 ],
         ];
-        $data            = array_map("array_filter", $data);
+        $data            = $this->recursiveArrayFilter($data);
         return [$method, $url, $data, $response];
+    }
+
+    /**
+     * Recursively filter an array.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function recursiveArrayFilter(array &$data): array
+    {
+        foreach ($data as &$_data) {
+            if (is_array($_data)) {
+                $_data = $this->recursiveArrayFilter($_data);
+            }
+        }
+
+        return array_filter($data, static function ($raw) {
+            return !is_null($raw);
+        });
     }
 }

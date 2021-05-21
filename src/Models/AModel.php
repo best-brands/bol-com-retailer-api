@@ -28,7 +28,7 @@ class AModel
         if ($get || $set) {
             $variable = lcfirst(substr($method, 3));
             if (!$this->_propertyExists($variable)) {
-                die(sprintf("Invalid variable name `%s` - using `%s`", $variable, $method));
+                return null;
             }
 
             if (count($args) !== (int)$set) {
