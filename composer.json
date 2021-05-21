@@ -1,7 +1,7 @@
 {
   "name": "harm-smits/bol-com-retailer-api",
   "type": "library",
-  "description": "A PHP Client for the BOL.com v4 API with async support and full object mapping",
+  "description": "A PHP Client for the BOL.com v5 API with async support and full object mapping",
   "keywords": [
     "api",
     "php",
