@@ -147,12 +147,6 @@ final class ShipmentDetails extends AModel
 
     public function setLanguage(string $language): self
     {
-        $this->_checkEnumBounds($language, [
-            "nl",
-            "nl-BE",
-            "fr",
-            "fr-BE",
-        ]);
         $this->language = $language;
         return $this;
     }
