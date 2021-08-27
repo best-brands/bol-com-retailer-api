@@ -133,7 +133,13 @@ class AModel
                 $value = $this->{'get' . ucfirst($var)}();
 
                 if (is_array($value)) {
-                    $result[$var] = array_map(fn(AModel $model) => $model->__toArray($convert_dates), $value);
+                    $result[$var] = array_map(function($model) use ($convert_dates) {
+                        if ($model instanceof AModel) {
+                            return $model->__toArray($convert_dates);
+                        } else {
+                            return $model;
+                        }
+                    }, $value);
                 } elseif ($value instanceof AModel) {
                     $result[$var] = $value->__toArray($convert_dates);
                 } elseif ($value instanceof DateTime && $convert_dates) {
