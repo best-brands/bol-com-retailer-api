@@ -267,7 +267,7 @@ class Client
     private function getRetryHandler(): Closure
     {
         return function ($retries, ?RequestInterface $request, ?ResponseInterface $response,
-            ?RequestException $exception) {
+            ?GuzzleException $exception) {
             if (!$response || $response->getStatusCode() > 500 || ($exception && $exception instanceof ConnectException))
                 return false;
 
